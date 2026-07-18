@@ -1,15 +1,23 @@
 [
     {
-        " owner_name": "nabila",
-        "account_id": "ba2ef494-2f30-443e-a6de-7e7ae812efc7",
+        "owner_name": "nabila",
+        "account_id": "ac8f6299-d7e4-4ac4-9a36-5dc7a4310280",
         "transactions": [
             {
-                "trans_id": "e4b78dba-92e5-41e2-93dd-3c3c592a377c",
-                "date": "17/07/26 04:39 PM",
+                "trans_id": "28c9d211-b3c6-46e8-b4d0-7f090e743ec2",
+                "date": "18/07/26 03:31 PM",
                 "amount": 500,
-                "category": "food",
+                "category": "foof",
                 "transaction_type": "income",
-                "description": "I want to eat burger"
+                "description": "eat burger"
+            },
+            {
+                "trans_id": "e1ad8918-85af-4df6-9b6e-5d12ceebc61d",
+                "date": "18/07/26 03:32 PM",
+                "amount": 200,
+                "category": "furniture",
+                "transaction_type": "expense",
+                "description": "buy chair"
             }
         ]
     }

@@ -12,6 +12,14 @@ import json
 #Transaction Class
 class Transaction:
     def __init__(self,amount,category,transaction_type,description="",trans_id=None,date=None):
+        if amount is None or amount <= 0:
+            raise ValueError("Amount is required and must be positive")
+        
+        if not category or not isinstance(category, str):
+            raise ValueError("Category is required and must be a string")
+        
+        if not transaction_type or transaction_type.lower() not in ["income", "expense"]:
+            raise ValueError("Transaction type must be 'income' or 'expense'")   
         if(trans_id is None ):
              self.trans_id =str(uuid.uuid4())
         else:
@@ -20,6 +28,7 @@ class Transaction:
          self.date = dt.datetime.now()
         else:
              self.date=date   
+          
         self.amount=amount
         self.category=category
         self.transaction_type = transaction_type
@@ -52,7 +61,7 @@ class Account:
          self.transactions.append(trans)
          if (trans.transaction_type.lower()=="income") :
             self.balance+=trans.amount
-         else:
+         elif trans.transaction_type.lower()=="expense" :
             self.balance-=trans.amount   
       else:
          raise TypeError("Object mismatched")
@@ -60,12 +69,12 @@ class Account:
    def get_balance(self):
       return self.balance
    def get_transactions(self):
-      return self.transactions
+      return sorted(self.transactions,key= lambda t:t.date)
    
    def remove_transaction(self,id):
     for t  in self.transactions:
        if(t.trans_id==id):
-          if(t.transaction_type=="income"):
+          if(t.transaction_type.lower()=="income"):
              self.balance-= t.amount
           else:
              self.balance+=t.amount 
@@ -76,7 +85,7 @@ class Account:
 
    def to_dict(self):
       return {
-         " owner_name":self.owner_name,
+         "owner_name":self.owner_name,
           "account_id":self.account_id,
           "transactions":[s.to_dict() for s in self.get_transactions()]
 
@@ -119,7 +128,7 @@ def Search_from_file(filename,acc_owner):
             t["category"],t["transaction_type"],
             t["description"],t["trans_id"],
             dt.datetime.strptime(t["date"],"%d/%m/%y %I:%M %p")))
-            return newacc
+           return newacc
         
     else:   
      newacc=Account(acc_owner)
@@ -152,11 +161,14 @@ while True:
       
         print("You chose", user_choice)
         if(user_choice==1):
+         try:
            amount=int(input("Enter amount : "))
            category=input("Enter Category : ")
            transaction_type=input("Enter transaction-type : ")
            description=input("Enter description : ") 
            acc.add_transaction(Transaction(amount,category,transaction_type,description))
+         except ValueError as e:
+            print(e)  
         elif(user_choice==2):
           for t in acc.get_transactions():
              print(t) #triggers str function for better formatting
@@ -167,13 +179,12 @@ while True:
            Trans_id=input("Enter  Enter Transaction_id  you want to delete :")
            try:
               acc.remove_transaction(Trans_id)
-           except ValueError:
-              print("Not a valid transaction_id")       
+           except ValueError as e:
+              print(e)       
         elif(user_choice==4):
          print(f"Balance is :   {acc.get_balance()}")
     except ValueError as e:
         print(e)
-
 
 
 
