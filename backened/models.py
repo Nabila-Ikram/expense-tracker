@@ -82,5 +82,5 @@ class Account:
           "email":self.email,
           "account_id":self.account_id,
           "transactions":[s.to_dict() for s in self.get_transactions()]
-
+   # not adding password for the purpose of security
       }    
