@@ -1,68 +1,93 @@
 from flask import Flask,request ,jsonify #class
 from storage import search_acc,save_acc
 from models import Account,Transaction
+from werkzeug.security import generate_password_hash,check_password_hash
 #post req cannot open through browser gives error
 #GET → Ask for data
  #POST → Send data to the server
 app= Flask(__name__) #obj
+
+   
 @app.route('/')
 def home():
     return "Welcome to our expense tracker.."
+#Login endpoint
+@app.route('/login',methods=['POST'])
+def login():
+    data=request.get_json()
+    account=search_acc("transactions.json",data["email"])
+    if account is None:
+      return jsonify({"error":"Account not found"}) ,404
+    if check_password_hash(account.password, data["password"]):
+       return jsonify(account.to_dict()),200
+    else:
+        return jsonify({"error":"Incorrect password"}) ,401
+    #401 means incorrect information entered
 
 
 #json.load()	File	Python object
 # json.dump()	Python object	File
 # request.get_json()	HTTP request	Python dictionary
 # jsonify()	Python object	HTTP JSON response
+#singup endpoint
 @app.route('/account', methods=['POST'])
 def create_acc():
+    
     # Convert the Account object into a Python dictionary
   # jsonify() converts the dictionary into an HTTP JSON response
     data=request.get_json() #convert json in python dictionary (send data by react)
-    account=search_acc("transactions.json",data["owner_name"])
-    if account is None:
-        account=Account(data["owner_name"])
-        save_acc(account,"transactions.json")
-    return jsonify(account.to_dict())#send data back to react
+    account=search_acc("transactions.json",data["email"])
+    if account is not None:
+        return jsonify({"error":"Email  already exists"}),409
+        #409 code means conflict
 
+    hashed_password=generate_password_hash(data["password"])
+    account=Account(data["owner_name"],data["email"],hashed_password)
+    save_acc(account,"transactions.json")
+    return jsonify(account.to_dict()),201 #send data back to react
+    #201 means account created succesfully
 
+#adding trasaction endpoint
 @app.route('/transactions',methods=['POST'])
 def add_transaction():
     data=request.get_json()
-    account=search_acc("transactions.json",data["owner_name"])
+    account=search_acc("transactions.json",data["email"])
     if account is None:
         return jsonify({"error":"Account not found"}) ,404
-
-    else:
-        account.add_transaction(Transaction(data["amount"],
-        data["category"],data["transaction_type"],
-         data["description"]))
-        save_acc(account,"transactions.json")
-        return jsonify(account.to_dict() )
+    try:
+     account.add_transaction(Transaction(data["amount"],
+     data["category"],data["transaction_type"],
+     data["description"]))
+     save_acc(account,"transactions.json")
+     return jsonify(account.to_dict()),200
+    #200 means ok (successfully)
+    except ValueError as e:
+       return jsonify({"error":str(e)}) ,404
+       
         
-
-@app.route('/transactions/<owner_name>',methods=['GET'])
-def get_transactions(owner_name):
+#displaying all transactions endpoint
+@app.route('/transactions/<email>',methods=['GET'])
+def get_transactions(email):
     # no need of request.get_json() bcz no json data to read(as it is get req)
-    account=search_acc("transactions.json",owner_name)
+    account=search_acc("transactions.json",email)
     if account is None:
         return jsonify({"error":"Account not found"}) ,404
-    else:
-     transactions=account.get_transactions()
-     return jsonify([t.to_dict() for t in transactions])
     
+    transactions=account.get_transactions()
+    return jsonify([t.to_dict() for t in transactions]),200    
 
-@app.route("/accounts/<owner_name>/transactions/<trans_id>", methods=["DELETE"])
-def delete_transaction(owner_name, trans_id):
+#removing transaction endpoint
+@app.route("/accounts/<email>/transactions/<trans_id>", methods=["DELETE"])
+def delete_transaction(email, trans_id):
 
-    account = search_acc("transactions.json", owner_name)
+    account = search_acc("transactions.json",email)
 
     if account is None:
         return jsonify({"error": "Account not found"}), 404
     try:
      account.remove_transaction(trans_id)
      save_acc(account, "transactions.json")
-     return jsonify(account.to_dict())
+     return jsonify(account.to_dict()),200
     except ValueError as e :
      return jsonify({"error": str(e)}), 404
     

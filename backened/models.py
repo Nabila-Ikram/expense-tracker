@@ -38,7 +38,7 @@ class Transaction:
     
  # Account class
 class Account:
-   def __init__(self, owner_name,account_id=None):
+   def __init__(self, owner_name,email,password,account_id=None):
       if(account_id is None):
          self.account_id=str(uuid.uuid4())
       else:
@@ -46,6 +46,8 @@ class Account:
       self.owner_name = owner_name
       self.transactions=[]
       self.balance=0
+      self.email=email
+      self.password=password
   
    def add_transaction(self,trans):
       if isinstance(trans,Transaction):#check even if it is subclass
@@ -77,6 +79,7 @@ class Account:
    def to_dict(self):
       return {
          "owner_name":self.owner_name,
+          "email":self.email,
           "account_id":self.account_id,
           "transactions":[s.to_dict() for s in self.get_transactions()]
 

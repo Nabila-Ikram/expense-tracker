@@ -25,13 +25,14 @@ def save_acc(acc,filename):
  # json.dumps convert python dictionaries into json strings
  # python internally/automatically do jsons.loads when data  comes from API   
  # to convert data into json convert into universal data types that json understands {dic,lists,strings,int,float}
-def search_acc(filename,acc_owner):
+def search_acc(filename,email):
  try:
    with open (filename,"r") as f:
     load_data=json.load(f)
     for d in load_data:
-        if(d["owner_name"]== acc_owner):
-           account=Account(d["owner_name"],d["account_id"])
+        if(d["email"]== email):
+           account=Account(d["owner_name"],
+           d["email"],d["password"], d["account_id"])
            for t in d["transactions"] :
             account.add_transaction(Transaction(t["amount"],
             t["category"],t["transaction_type"],
