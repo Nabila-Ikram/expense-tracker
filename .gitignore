@@ -1,0 +1,160 @@
+# ============================================
+# PYTHON / BACKEND
+# ============================================
+
+# Virtual environment
+backend/venv/
+venv/
+env/
+ENV/
+.venv
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Compiled Python files
+*.pyc
+*.pyo
+*.pyd
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Unit test / coverage
+htmlcov/
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+.pytest_cache/
+
+# Flask stuff
+instance/
+.webassets-cache
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# pyenv
+.python-version
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# ============================================
+# REACT / FRONTEND
+# ============================================
+
+# Dependencies
+frontend/node_modules/
+frontend/.pnp
+frontend/.pnp.js
+frontend/.yarn/
+
+# Production builds
+frontend/dist/
+frontend/build/
+frontend/.next/
+frontend/out/
+
+# Environment variables
+frontend/.env
+frontend/.env.local
+frontend/.env.development.local
+frontend/.env.test.local
+frontend/.env.production.local
+
+# Vite cache
+frontend/.vite/
+
+# ============================================
+# LOGS
+# ============================================
+
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# ============================================
+# DATABASE FILES
+# ============================================
+
+*.db
+*.sqlite
+*.sqlite3
+transactions.json
+
+# ============================================
+# OS FILES
+# ============================================
+
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# ============================================
+# EDITOR / IDE
+# ============================================
+
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.tern-port
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# ============================================
+# MISC
+# ============================================
+
+/.cache
+/.eslintcache
+/.temp
+/tmp
+*.tmp
+
+# ============================================
+# ENVIRONMENT VARIABLES
+# ============================================
+
+.env
+.env.local
+.env.production
+.env.development

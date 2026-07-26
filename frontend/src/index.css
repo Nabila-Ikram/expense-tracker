@@ -1,0 +1,16 @@
+@import "tailwindcss";
+
+:root {
+  --bg-image: url('/src/assets/img/bg_img.jpg');  /* ✅ Fixed path */
+  --bg-opacity: 0.5;
+}
+
+.background {
+  background-image: linear-gradient(
+    rgba(0, 0, 0, var(--bg-opacity)),
+    rgba(0, 0, 0, var(--bg-opacity))
+  ), var(--bg-image);
+  background-size: cover;
+  background-position: center;
+
+}

@@ -29,6 +29,7 @@ def login():
 # json.dump()	Python object	File
 # request.get_json()	HTTP request	Python dictionary
 # jsonify()	Python object	HTTP JSON response
+
 #singup endpoint
 @app.route('/account', methods=['POST'])
 def create_acc():
@@ -62,7 +63,7 @@ def add_transaction():
      return jsonify(account.to_dict()),200
     #200 means ok (successfully)
     except ValueError as e:
-       return jsonify({"error":str(e)}) ,404
+       return jsonify({"error":str(e)}) ,400
        
         
 #displaying all transactions endpoint
