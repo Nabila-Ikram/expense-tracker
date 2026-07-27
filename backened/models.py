@@ -81,6 +81,15 @@ class Account:
          "owner_name":self.owner_name,
           "email":self.email,
           "account_id":self.account_id,
-          "transactions":[s.to_dict() for s in self.get_transactions()]
-   # not adding password for the purpose of security
+          "transactions":[s.to_dict() for s in self.get_transactions()],
+          "password":self.password
       }    
+   def to_dict_public(self):
+         return {
+            "owner_name":self.owner_name,
+             "email":self.email,
+             "account_id":self.account_id,
+             "transactions":[s.to_dict() for s in self.get_transactions()]
+      # not adding password for the purpose of security
+      #not sending credentials(passsword) to react
+         }  

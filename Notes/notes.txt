@@ -1,0 +1,37 @@
+JavaScript Object
+      │
+      ├── JSON.stringify() ──► JSON String
+      │
+      ▼
+HTTP Request
+      ▼
+request.get_json()
+      ▼
+Python Dictionary
+      │
+      ├── jsonify() ──► JSON Response (JSON String)
+      │
+      ▼
+response.json()
+      ▼
+JavaScript Object
+
+
+// JavaScript Object → JSON String (before sending to backend)
+JSON.stringify(obj)
+
+// JSON String → JavaScript Object (after receiving from backend)
+response.json()
+
+# JSON String → Python Dictionary (receive request from frontend)
+request.get_json()
+
+# Python Dictionary → JSON Response (send response to frontend)
+jsonify(data)
+  
+
+# Python Dictionary → JSON File
+json.dump(data, file)
+
+# JSON File → Python Dictionary
+json.load(file)

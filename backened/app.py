@@ -1,4 +1,6 @@
 from flask import Flask,request ,jsonify #class
+# Allow React (different origin) to access Flask APIs
+from flask_cors import CORS
 from storage import search_acc,save_acc
 from models import Account,Transaction
 from werkzeug.security import generate_password_hash,check_password_hash
@@ -6,7 +8,7 @@ from werkzeug.security import generate_password_hash,check_password_hash
 #GET → Ask for data
  #POST → Send data to the server
 app= Flask(__name__) #obj
-
+CORS(app)
    
 @app.route('/')
 def home():
@@ -19,7 +21,7 @@ def login():
     if account is None:
       return jsonify({"error":"Account not found"}) ,404
     if check_password_hash(account.password, data["password"]):
-       return jsonify(account.to_dict()),200
+       return jsonify(account.to_dict_public()),200
     else:
         return jsonify({"error":"Incorrect password"}) ,401
     #401 means incorrect information entered
@@ -45,7 +47,7 @@ def create_acc():
     hashed_password=generate_password_hash(data["password"])
     account=Account(data["owner_name"],data["email"],hashed_password)
     save_acc(account,"transactions.json")
-    return jsonify(account.to_dict()),201 #send data back to react
+    return jsonify(account.to_dict_public()),201 #send data back to react
     #201 means account created succesfully
 
 #adding trasaction endpoint
@@ -60,7 +62,7 @@ def add_transaction():
      data["category"],data["transaction_type"],
      data["description"]))
      save_acc(account,"transactions.json")
-     return jsonify(account.to_dict()),200
+     return jsonify(account.to_dict_public()),200
     #200 means ok (successfully)
     except ValueError as e:
        return jsonify({"error":str(e)}) ,400
@@ -88,10 +90,10 @@ def delete_transaction(email, trans_id):
     try:
      account.remove_transaction(trans_id)
      save_acc(account, "transactions.json")
-     return jsonify(account.to_dict()),200
+     return jsonify(account.to_dict_public()),200
     except ValueError as e :
      return jsonify({"error": str(e)}), 404
     
 
 if __name__ == '__main__': # for security (not if conditions means if other file imports then server starts)
-    app.run(debug=True)    
+    app.run(debug=True,port=5000)    

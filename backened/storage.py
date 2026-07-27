@@ -4,6 +4,7 @@ import json
 def save_acc(acc,filename):
   #takes two argument (data ..obj to save and file //json dump
     try:
+      print("save_acc called")
       with open (filename,"r") as f:
        load_data=json.load(f)
       for  (index,d)  in enumerate (load_data):
