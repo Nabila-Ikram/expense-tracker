@@ -1,0 +1,43 @@
+const transactions = [
+  {
+    trans_id: "8c2f4d31-a123-4b89-91b2",
+    date: "27/07/26 09:15 AM",
+    amount: 50000,
+    category: "Salary",
+    transaction_type: "Income",
+    description: "Monthly salary credited."
+  },
+  {
+    trans_id: "9d4a8b52-b234-4d76-92f4",
+    date: "28/07/26 01:30 PM",
+    amount: 1200,
+    category: "Food",
+    transaction_type: "Expense",
+    description: "Lunch with friends."
+  },
+  {
+    trans_id: "7e1b3c64-c345-4a65-81d5",
+    date: "29/07/26 07:45 PM",
+    amount: 3500,
+    category: "Shopping",
+    transaction_type: "Expense",
+    description: "Bought new shoes."
+  },
+  {
+    trans_id: "5f6d2e75-d456-49b3-90a6",
+    date: "30/07/26 10:00 AM",
+    amount: 2000,
+    category: "Freelancing",
+    transaction_type: "Income",
+    description: "Payment received from client."
+  },
+  {
+    trans_id: "3a9f8b86-e567-48a2-84d7",
+    date: "31/07/26 06:20 PM",
+    amount: 1800,
+    category: "Transport",
+    transaction_type: "Expense",
+    description: "Fuel and parking charges."
+  }
+];
+export default transactions

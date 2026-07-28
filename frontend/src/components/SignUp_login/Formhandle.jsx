@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
-import Welcome from '../others/Welcome'
+import Welcome from '../../others/Welcome'
 import Signup from './Signup'
 import Login from './Login'
 
 const Formhandle = () => {
 const [IsLogin, setIsLogin] = useState(false)
   return (
-  <div className=' flex items-center  relative justify-center h-3/4 w-2/3  bg-none border border-fuchsia-300 rounded-xl '>
+  <div className=' flex items-center  relative justify-center h-3/4  w-2/3  bg-none border border-fuchsia-300 rounded-xl '>
     {/* // making parent for welcome(child) so that browser not automatically asume webpage as parent
     // position: relative makes the parent the reference point for its absolutely positioned children.
     // absolute t lets you move an element anywhere inside its parent without Flexbox trying to keep it in place.

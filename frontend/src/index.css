@@ -14,3 +14,6 @@
   background-position: center;
 
 }
+*::-webkit-scrollbar {
+  display: none;
+}

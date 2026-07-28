@@ -1,0 +1,9 @@
+const data = [
+  { month: "Jan", balance: 5000 },
+  { month: "Feb", balance: 6200 },
+  { month: "Mar", balance: 5800 },
+  { month: "Apr", balance: 7600 },
+  { month: "May", balance: 7100 },
+  { month: "Jun", balance: 9000 },
+];
+export default data

@@ -35,3 +35,11 @@ json.dump(data, file)
 
 # JSON File → Python Dictionary
 json.load(file)
+/// recharts
+Each component has a job:
+
+ResponsiveContainer → Makes the chart fit its parent.
+LineChart → The chart container.
+XAxis → Shows months (Sep, Oct, Nov...).
+YAxis → Shows values (£0, £5k, £10k...).
+Line → Draws the balance line.
