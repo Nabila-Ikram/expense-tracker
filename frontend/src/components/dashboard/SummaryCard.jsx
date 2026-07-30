@@ -12,7 +12,7 @@ import {
 import data from "./graph_dummydata"
 const SummaryCard = () => {
   return (
-    <div className=' text-white w-[95%] bg-linear-to-r from-[rgba(205,139,186,0.8)] to-[rgba(168,113,211,0.9)] h-[50%] m-3 p-3 border border-fuchsia-300 rounded-sm '>
+    <div className=' text-white w-[70%] bg-linear-to-r from-[rgba(205,139,186,0.8)] to-[rgba(168,113,211,0.9)] h-[50%] m-3 p-5 border border-fuchsia-300 rounded-sm '>
         <div className='h-[20%] bg-linear-to-r from-gray-500 to-purple-900 flex justify-around  items-center '  >
             <div className='flex flex-col'> Total Balance  
                 <div className='flex'><MdAttachMoney size={25}/><h1>  208390</h1> </div>

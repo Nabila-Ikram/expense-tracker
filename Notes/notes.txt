@@ -43,3 +43,19 @@ LineChart → The chart container.
 XAxis → Shows months (Sep, Oct, Nov...).
 YAxis → Shows values (£0, £5k, £10k...).
 Line → Draws the balance line.
+
+
+So, unlike a Bar Chart (which compares category heights), a Radar Chart compares the overall shape and balance of the data. It's especially useful when you want to judge whether different categories are balanced or whether one or two dominate.
+
+Navigate      → Redirect immediately when rendered. no action need (by deafult behavior)
+
+useNavigate() → Redirect later, after my JavaScript logic decides. (getting response from flask) after waiting
+
+Link          → Redirect when the user clicks.
+
+
+Link         → User clicks and goes directly.
+
+useNavigate  → JavaScript decides when to go.
+
+Navigate     → Redirect immediately when rendered.

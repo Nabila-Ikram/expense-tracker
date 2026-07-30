@@ -1,8 +1,14 @@
 import React, { use, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 const Login = () => {
 const [email, setemail] = useState('')
 const [password, setpassword] = useState('')
+// Navigate : Redirect automatically.
+//useNavigate() : Navigate from JavaScript
+//looks are created at the top of component
 const [loggedInUser, setloggedInUser] = useState(null)
+const navigate=useNavigate(); // use navigate returns a function allows to change route 
+//useNavigate() is a hook that lets you change the current URL from JavaScript.
 
  async function submitHandler(e){
 e.preventDefault();
@@ -31,6 +37,8 @@ if(response.ok)
 {
   setloggedInUser(data)
 localStorage.setItem('loggedInUser',JSON.stringify(data))
+
+navigate('/dashboard')
 }
 
 else

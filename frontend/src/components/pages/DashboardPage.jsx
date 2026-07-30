@@ -1,11 +1,12 @@
 import React, { use, useState } from 'react'
-import Sidebar from './Sidebar'
-import NavBar from './NavBar'
-import SummaryCard from './SummaryCard'
-import Transaction from './Transaction'
-import Transactions from './Transactions'
+import Sidebar from '../dashboard/Sidebar'
+import NavBar from '../dashboard/NavBar'
+import SummaryCard from '../dashboard/SummaryCard'
+import Transaction from '../dashboard/Transaction'
+import Transactions from '../dashboard/Transactions'
 
-const Dashboard = () => {
+
+const DashboardPage = () => {
   const [menuClick, setmenuClick] = useState(false)
   return (
     <div className=' background w-full h-screen '>
@@ -17,16 +18,16 @@ const Dashboard = () => {
       <Sidebar/>
      {/* JSX only accepts expressions, not statements (if, for, while). */}
          </div>
-            }
+}
+            
             <div className=' flex flex-col flex-1 '>
               <SummaryCard/>
               <span className='text-white text-2xl pl-3'><b>Recent Transactions</b></span>
               <Transactions/>
-              
             </div>
  </div>
     </div>
   )
 }
 
-export default Dashboard
+export default DashboardPage

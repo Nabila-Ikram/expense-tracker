@@ -17,3 +17,7 @@
 *::-webkit-scrollbar {
   display: none;
 }
+/* Most popular for dashboards - clean, readable */
+* {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
