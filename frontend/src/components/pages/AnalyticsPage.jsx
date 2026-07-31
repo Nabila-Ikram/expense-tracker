@@ -1,9 +1,6 @@
 import React, { use, useState } from 'react'
 import Sidebar from '../dashboard/Sidebar'
 import NavBar from '../dashboard/NavBar'
-// import SummaryCard from '../dashboard/SummaryCard'
-// import Transaction from '../dashboard/Transaction'
-// import Transactions from '../dashboard/Transactions'
 import Analytics from '../analytics/Analytics'
 
 const AnalyticsPage = () => {
@@ -25,11 +22,7 @@ const AnalyticsPage = () => {
             <Analytics/>
              </div>
             
-            {/* <div className=' flex flex-col flex-1 '>
-              <SummaryCard/>
-              <span className='text-white text-2xl pl-3'><b>Recent Transactions</b></span>
-              <Transactions/>
-            </div> */}
+
  </div>
     </div>
   )

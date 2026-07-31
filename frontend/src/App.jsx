@@ -5,6 +5,7 @@ import AnalyticsPage from './components/pages/AnalyticsPage'
 import Signup_login from './components/SignUp_login/Signup_login'
 import { Routes, Route, Navigate } from "react-router-dom";
 import ProtectedRoute from './components/protectedRoute/ProtectedRoute'
+import TransactionAddPage from './components/pages/TransactionAddPage'
 
 const App = () => {
   return (
@@ -30,6 +31,13 @@ const App = () => {
       element={
       <ProtectedRoute>
       <AnalyticsPage/>
+      </ProtectedRoute>
+      }
+      />
+       <Route path='/transactions'
+      element={
+      <ProtectedRoute>
+     <TransactionAddPage/>
       </ProtectedRoute>
       }
       />
