@@ -1,6 +1,7 @@
 from flask import Flask,request ,jsonify #class
 # Allow React (different origin) to access Flask APIs
 from flask_cors import CORS
+import datetime as dt
 from storage import search_acc,save_acc
 from models import Account,Transaction
 from werkzeug.security import generate_password_hash,check_password_hash
@@ -53,14 +54,22 @@ def create_acc():
 #adding trasaction endpoint
 @app.route('/transactions',methods=['POST'])
 def add_transaction():
+
     data=request.get_json()
     account=search_acc("transactions.json",data["email"])
+    
+
+    selected_date = dt.datetime.strptime(data["date"], "%Y-%m-%d")
+    amount = float(data["amount"])
     if account is None:
         return jsonify({"error":"Account not found"}) ,404
     try:
-     account.add_transaction(Transaction(data["amount"],
-     data["category"],data["transaction_type"],
-     data["description"]))
+     account.add_transaction(Transaction(
+        amount,data["category"],
+        data["transaction_type"],
+        data["description"],
+        date=selected_date) )
+        # // otherwise set in trans_id
      save_acc(account,"transactions.json")
      return jsonify(account.to_dict_public()),200
     #200 means ok (successfully)
