@@ -4,7 +4,7 @@ import Transaction from './Transaction'
 
 const Transactions = () => {
   return (
-    <div className='flex flex-wrap  overflow-y-auto h-[50%] w-[50%]'>
+    <div className="grid grid-cols-2 gap-4  p-5 overflow-y-auto w-full">
      {transactions.map((t) => (
          <Transaction
         amount={t.amount}

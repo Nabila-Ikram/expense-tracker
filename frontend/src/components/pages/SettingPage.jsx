@@ -1,13 +1,10 @@
 import React, { use, useState } from 'react'
 import Sidebar from '../dashboard/Sidebar'
 import NavBar from '../dashboard/NavBar'
-import SummaryCard from '../dashboard/SummaryCard'
-import Transaction from '../dashboard/Transaction'
-import Transactions from '../dashboard/Transactions'
-import BarGraph from '../dashboard/BarGraph'
+import SettingHandler from '../setting/SettingHandler'
 
 
-const DashboardPage = () => {
+const SettingPage = () => {
   const [menuClick, setmenuClick] = useState(false)
   return (
     <div className=' background w-full h-screen '>
@@ -19,17 +16,17 @@ const DashboardPage = () => {
       <Sidebar/>
      {/* JSX only accepts expressions, not statements (if, for, while). */}
          </div>
-}
+            }
+
+
+            <div className=' flex flex-col flex-1 '> 
+            <SettingHandler/>
+             </div>
             
-            <div className=' flex flex-col flex-1  justify-center  items-center'>
-              <SummaryCard/>
-              <span className='text-white text-2xl  p-3'><b>Recent Transactions</b></span>
-              <Transactions/>
-             
-            </div>
+
  </div>
     </div>
   )
 }
 
-export default DashboardPage
+export default SettingPage

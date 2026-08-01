@@ -9,7 +9,7 @@ import {
   Legend,
   CartesianGrid,
 } from "recharts";
-import data from './Bar_dummy_data';
+import data from '../dashboard/Bar_dummy_data';
 const AreaGraph = () => {
   return (
      <div className='h-full w-full '>

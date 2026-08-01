@@ -6,6 +6,9 @@ import Signup_login from './components/SignUp_login/Signup_login'
 import { Routes, Route, Navigate } from "react-router-dom";
 import ProtectedRoute from './components/protectedRoute/ProtectedRoute'
 import TransactionAddPage from './components/pages/TransactionAddPage'
+import BudgetPage from './components/pages/BudgetPage'
+import GoalsPage from './components/pages/GoalsPage'
+import SettingPage from './components/pages/SettingPage'
 
 const App = () => {
   return (
@@ -41,7 +44,31 @@ const App = () => {
       </ProtectedRoute>
       }
       />
+       <Route path='/budget'
+      element={
+      <ProtectedRoute>
+    <BudgetPage/>
+      </ProtectedRoute>
+      }
+      />
 
+
+        <Route path='/goals'
+      element={
+      <ProtectedRoute>
+    <GoalsPage/>
+      </ProtectedRoute>
+      }
+      />
+
+
+  <Route path='/settings'
+      element={
+      <ProtectedRoute>
+<SettingPage/>
+      </ProtectedRoute>
+      }
+      />
   </Routes>
 
 

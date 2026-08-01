@@ -1,0 +1,59 @@
+import React from 'react'
+
+const GoalsForm = () => {
+  return (
+    <form className='flex flex-col gap-3 w-full shadow-2xl  rounded-2xl backdrop-blur-md flex-1
+                      border border-white text-white p-3 bg-white/20' >
+
+
+        <div className=' flex  gap-4 p-5'>
+
+            <div className='flex-1 flex flex-col h-15'>
+            <label htmlFor="title">Title</label>
+        <input type='text' placeholder='Enter title' className='flex-1 focus:ring-1 focus:ring-purple-400 border border-gray-300 outline-none p-2 rounded-sm resize-none '></input>
+        </div>
+
+
+              <div className='flex flex-1 flex-col'>
+        <label htmlFor="target">Target</label>
+        <input type='number' min={0} step={0.05} placeholder='target' className='flex-1 focus:ring-1 focus:ring-purple-400 border border-gray-300 outline-none p-2 rounded-sm resize-none '></input>
+        </div>
+
+
+
+        </div>
+
+
+            
+        <div className=' flex gap-4 p-5'>
+
+            <div className='flex flex-1 flex-col h-15 '>
+            <label htmlFor="saved">Saved</label>
+        <input type='number' placeholder='saved' min={0} step={0.05} className='flex-1 focus:ring-1 focus:ring-purple-400 border border-gray-300 outline-none p-2 rounded-sm resize-none'></input>
+        </div>
+
+
+
+          <div className='flex flex-1 flex-col'>
+        <label htmlFor="date">Date</label>
+        <input type='date' className='flex-1 focus:ring-1 focus:ring-purple-400 border border-gray-300 outline-none p-2 rounded-sm resize-none'></input>
+        </div>
+        </div>
+
+
+<div className="flex justify-center mt-4">
+  <button
+    type="submit"
+    className="w-60 h-10 rounded-md bg-linear-to-r from-orange-500 to-pink-600 hover:opacity-90 transition"
+  >
+    Save Goal
+  </button>
+</div>
+
+      
+        </form>
+        
+  )
+}
+
+export default GoalsForm
