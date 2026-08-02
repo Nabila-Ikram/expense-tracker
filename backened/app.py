@@ -3,7 +3,7 @@ from flask import Flask,request ,jsonify #class
 from flask_cors import CORS
 import datetime as dt
 from storage import search_acc,save_acc
-from models import Account,Transaction
+from models import Account,Transaction,Budget
 from werkzeug.security import generate_password_hash,check_password_hash
 #post req cannot open through browser gives error
 #GET → Ask for data
@@ -58,7 +58,6 @@ def add_transaction():
     data=request.get_json()
     account=search_acc("transactions.json",data["email"])
     
-
     selected_date = dt.datetime.strptime(data["date"], "%Y-%m-%d")
     amount = float(data["amount"])
     if account is None:
@@ -86,7 +85,23 @@ def get_transactions(email):
         return jsonify({"error":"Account not found"}) ,404
     
     transactions=account.get_transactions()
-    return jsonify([t.to_dict() for t in transactions]),200    
+    return jsonify([t.to_dict() for t in transactions]),200   
+
+
+@app.route('/budget/<email>',methods=['POST'])
+def add_budgets(email):
+     data=request.get_json()
+     account=search_acc("transactions.json",email)
+     if account is None:
+             return jsonify({"error":"Account not found"}) ,404
+     try:
+         account.add_budget(Budget(data["category"],data["limit"],data["month"]))
+         save_acc(account,"transactions.json")
+         budget=account.get_budgets()
+         return jsonify([b.to_dict() for b in budget]),200   
+     except ValueError as e:
+            return jsonify({"error":str(e)}) ,400    
+   
 
 #removing transaction endpoint
 @app.route("/accounts/<email>/transactions/<trans_id>", methods=["DELETE"])

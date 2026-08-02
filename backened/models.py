@@ -30,12 +30,31 @@ class Transaction:
        return {
          "trans_id":self.trans_id,
          "date" :self.date.strftime("%d/%m/%y %I:%M %p") ,
+          "iso_date": self.date.strftime("%Y-%m-%d"), 
          "amount": self.amount,
          "category":self.category,
          "transaction_type":self.transaction_type,
-         "description":self.description
+         "description":self.description,
        }
-    
+
+class Budget:
+   def __init__(self,category,limit,month):
+      if not category:
+          raise ValueError("Category required")
+
+      if limit <= 0:
+          raise ValueError("Budget limit must be positive")
+      
+      self.category = category
+      self.limit = limit
+      self.month = month
+
+   def to_dict(self):
+       return {
+           "category": self.category,
+           "limit": self.limit,
+           "month": self.month
+       }  
  # Account class
 class Account:
    def __init__(self, owner_name,email,password,account_id=None):
@@ -45,6 +64,7 @@ class Account:
          self.account_id=account_id   
       self.owner_name = owner_name
       self.transactions=[]
+      self.budgets=[]
       self.balance=0
       self.email=email
       self.password=password
@@ -63,6 +83,9 @@ class Account:
       return self.balance
    def get_transactions(self):
       return sorted(self.transactions,key= lambda t:t.date)
+   def get_budgets(self):
+      return self.budgets
+
    
    def remove_transaction(self,id):
     for t  in self.transactions:
@@ -82,6 +105,7 @@ class Account:
           "email":self.email,
           "account_id":self.account_id,
           "transactions":[s.to_dict() for s in self.get_transactions()],
+         "budgets":[b.to_dict() for b in self.budgets],
           "password":self.password
       }    
    def to_dict_public(self):
@@ -89,7 +113,21 @@ class Account:
             "owner_name":self.owner_name,
              "email":self.email,
              "account_id":self.account_id,
-             "transactions":[s.to_dict() for s in self.get_transactions()]
+             "transactions":[s.to_dict() for s in self.get_transactions()],
+              "budgets":[b.to_dict() for b in self.budgets]
       # not adding password for the purpose of security
       #not sending credentials(passsword) to react
-         }  
+         }
+
+
+
+   def add_budget(self,budget):
+       if isinstance(budget,Budget):
+          self.budgets.append(budget)
+       else:
+         raise TypeError("Object mismatched")
+
+
+
+
+      

@@ -1,0 +1,34 @@
+import React, { use, useEffect, useState } from 'react'
+import Sidebar from '../dashboard/Sidebar'
+import NavBar from '../dashboard/NavBar'
+import SummaryCard from '../dashboard/SummaryCard'
+import Transactions from '../dashboard/Transactions'
+
+
+
+const TransactionHistory = () => {
+   
+  const [menuClick, setmenuClick] = useState(false)
+  return (
+    <div className=' background w-full h-screen '>
+        <div className=' h-[10%] w-full'>
+        <NavBar setmenuClick={setmenuClick}/>
+        </div>
+        <div className='flex h-[90%]'>
+        {menuClick && <div className=' w-[20%] '>
+      <Sidebar/>
+     {/* JSX only accepts expressions, not statements (if, for, while). */}
+         </div>
+}
+            
+            <div className=' flex flex-col flex-1  justify-center  items-center'>
+              <span className='text-white text-2xl  p-3'><b>All Transactions</b></span>
+              <Transactions/>
+             
+            </div>
+ </div>
+    </div>
+  )
+}
+
+export default TransactionHistory

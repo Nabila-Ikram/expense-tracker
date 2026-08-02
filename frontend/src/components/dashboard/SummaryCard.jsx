@@ -1,4 +1,3 @@
-import React from 'react'
 import { MdAttachMoney } from "react-icons/md";
 import {
   ResponsiveContainer,
@@ -9,19 +8,104 @@ import {
   Tooltip,
 } from "recharts";
 
-import data from "./graph_dummydata"
+
+import React, { use, useEffect, useState } from 'react'
+// import data from "./graph_dummydata"
 const SummaryCard = () => {
+
+   const [transactions, setTransactions] = useState([])
+    const loggedInUser=JSON.parse(localStorage.getItem('loggedInUser'))
+    const email=loggedInUser.email
+    
+   useEffect(() => {
+    async function fetchTransactions() {
+        const response = await fetch(
+            `http://127.0.0.1:5000/transactions/${email}`
+        );
+
+        const data = await response.json();
+
+        setTransactions(data);
+     
+        
+    }
+   
+    fetchTransactions();
+}, [email]);
+
+const TotalExpense=transactions.reduce((acc,curr)=>{
+if(curr.transaction_type=="expense"){
+    return acc+curr.amount
+}
+return acc
+},0)
+ const TotalIncome=
+transactions.reduce((acc,curr)=>{
+if(curr.transaction_type=="income"){
+    return acc+curr.amount
+}
+return acc
+},0)
+// starting value of acc
+
+const balance=TotalIncome - TotalExpense
+
+// acc → accumulator (running total)
+// curr → current transaction
+
+const monthlyBalance = {};
+
+const months = [
+    "Jan", "Feb", "Mar", "Apr",
+    "May", "Jun", "Jul", "Aug",
+    "Sep", "Oct", "Nov", "Dec"
+];
+
+transactions.forEach((curr) => {
+  const date = new Date(curr.iso_date);
+    const month = date.getMonth();
+    const monthName = months[month];
+
+    if (!monthlyBalance[monthName]) {
+        monthlyBalance[monthName] = 0;
+    }
+
+    if (curr.transaction_type === "income") {
+        monthlyBalance[monthName] += curr.amount;
+    } else if (curr.transaction_type === "expense") {
+        monthlyBalance[monthName] -= curr.amount;
+    }
+});
+const LineChartData = Object.entries(monthlyBalance).map(([month, balance]) => {
+    return {
+        month,
+        balance
+    };
+});
+console.log(LineChartData)
+
+
+
+
+
+
+
+
+
+
+
+
   return (
     <div className=' text-white w-[90%] bg-linear-to-r from-[rgba(205,139,186,0.8)] to-[rgba(168,113,211,0.9)] m-3 p-5 border border-fuchsia-300 rounded-sm '>
         <div className='h-12 bg-linear-to-r from-gray-500 to-purple-900 flex justify-around  items-center '  >
             <div className='flex flex-col'> Total Balance  
-                <div className='flex'><MdAttachMoney size={25}/><h1>  208390</h1> </div>
+                <div className='flex'><MdAttachMoney size={25}/><h1>{balance}</h1> </div>
                  </div>
                 <div className='flex flex-col'> Total Expense 
-                <div className='flex'><MdAttachMoney size={25}/><h1>  208390</h1> </div>
+                <div className='flex'><MdAttachMoney size={25}/><h1>{TotalExpense}</h1> </div>
                  </div>
             <div className='flex flex-col'> Total Income
-                <div className='flex'><MdAttachMoney size={25}/><h1>  208390</h1> </div>
+                <div className='flex'><MdAttachMoney size={25}/><h1>{TotalIncome}</h1> </div>
                  </div>
             
         </div>
@@ -35,7 +119,7 @@ const SummaryCard = () => {
         <div className='flex-1 w-full h-30 '>
             {/* ResponsiveContainer makes the chart automatically fit the parent div's width and height. */}
 <ResponsiveContainer width="100%" height="100%" >
-    <LineChart data={data}>
+    <LineChart data={LineChartData}>
          {/* LineChart is the main container that renders the graph using the provided data array. */}
         <XAxis dataKey={"month"}
         axisLine={{ stroke: "#ffffff" }}
@@ -52,6 +136,7 @@ const SummaryCard = () => {
             from each object in the data array. */}
                <Tooltip /> 
                {/* // When the user hovers:balnace automatically appears */}
+
         <Line dataKey={"balance"}
          stroke="purple"
     strokeWidth={4}/>

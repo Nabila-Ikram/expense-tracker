@@ -1,4 +1,4 @@
-from models import Account, Transaction
+from models import Account, Transaction,Budget
 import datetime as  dt
 import json
 def save_acc(acc,filename):
@@ -34,11 +34,14 @@ def search_acc(filename,email):
         if(d["email"]== email):
            account=Account(d["owner_name"],
            d["email"],d["password"], d["account_id"])
-           for t in d["transactions"] :
+           for t in d.get("transactions", []):
             account.add_transaction(Transaction(t["amount"],
             t["category"],t["transaction_type"],
             t["description"],t["trans_id"],
             dt.datetime.strptime(t["date"],"%d/%m/%y %I:%M %p")))
+           for b in d.get("budgets",[]): 
+              #get prevents key error if new key .. give empty array
+              account.add_budget(Budget(b["category"],b["limit"],b["month"]))
            return account
         
     else:   
@@ -46,3 +49,6 @@ def search_acc(filename,email):
      return None
  except FileNotFoundError :
      return None
+
+
+ 

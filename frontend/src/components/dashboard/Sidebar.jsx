@@ -22,6 +22,10 @@ const Sidebar = () => {
         <li>
           <Link to= '/transactions' className="flex gap-3 w-full p-2 rounded-lg hover:bg-white/10 transition"><GrTransaction size={25} /> <h1> Transaction</h1>
           </Link></li>
+
+          <li>
+        <Link to='/transactionHistory' className="flex gap-3 w-full p-2 rounded-lg hover:bg-white/10 transition"><GrTransaction size={25} /><h1>Transaction History</h1>
+        </Link></li>
        <li>
         <Link to = '/analytics'className="flex gap-3 w-full p-2 rounded-lg hover:bg-white/10 transition">
            <IoAnalytics  size={25}/> <h1> Analytics</h1>
@@ -38,6 +42,8 @@ const Sidebar = () => {
         <li>
         <Link to='/settings' className="flex gap-3 w-full p-2 rounded-lg hover:bg-white/10 transition"><LuSettings size={25}/><h1>Settings</h1>
         </Link></li>
+
+        
 
        {/* <li className='flex gap-3'> <CiLogout  size={25}/><h1> Logout</h1></li> */}
        </ul>

@@ -9,6 +9,7 @@ import TransactionAddPage from './components/pages/TransactionAddPage'
 import BudgetPage from './components/pages/BudgetPage'
 import GoalsPage from './components/pages/GoalsPage'
 import SettingPage from './components/pages/SettingPage'
+import TransactionHistory from './components/pages/TransactionHistory'
 
 const App = () => {
   return (
@@ -66,6 +67,13 @@ const App = () => {
       element={
       <ProtectedRoute>
 <SettingPage/>
+      </ProtectedRoute>
+      }
+      />
+       <Route path='/transactionHistory'
+      element={
+      <ProtectedRoute>
+<TransactionHistory/>
       </ProtectedRoute>
       }
       />

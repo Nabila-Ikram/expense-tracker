@@ -1,10 +1,27 @@
-import React from 'react'
-import transactions  from './Trans_dummy_data'
+import React, { use, useEffect, useState } from 'react'
+
 import Transaction from './Transaction'
 
 const Transactions = () => {
+   const [transactions, setTransactions] = useState([])
+    const loggedInUser=JSON.parse(localStorage.getItem('loggedInUser'))
+    const email=loggedInUser.email
+   useEffect(() => {
+    async function fetchTransactions() {
+        const response = await fetch(
+            `http://127.0.0.1:5000/transactions/${email}`
+        );
+
+        const data = await response.json();
+
+        setTransactions(data);
+    }
+
+    fetchTransactions();
+}, [email]);
+// Empty dependency array ([]) means run only once on the initial render.
   return (
-    <div className="grid grid-cols-2 gap-4  p-5 overflow-y-auto w-full">
+    <div className="grid grid-cols-3 gap-4  p-5 overflow-y-auto w-full">
      {transactions.map((t) => (
          <Transaction
         amount={t.amount}
