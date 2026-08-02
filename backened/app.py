@@ -88,20 +88,35 @@ def get_transactions(email):
     return jsonify([t.to_dict() for t in transactions]),200   
 
 
-@app.route('/budget/<email>',methods=['POST'])
-def add_budgets(email):
+@app.route('/budget',methods=['POST'])
+def add_budgets():
      data=request.get_json()
-     account=search_acc("transactions.json",email)
+     account=search_acc("transactions.json",data["email"])
      if account is None:
              return jsonify({"error":"Account not found"}) ,404
      try:
-         account.add_budget(Budget(data["category"],data["limit"],data["month"]))
+         limit = float(data["limit"])
+         budget=Budget(data["category"],limit,data["month"])
+         account.add_budget(budget)
          save_acc(account,"transactions.json")
-         budget=account.get_budgets()
-         return jsonify([b.to_dict() for b in budget]),200   
+         return jsonify(budget.to_dict()),201   
      except ValueError as e:
-            return jsonify({"error":str(e)}) ,400    
-   
+            return jsonify({"error":str(e)}) ,400 
+
+
+        
+@app.route('/budget/<email>',methods=['GET'])
+def get_budget(email):  
+    account=search_acc("transactions.json",email)
+    if account is None:
+                 return jsonify({"error":"Account not found"}) ,404
+    
+    budgets=account.get_budgets()
+    return jsonify([b.to_dict() for b in budgets]),200
+      
+# POST /budget/<email>   → Add a new budget (201)
+
+# GET  /budget/<email>   → Retrieve all budgets (200)
 
 #removing transaction endpoint
 @app.route("/accounts/<email>/transactions/<trans_id>", methods=["DELETE"])

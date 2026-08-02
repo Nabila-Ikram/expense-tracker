@@ -10,6 +10,7 @@ import BudgetPage from './components/pages/BudgetPage'
 import GoalsPage from './components/pages/GoalsPage'
 import SettingPage from './components/pages/SettingPage'
 import TransactionHistory from './components/pages/TransactionHistory'
+import BudgetForm from './components/budget/BudgetForm'
 
 const App = () => {
   return (
@@ -49,6 +50,13 @@ const App = () => {
       element={
       <ProtectedRoute>
     <BudgetPage/>
+      </ProtectedRoute>
+      }
+      />
+         <Route path='/budget/add'
+      element={
+      <ProtectedRoute>
+    <BudgetForm/>
       </ProtectedRoute>
       }
       />

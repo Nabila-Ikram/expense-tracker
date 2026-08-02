@@ -59,3 +59,8 @@ Link         → User clicks and goes directly.
 useNavigate  → JavaScript decides when to go.
 
 Navigate     → Redirect immediately when rendered.
+
+
+map()	A new array
+filter()	A new array (matching items)
+reduce()	One value (number, string, object, etc., depending on what you compute)

@@ -1,4 +1,4 @@
-import React from 'react'
+import { use } from 'react'
 
 const Progress_bar = ({title,spent,budget,percentage}) => {
   return (

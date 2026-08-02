@@ -8,13 +8,6 @@ const Addtrans_form = () => {
   const [Description, setDescription] = useState('')
   async function submitHandler(e){
     e.preventDefault()
-   console.log({
-  Amount,
-  Category,
-  Date,
-  Transaction_Type,
-  Description,
-});
  try {
 const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
 const addTransaction={
