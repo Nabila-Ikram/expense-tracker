@@ -1,4 +1,4 @@
-import React from 'react'
+
 import {
   ResponsiveContainer,
   AreaChart,
@@ -9,12 +9,64 @@ import {
   Legend,
   CartesianGrid,
 } from "recharts";
-import data from '../dashboard/Bar_dummy_data';
-const AreaGraph = () => {
+import data from './Radar_dummy_data';
+
+const AreaGraph = ({transactions}) => {
+  
+  
+  const TotalExpense=transactions.reduce((acc,curr)=>{
+  if(curr.transaction_type=="expense"){
+      return acc+curr.amount
+  }
+  return acc
+  },0)
+   const TotalIncome=
+  transactions.reduce((acc,curr)=>{
+  if(curr.transaction_type=="income"){
+      return acc+curr.amount
+  }
+  return acc
+  },0)
+  // starting value of acc
+  
+  const balance=TotalIncome - TotalExpense
+
+const monthlyBalance = {};
+
+const months = [
+    "Jan", "Feb", "Mar", "Apr",
+    "May", "Jun", "Jul", "Aug",
+    "Sep", "Oct", "Nov", "Dec"
+];
+
+transactions.forEach((curr) => {
+  const date = new Date(curr.iso_date);
+    const month = date.getMonth();
+    const monthName = months[month];
+
+    if (!monthlyBalance[monthName]) {
+        monthlyBalance[monthName] = 0;
+    }
+
+    if (curr.transaction_type === "income") {
+        monthlyBalance[monthName] += curr.amount;
+    } else if (curr.transaction_type === "expense") {
+        monthlyBalance[monthName] -= curr.amount;
+    }
+});
+const AreaChartData = Object.entries(monthlyBalance).map(([month, balance]) => {
+    return {
+        month,
+        balance
+    };
+});
+
+
+
   return (
      <div className='h-full w-full '>
           <ResponsiveContainer>
-            <AreaChart data={data}>
+            <AreaChart data={AreaChartData}>
             <CartesianGrid strokeDasharray="3 3" />
 
     <XAxis dataKey="month" />

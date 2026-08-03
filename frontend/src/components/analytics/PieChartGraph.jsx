@@ -7,7 +7,6 @@ import {
   Legend,
   Cell,
 } from "recharts";
-import data from './pieChart_dummy_data';
 const COLORS = [
   "rgba(34,197,94,0.6)",    // Emerald Green
   "rgba(59,130,246,0.9)",   // Royal Blue
@@ -16,7 +15,23 @@ const COLORS = [
   "#9B59B6",   // Amber
 ];
 
-const PieChartGraph = () => {
+const PieChartGraph = ({Budgets}) => {
+
+const budgets={};
+{Budgets.forEach((budget)=>{
+   if (!budgets[budget.category]) {
+        budgets[budget.category] = 0;
+    }
+  budgets[budget.category]+= budget.limit
+})}
+
+const PieChartData = Object.entries(budgets).map(([category, limit]) => {
+    return {
+       category,
+       limit
+    };
+});
+
   {/* data -> Array used to create the pie slices. */}
   {/* dataKey -> Property containing the numeric value for each slice. */}
   {/* nameKey -> Property containing the label for each slice. */}
@@ -29,8 +44,8 @@ const PieChartGraph = () => {
         <ResponsiveContainer>
             <PieChart>
               <Pie
-  data={data}
-  dataKey="amount"
+  data={PieChartData}
+  dataKey="limit"
   nameKey="category"
   cx="35%"
   cy="50%"
@@ -49,7 +64,7 @@ const PieChartGraph = () => {
     verticalAlign="middle"
     wrapperStyle={{ fontSize: 12, lineHeight: "20px" }}
 />
-  {data.map((entry, index) => (
+  {PieChartData.map((entry, index) => (
     <Cell
       key={index}
       fill={COLORS[index]}

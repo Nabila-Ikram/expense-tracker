@@ -10,12 +10,57 @@ import {
   Legend
 } from "recharts";
 import React from 'react'
-import data from "./Scatter_dummy_data";
-const ScatterGraph = () => {
+const ScatterGraph = ({transactions}) => {
+
+const monthlyIncome={};
+const monthlyExpense={};
+
+const months = [
+    "Jan", "Feb", "Mar", "Apr",
+    "May", "Jun", "Jul", "Aug",
+    "Sep", "Oct", "Nov", "Dec"
+];
+
+
+  transactions.forEach((curr) => {
+  const date = new Date(curr.iso_date);
+    const month = date.getMonth();
+    const monthName = months[month];
+
+
+     if (!monthlyExpense[monthName]) {
+        monthlyExpense[monthName] = 0;
+    }
+
+    
+    if (!monthlyIncome[monthName]) {
+        monthlyIncome[monthName] = 0;
+    }
+    if (curr.transaction_type === "income") {
+       monthlyIncome[monthName] += Number(curr.amount);
+    } else if (curr.transaction_type === "expense") {
+       monthlyExpense[monthName] += Number(curr.amount);
+    }
+});
+
+
+
+
+const ScatterChartData= months.map((m)=>{
+  return {
+    month:m,
+    income:monthlyIncome[m] || 0 ,
+    expense:monthlyExpense[m]  || 0 ,
+
+    // if no income/expense then instead of undefined give 0 
+  };
+});
+
+
   return (
     <div className="w-full h-full">
         <ResponsiveContainer width="100%" height="100%">
-  <ScatterChart data={data}>
+  <ScatterChart data={ScatterChartData}>
 
     <CartesianGrid strokeDasharray="3 3" />
 
@@ -33,7 +78,6 @@ const ScatterGraph = () => {
 
     <Scatter
       name="Income vs Expense"
-      data={data}
       fill="#A855F7"
     />
 

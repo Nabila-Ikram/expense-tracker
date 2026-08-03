@@ -1,5 +1,4 @@
-import React from "react";
-
+import React, { useEffect, useState } from "react";
 import RadarGraph from "./RadarGraph";
 import PieChartGraph from "./PieChartGraph";
 import AreaGraph from "./AreaGraph";
@@ -7,6 +6,40 @@ import ScatterGraph from "./ScatterGraph";
 import ComposedGraph from "./ComposedGraph";
 
 const Analytics = () => {
+
+const [transactions, setTransactions] = useState([])
+      const loggedInUser=JSON.parse(localStorage.getItem('loggedInUser'))
+      const email=loggedInUser.email
+      
+     useEffect(() => {
+      async function fetchTransactions() {
+          const response = await fetch(
+              `http://127.0.0.1:5000/transactions/${email}`
+          );
+  
+          const data = await response.json();
+  
+          setTransactions(data);
+       
+          
+      }``
+     
+      fetchTransactions();
+  }, [email]);
+
+ const [Budgets, setBudgets] = useState([])
+    useEffect(()=>{
+        async function fetchbudgets() {
+
+            const response=await fetch(`http://127.0.0.1:5000/budget/${email}`)
+            const data= await response.json()
+             setBudgets(data)
+        }
+        fetchbudgets()
+       
+
+    },[email])
+
   return (
     <div className="background h-screen p-2">
 
@@ -30,7 +63,7 @@ const Analytics = () => {
           </p>
 
           <div className="h-[80%]">
-            <RadarGraph />
+            <RadarGraph   Budgets={Budgets}/>
           </div>
 
         </div>
@@ -50,7 +83,7 @@ const Analytics = () => {
           </p>
 
           <div className="h-[78%]">
-            <PieChartGraph />
+            <PieChartGraph  Budgets={Budgets}/>
           </div>
 
         </div>
@@ -70,7 +103,7 @@ const Analytics = () => {
           </p>
 
           <div className="h-[78%]">
-            <AreaGraph />
+            <AreaGraph  transactions={transactions}/>
           </div>
 
         </div>
@@ -96,7 +129,7 @@ const Analytics = () => {
           </p>
 
           <div className="h-[82%]">
-            <ComposedGraph />
+            <ComposedGraph transactions={transactions}/>
           </div>
 
         </div>
@@ -122,7 +155,7 @@ const Analytics = () => {
           </p>
 
           <div className="h-[70%]">
-            <ScatterGraph />
+            <ScatterGraph transactions={transactions} />
           </div>
 
         </div>
