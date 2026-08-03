@@ -36,6 +36,44 @@ class Transaction:
          "transaction_type":self.transaction_type,
          "description":self.description,
        }
+class Goal: 
+  def __init__(self,title,target,saved,date=None):
+     if not title:
+               raise ValueError("Title required")
+     
+     if target <= 0:
+               raise ValueError("Goal target must be positive")
+     if saved< 0:
+      raise ValueError("Goal saved must be positive")
+     self.title=title
+     self.target=target
+     self.saved=saved
+     if( date is None): 
+            self.date = dt.datetime.now()
+     else:
+         self.date=date 
+        
+  def to_dict(self):
+        return {
+            "title": self.title,
+            "target": self.target,
+            "saved": self.saved,
+            "date" :self.date.strftime("%d/%m/%y %I:%M %p"),
+            "iso_date": self.date.strftime("%Y-%m-%d"),
+
+        }  
+
+  
+
+
+
+
+
+
+
+
+
+
 
 class Budget:
    def __init__(self,category,limit,month):
@@ -65,6 +103,7 @@ class Account:
       self.owner_name = owner_name
       self.transactions=[]
       self.budgets=[]
+      self.goals=[]
       self.balance=0
       self.email=email
       self.password=password
@@ -85,6 +124,8 @@ class Account:
       return sorted(self.transactions,key= lambda t:t.date)
    def get_budgets(self):
       return self.budgets
+   def get_goals(self):
+       return self.goals
 
    
    def remove_transaction(self,id):
@@ -106,6 +147,7 @@ class Account:
           "account_id":self.account_id,
           "transactions":[s.to_dict() for s in self.get_transactions()],
          "budgets":[b.to_dict() for b in self.budgets],
+         "goals":[g.to_dict() for g in self.goals],
           "password":self.password
       }    
    def to_dict_public(self):
@@ -114,7 +156,8 @@ class Account:
              "email":self.email,
              "account_id":self.account_id,
              "transactions":[s.to_dict() for s in self.get_transactions()],
-              "budgets":[b.to_dict() for b in self.budgets]
+              "budgets":[b.to_dict() for b in self.budgets],
+              "goals":[g.to_dict() for g in self.goals]
       # not adding password for the purpose of security
       #not sending credentials(passsword) to react
          }
@@ -126,6 +169,11 @@ class Account:
           self.budgets.append(budget)
        else:
          raise TypeError("Object mismatched")
+   def add_goal(self,goal):  
+        if isinstance(goal,Goal):
+                 self.goals.append(goal)
+        else:
+                raise TypeError("Object mismatched")  
 
 
 

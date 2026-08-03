@@ -1,4 +1,4 @@
-from models import Account, Transaction,Budget
+from models import Account, Transaction,Budget,Goal
 import datetime as  dt
 import json
 def save_acc(acc,filename):
@@ -42,10 +42,16 @@ def search_acc(filename,email):
            for b in d.get("budgets",[]): 
               #get prevents key error if new key .. give empty array
               account.add_budget(Budget(b["category"],b["limit"],b["month"]))
+
+           for g in d.get("goals",[]):
+               account.add_goal(Goal(g["title"],
+               g["target"],
+               g["saved"],
+               dt.datetime.strptime(g["date"],"%d/%m/%y %I:%M %p")))
+         
            return account
         
     else:   
-     
      return None
  except FileNotFoundError :
      return None

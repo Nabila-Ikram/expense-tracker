@@ -3,7 +3,7 @@ from flask import Flask,request ,jsonify #class
 from flask_cors import CORS
 import datetime as dt
 from storage import search_acc,save_acc
-from models import Account,Transaction,Budget
+from models import Account,Transaction,Budget,Goal
 from werkzeug.security import generate_password_hash,check_password_hash
 #post req cannot open through browser gives error
 #GET → Ask for data
@@ -104,7 +104,37 @@ def add_budgets():
             return jsonify({"error":str(e)}) ,400 
 
 
-        
+@app.route('/goals',methods=['POST'])
+def add_goals():
+      data=request.get_json()
+      account=search_acc("transactions.json",data["email"])
+      if account is None:
+       return jsonify({"error":"Account not found"}) ,404
+      try:
+          target=float(data["target"])
+          saved=float(data["saved"])
+          selected_date = dt.datetime.strptime(data["date"], "%Y-%m-%d")
+          
+          goal=(Goal(data["title"],
+          target,saved,
+          selected_date))
+          account.add_goal(goal)
+          save_acc(account,"transactions.json")
+          return jsonify(goal.to_dict()),201   
+      except ValueError as e:
+                  return jsonify({"error":str(e)}) ,400     
+
+
+@app.route('/goals/<email>',methods=['GET'])
+def get_goals(email):  
+    account=search_acc("transactions.json",email)
+    if account is None:
+                 return jsonify({"error":"Account not found"}) ,404
+    
+    goals=account.get_goals()
+    return jsonify([g.to_dict() for g in goals]),200
+
+
 @app.route('/budget/<email>',methods=['GET'])
 def get_budget(email):  
     account=search_acc("transactions.json",email)
@@ -113,6 +143,9 @@ def get_budget(email):
     
     budgets=account.get_budgets()
     return jsonify([b.to_dict() for b in budgets]),200
+
+
+
       
 # POST /budget/<email>   → Add a new budget (201)
 

@@ -1,8 +1,10 @@
 import React from 'react'
-import goals from './GoalsDummy_data';
+// import goals from './GoalsDummy_data';
 import { FaEdit, FaTrash } from "react-icons/fa";
-const GoalsTable = () => {
+const GoalsTable = ({goals}) => {
+ 
   return (
+    
     <div className="p-5">
           <h1 className="text-2xl font-bold text-white mb-5">
             🎯 Financial Goals
@@ -25,23 +27,26 @@ const GoalsTable = () => {
     
               <tbody>
                 {goals.map((goal) => {
-                  const percentage = Math.round(
-                    (goal.saved / goal.target) * 100
-                  );
+                   const remaining = goal.target - goal.saved;
+                 const percentage = Math.min(
+             Math.round((goal.saved / goal.target) * 100),
+100
+);
+                  
     
                   return (
                     <tr
-                      key={goal.id}
+                      key={`${goal.title}-${goal.iso_date}`}
                       className="border-t border-white/10 hover:bg-white/5"
                     >
-                      <td className="p-4">{goal.goal}</td>
+                      <td className="p-4">{goal.title}</td>
     
                       <td className="p-4">${goal.target}</td>
     
                       <td className="p-4">${goal.saved}</td>
     
                       <td className="p-4">
-                        ${goal.target - goal.saved}
+                        ${remaining}
                       </td>
     
                       <td className="p-4">
@@ -57,7 +62,7 @@ const GoalsTable = () => {
                         </div>
                       </td>
     
-                      <td className="p-4">{goal.deadline}</td>
+                      <td className="p-4">{goal.date}</td>
     
                       <td className="p-4">
                         {percentage === 100 ? (
