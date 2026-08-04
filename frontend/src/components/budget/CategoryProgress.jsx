@@ -15,7 +15,7 @@ return acc+curr.amount
       return (
         <div
             key={budget.category}
-            className="bg-linear-to-r from-gray-900 to-purple-900 rounded-2xl border border-white/20"
+            className="bg-linear-to-r from-gray-900 to-purple-900 rounded-2xl border text-white border-white/20"
         >
             <Progress_bar
                 title={budget.category}

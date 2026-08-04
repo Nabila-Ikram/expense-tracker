@@ -41,9 +41,9 @@ const [transactions, setTransactions] = useState([])
     },[email])
 
   return (
-    <div className="background h-screen p-2">
+    <div className=" h-screen p-2">
 
-      <h1 className="text-2xl font-bold text-white mb-3 ml-7">
+      <h1 className="text-2xl font-bold t mb-3 ml-7">
         Financial Analytics
       </h1>
 

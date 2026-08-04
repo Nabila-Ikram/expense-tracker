@@ -25,11 +25,11 @@ const GoalsHandler = () => {
   return (
   
 
-    <div className="flex flex-col h-screen w-full background">
+    <div className="flex flex-col h-screen w-full ">
 
       <div className="flex-1 flex justify-center items-center flex-col ">
         <div>
-         <h1 className="p-2 text-2xl  text-white font-bold">Add Goal</h1>
+         <h1 className="p-2 text-2xl   font-bold">Add Goal</h1>
          </div>
       <div className="w-[80%]">
       <GoalsForm ongoalAdded={fetchgoals}/>

@@ -3,10 +3,18 @@ import React, { use, useState } from 'react'
 import Sidebar from '../dashboard/Sidebar'
 import NavBar from '../dashboard/NavBar'
 import BudgetHandler from '../budget/BudgetHandler'
+import { ThemeContext } from '../../context/ThemeProvider'
+import { useContext } from 'react'
 const BudgetPage = () => {
+    const {theme}=useContext(ThemeContext)
   const [menuClick, setmenuClick] = useState(false)
   return (
-    <div className="background h-screen flex flex-col">
+    <div   className={`h-screen flex flex-col ${
+      theme === "dark"
+        ? "background text-white"
+        : "whitebg text-black"
+    }`}
+  >
 
    <div className="h-[10%] w-full">
     <NavBar setmenuClick={setmenuClick} />

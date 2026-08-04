@@ -1,10 +1,17 @@
-import React from "react";
+import React, { useContext } from "react";
+import { ThemeContext } from "../../context/ThemeProvider";
 
-const Profile = () => {
+const Profile = ({profile}) => {
+  const {theme}=useContext(ThemeContext)
+
   return (
     <div
-      className="rounded-2xl border border-white backdrop-blur-md
-                 shadow-2xl p-6 text-white"
+    className={`rounded-2xl backdrop-blur-md shadow-2xl p-6
+${
+  theme === "dark"
+    ? "border border-white text-white"
+    : "border border-gray-300 bg-white/60 text-black"
+}`}
     >
       <h2 className="text-2xl font-bold mb-6">
         👤 Profile Information
@@ -17,6 +24,7 @@ const Profile = () => {
           <input
             id="name"
             type="text"
+             value={profile?.owner_name || ""}
             placeholder="Enter your full name"
             className="border border-gray-300 rounded-md p-3
                        outline-none focus:ring-2 focus:ring-purple-500"
@@ -32,6 +40,7 @@ const Profile = () => {
             placeholder="Enter your email"
             className="border border-gray-300 rounded-md p-3
                        outline-none focus:ring-2 focus:ring-purple-500"
+                       value={profile?.email || ""}
           />
         </div>
       </div>

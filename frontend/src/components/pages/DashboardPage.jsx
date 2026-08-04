@@ -5,12 +5,19 @@ import SummaryCard from '../dashboard/SummaryCard'
 import Transaction from '../dashboard/Transaction'
 import Transactions from '../dashboard/Transactions'
 import BarGraph from '../dashboard/BarGraph'
+import { ThemeContext } from '../../context/ThemeProvider'
+import { useContext } from 'react'
 
 
 const DashboardPage = () => {
+  const {theme}=useContext(ThemeContext)
   const [menuClick, setmenuClick] = useState(false)
   return (
-    <div className=' background w-full h-screen '>
+    <div  className={`h-screen ${
+    theme === "dark"
+      ? "background text-white"
+      : "whitebg text-black"
+  } w-full`}>
         <div className=' h-[10%] w-full'>
         <NavBar setmenuClick={setmenuClick}/>
         </div>

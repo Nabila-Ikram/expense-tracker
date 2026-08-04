@@ -3,11 +3,18 @@ import Sidebar from '../dashboard/Sidebar'
 import NavBar from '../dashboard/NavBar'
 import Analytics from '../analytics/Analytics'
 import GoalsHandler from '../goals/GoalsHandler'
+import { ThemeContext } from '../../context/ThemeProvider'
+import { useContext } from 'react'
 
 const GoalsPage = () => {
   const [menuClick, setmenuClick] = useState(false)
+  const {theme}=useContext(ThemeContext)
   return (
-    <div className=' background w-full h-screen  '>
+    <div  className={`h-screen ${
+    theme === "dark"
+      ? "background text-white"
+      : "whitebg text-black"
+  } w-full`}>
         <div className=' h-[10%] w-full'>
         <NavBar setmenuClick={setmenuClick}/>
         </div>

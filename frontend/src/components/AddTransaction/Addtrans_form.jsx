@@ -1,6 +1,8 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { GrTransaction } from "react-icons/gr";
+import { ThemeContext } from '../../context/ThemeProvider';
 const Addtrans_form = () => {
+  const {theme}=useContext(ThemeContext)
   const [Amount, setAmount] = useState('')
   const [Category, setCategory] = useState('')
   const [Date, setDate] = useState('')
@@ -44,13 +46,33 @@ const response=await fetch("http://127.0.0.1:5000/transactions",{
     alert("Something went wrong.");
   }
 }
+const inputClass = `
+flex-1 h-12 outline-none p-2 rounded-sm focus:ring-1 focus:ring-purple-400
+${theme === "dark"
+  ? "border-white/20 text-white"
+  : "border-gray-300 bg-white text-black"}
+`;
+
+
+const textareaClass = `
+    w-full h-40 outline-none p-2 rounded-sm resize-none focus:ring-1 focus:ring-purple-400
+    ${
+      theme === "dark"
+        ? "border border-white/20 text-white placeholder:text-gray-300"
+        : "border border-gray-300 bg-white text-black placeholder:text-gray-500"
+    }
+  `;
 
   return (
                 <form onSubmit={(e)=>{
                   submitHandler(e)
                 }}
-                className="w-[90%] max-w-5xl h-[80%] p-4 rounded-2xl bg-white/10 backdrop-blur-md
-                      border border-white/20 shadow-2xl flex flex-col">
+                  className={`w-[90%] max-w-5xl h-[80%] p-4 rounded-2xl backdrop-blur-md
+  shadow-2xl flex flex-col ${
+    theme === "dark"
+      ? "bg-white/10 border border-white/20 text-white"
+      : "bg-white/60 border border-gray-300 text-black"
+  }`}>
                       <div className='w-full h-[10%] justify-center items-center flex gap-2 text-3xl text-center'>
                         <h1><GrTransaction size={30} /></h1>
                 <h1> <b> Add Transaction</b></h1>
@@ -62,14 +84,14 @@ const response=await fetch("http://127.0.0.1:5000/transactions",{
                              <input onChange={(e)=>{
                                   setAmount(e.target.value)
                              }} value={Amount}
-                             type='number' placeholder='Enter amount' min={0.0} step={0.01} className='flex-1 h-12 focus:ring-1 focus:ring-purple-400 border border-white/20  outline-none p-2 rounded-sm'></input>
+                             type='number' placeholder='Enter amount' min={0.0} step={0.01} className={inputClass}></input>
                              </div>
                             <div className='flex-1 flex-col flex gap-2 w-full'>
                          <label htmlFor="category">Category</label>
                          <input onChange={(e)=>{
                                   setCategory(e.target.value)
                              }} value={Category}
-                         type='text' placeholder='Enter category'  className='flex-1 h-12 focus:ring-1 focus:ring-purple-400 border border-white/20   outline-none p-2  rounded-sm'></input>
+                         type='text' placeholder='Enter category'  className={inputClass}></input>
                         </div>
                         </div>
                     <div className='flex  w-full justify-center items-center gap-4'>
@@ -78,7 +100,7 @@ const response=await fetch("http://127.0.0.1:5000/transactions",{
                            <input onChange={(e)=>{
                                   setDate(e.target.value)
                              }} value={Date}
-                           type='date'  className='flex-1 h-12 focus:ring-1 focus:ring-purple-400 border border-white/20 outline-none p-2  rounded-sm'></input>
+                           type='date'  className={inputClass}></input>
                            </div>
                            <div className='flex-1 flex-col flex gap-2 w-full'>
                     <label>Transaction Type</label>
@@ -102,8 +124,7 @@ const response=await fetch("http://127.0.0.1:5000/transactions",{
                                   setDescription(e.target.value)
                              }} value={Description}
                placeholder="Enter Description"
-                className="w-full h-40 focus:ring-1 focus:ring-purple-400 border border-gray-300 outline-none p-2 rounded-sm resize-none"
-                             ></textarea>
+                className={textareaClass} ></textarea>
                              <div>
                              <button  type='submit'
                              className='bg-linear-to-r from-orange-500  to-pink-600 text-center flex-1 h-10 rounded-sm w-full '>Save Transaction</button>

@@ -86,6 +86,15 @@ def get_transactions(email):
     
     transactions=account.get_transactions()
     return jsonify([t.to_dict() for t in transactions]),200   
+@app.route('/profile/<email>',methods=['GET'])
+def get_profile(email):
+      account=search_acc("transactions.json",email)
+      if account is None:
+       return jsonify({"error":"Account not found"}) ,404
+      return jsonify({"owner_name": account.owner_name,
+    "email": account.email,
+    "account_id": account.account_id}),200
+     
 
 
 @app.route('/budget',methods=['POST'])

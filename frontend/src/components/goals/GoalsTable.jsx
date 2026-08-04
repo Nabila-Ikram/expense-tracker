@@ -6,12 +6,12 @@ const GoalsTable = ({goals}) => {
   return (
     
     <div className="p-5">
-          <h1 className="text-2xl font-bold text-white mb-5">
+          <h1 className="text-2xl font-bold mb-5">
             🎯 Financial Goals
           </h1>
     
           <div className="overflow-x-auto rounded-2xl border border-white/20 bg-white/10 backdrop-blur-xl shadow-2xl">
-            <table className="w-full text-white">
+            <table className="w-full ">
               <thead className="bg-white/10">
                 <tr className="text-left">
                   <th className="p-4">Goal</th>

@@ -1,10 +1,16 @@
-import React from "react";
+import React, { useContext } from "react";
+import { ThemeContext } from "../../context/ThemeProvider";
 
 const Security = () => {
+  const {theme}=useContext(ThemeContext)
   return (
     <div
-      className="rounded-2xl border border-white backdrop-blur-md
-                 shadow-2xl p-6 text-white"
+     className={`rounded-2xl backdrop-blur-md shadow-2xl p-6
+${
+  theme === "dark"
+    ? "border border-white text-white"
+    : "border border-gray-300 bg-white/60 text-black"
+}`}
     >
       <h2 className="text-2xl font-bold mb-6">
         🔒 Security

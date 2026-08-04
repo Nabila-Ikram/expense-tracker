@@ -4,16 +4,22 @@
 //          "category":self.category,
 //          "transaction_type":self.transaction_type,
 //          "description":self.description
-import React, { use, useState } from 'react'
+import React, { use, useContext, useState } from 'react'
 import Sidebar from '../dashboard/Sidebar'
 import NavBar from '../dashboard/NavBar'
 import { GrTransaction } from "react-icons/gr";
 import Addtrans_form from '../AddTransaction/Addtrans_form';
+import { ThemeContext } from '../../context/ThemeProvider';
 
 const TransactionAddPage = () => {
+  const {theme}=useContext(ThemeContext)
   const [menuClick, setmenuClick] = useState(false)
   return (
-    <div className=' background w-full h-screen '>
+    <div   className={`h-screen ${
+    theme === "dark"
+      ? "background text-white"
+      : "whitebg text-black"
+  } w-full`}>
         <div className=' h-[10%] w-full'>
         <NavBar setmenuClick={setmenuClick}/>
         </div>

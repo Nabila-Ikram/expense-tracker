@@ -1,18 +1,35 @@
 @import "tailwindcss";
 
 :root {
-  --bg-image: url('/src/assets/img/bg_img.jpg');  /* ✅ Fixed path */
+  --dark-bg: url('/src/assets/img/bg_img.jpg');
+  --light-bg: url('/src/assets/img/whitebg.jpg');
   --bg-opacity: 0.5;
 }
 
+/* Dark theme */
 .background {
-  background-image: linear-gradient(
-    rgba(0, 0, 0, var(--bg-opacity)),
-    rgba(0, 0, 0, var(--bg-opacity))
-  ), var(--bg-image);
+  background-image:
+    linear-gradient(
+      rgba(0, 0, 0, var(--bg-opacity)),
+      rgba(0, 0, 0, var(--bg-opacity))
+    ),
+    var(--dark-bg);
+
   background-size: cover;
   background-position: center;
+}
 
+/* Light theme */
+.whitebg {
+  background-image:
+    linear-gradient(
+      rgba(255, 255, 255, 0.2),
+      rgba(255, 255, 255, 0.2)
+    ),
+    var(--light-bg);
+
+  background-size: cover;
+  background-position: center;
 }
 *::-webkit-scrollbar {
   display: none;

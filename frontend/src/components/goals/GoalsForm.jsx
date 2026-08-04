@@ -56,7 +56,7 @@ if (response.ok) {
     }}
     
     className='flex flex-col gap-3 w-full shadow-2xl  rounded-2xl backdrop-blur-md flex-1
-    border border-white text-white p-3 bg-white/20' >
+    border border-white  p-3 bg-white/20' >
 
 
         <div className=' flex  gap-4 p-5'>

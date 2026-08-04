@@ -1,13 +1,18 @@
-import React, { use, useState } from 'react'
+import React, { use, useContext, useState } from 'react'
 import Sidebar from '../dashboard/Sidebar'
 import NavBar from '../dashboard/NavBar'
 import SettingHandler from '../setting/SettingHandler'
-
+import { ThemeContext } from '../../context/ThemeProvider'
 
 const SettingPage = () => {
   const [menuClick, setmenuClick] = useState(false)
+  const {theme}=useContext(ThemeContext)
   return (
-    <div className=' background w-full h-screen '>
+    <div     className={`h-screen ${
+    theme === "dark"
+      ? "background text-white"
+      : "whitebg text-black"
+  } w-full`}>
         <div className=' h-[10%] w-full'>
         <NavBar setmenuClick={setmenuClick}/>
         </div>
