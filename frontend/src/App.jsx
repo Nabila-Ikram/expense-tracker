@@ -12,6 +12,7 @@ import SettingPage from './components/pages/SettingPage'
 import TransactionHistory from './components/pages/TransactionHistory'
 import BudgetForm from './components/budget/BudgetForm'
 
+
 const App = () => {
   return (
 // BrowserRouter → Enables routing.
@@ -85,6 +86,9 @@ const App = () => {
       </ProtectedRoute>
       }
       />
+
+    
+      
   </Routes>
 
 

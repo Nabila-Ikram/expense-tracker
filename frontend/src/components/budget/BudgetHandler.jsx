@@ -11,7 +11,7 @@ const BudgetHandler = () => {
     useEffect(()=>{
         async function fetchbudgets() {
 
-            const response=await fetch(`http://127.0.0.1:5000/budget/${email}`)
+            const response= await fetch(`http://127.0.0.1:5000/budget/${email}`)
             const data= await response.json()
              setBudgets(data)
         }
@@ -19,6 +19,7 @@ const BudgetHandler = () => {
        
 
     },[email])
+   
     
 
 const [transactions, setTransactions] = useState([])
@@ -36,7 +37,13 @@ const [transactions, setTransactions] = useState([])
       fetchTransactions();
   }, [email]);
 
-
+function deleteBudget(id){
+          setBudgets((prev)=>{
+               return prev.filter( b=>b.budget_id!==id)
+  
+          })
+          
+      }
   const monthlyBudget=Budgets.reduce((acc,curr)=>{
        return curr.limit+acc
 
@@ -59,17 +66,23 @@ Math.round((totalSpent/monthlyBudget)*100)
     <div className='flex flex-col w-full p-8'>
         <Budget_divs monthlyBudget={monthlyBudget} totalSpent={totalSpent} remaining={remaining} budgetUsed={budgetUsed}/>
         {/* passing data to child */}
-       <Progress_bar
+       
+        <Progress_bar
     title="Monthly Budget Progress"
     spent={totalSpent}
     budget={monthlyBudget}
     percentage={budgetUsed}
+    showDelete={false}
+
+   
+       
 />
+
 <div className="p-5">
     <h1 className="text-2xl font-bold  mb-4">
         Category Budgets
     </h1>
-    <CategoryProgress   budgets={Budgets} transactions={transactions}/>
+    <CategoryProgress   budgets={Budgets} transactions={transactions} onDelete={deleteBudget}/>
     <button  onClick={()=>{
         nav("/budget/add")
 

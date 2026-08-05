@@ -1,6 +1,27 @@
 import React from "react";
 
 const Transaction = (props) => {
+async function delete_req(){
+  const loggedInUser=JSON.parse(localStorage.getItem('loggedInUser'))
+ const email=loggedInUser.email
+ try{
+ const response = await fetch(
+              `http://127.0.0.1:5000/accounts/${email}/transactions/${props.id}`,
+              {
+              method:'DELETE'
+              }
+          );
+          const data=await response.json()
+
+          if (response.ok) {
+    props.onDelete(props.id);
+  } else {
+    alert(data.error);
+  }
+}catch(error){
+   alert(error.message);
+}
+}
   return (
     <div
       className="w-full rounded-xl border border-white/20
@@ -38,7 +59,19 @@ const Transaction = (props) => {
       <p className="bg-gray-500/60 rounded-md p-2 text-sm">
         {props.description}
       </p>
+
+      
+      <button onClick={delete_req}
+        className="bg-gray-500/60 rounded-md p-2 text-sm flex-1 w-full mt-2 hover:bg-red-800" >Delete</button>
+      
     </div>
+    // Click Delete.
+// Send DELETE request to Flask.
+// Flask deletes the transaction from transactions.json.
+// Flask returns success (200 OK).
+// props.onDelete(props.id) runs.
+// Parent updates its state with filter().
+// React re-renders, and the transaction disappears immediately.
   );
 };
 

@@ -37,9 +37,14 @@ class Transaction:
          "description":self.description,
        }
 class Goal: 
-  def __init__(self,title,target,saved,date=None):
+  def __init__(self,title,target,saved,date=None, goal_id=None):
      if not title:
                raise ValueError("Title required")
+     if(goal_id is None):
+          self.goal_id =str(uuid.uuid4())
+     else:
+         self.goal_id=goal_id    
+        
      
      if target <= 0:
                raise ValueError("Goal target must be positive")
@@ -55,6 +60,7 @@ class Goal:
         
   def to_dict(self):
         return {
+            "goal_id":self.goal_id,
             "title": self.title,
             "target": self.target,
             "saved": self.saved,
@@ -65,30 +71,24 @@ class Goal:
 
   
 
-
-
-
-
-
-
-
-
-
-
 class Budget:
-   def __init__(self,category,limit,month):
+   def __init__(self,category,limit,month,budget_id=None):
       if not category:
           raise ValueError("Category required")
 
       if limit <= 0:
           raise ValueError("Budget limit must be positive")
-      
+      if(budget_id is None ):
+       self.budget_id =str(uuid.uuid4())
+      else:
+          self.budget_id=budget_id 
       self.category = category
       self.limit = limit
       self.month = month
 
    def to_dict(self):
        return {
+           "budget_id":self.budget_id,
            "category": self.category,
            "limit": self.limit,
            "month": self.month
@@ -138,7 +138,26 @@ class Account:
           self.transactions.remove(t)
           break
     else:
-       raise ValueError("Id not found")
+       raise ValueError(" Transaction Id not found")
+    
+   def remove_budget(self,id):
+       for b in self.budgets:
+           if(b.budget_id==id):
+            self.budgets.remove(b)
+            break
+       else:
+           raise  ValueError(" Budget Id not found") 
+   def remove_goal(self,id):
+          for g in self.goals:
+              if(g.goal_id==id):
+               self.goals.remove(g)
+               break
+          else:
+              raise  ValueError(" Goal Id not found")     
+       
+    
+
+    
 
    def to_dict(self):
       return {

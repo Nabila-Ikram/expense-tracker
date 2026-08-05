@@ -85,7 +85,10 @@ def get_transactions(email):
         return jsonify({"error":"Account not found"}) ,404
     
     transactions=account.get_transactions()
-    return jsonify([t.to_dict() for t in transactions]),200   
+    return jsonify([t.to_dict() for t in transactions]),200  
+
+
+#getting profile route
 @app.route('/profile/<email>',methods=['GET'])
 def get_profile(email):
       account=search_acc("transactions.json",email)
@@ -96,7 +99,7 @@ def get_profile(email):
     "account_id": account.account_id}),200
      
 
-
+#buget add
 @app.route('/budget',methods=['POST'])
 def add_budgets():
      data=request.get_json()
@@ -113,6 +116,7 @@ def add_budgets():
             return jsonify({"error":str(e)}) ,400 
 
 
+#add goal
 @app.route('/goals',methods=['POST'])
 def add_goals():
       data=request.get_json()
@@ -134,6 +138,8 @@ def add_goals():
                   return jsonify({"error":str(e)}) ,400     
 
 
+
+#getting goals
 @app.route('/goals/<email>',methods=['GET'])
 def get_goals(email):  
     account=search_acc("transactions.json",email)
@@ -144,6 +150,7 @@ def get_goals(email):
     return jsonify([g.to_dict() for g in goals]),200
 
 
+#getting budgets
 @app.route('/budget/<email>',methods=['GET'])
 def get_budget(email):  
     account=search_acc("transactions.json",email)
@@ -174,7 +181,37 @@ def delete_transaction(email, trans_id):
      return jsonify(account.to_dict_public()),200
     except ValueError as e :
      return jsonify({"error": str(e)}), 404
+
     
+@app.route("/accounts/<email>/budgets/<budget_id>", methods=["DELETE"])    
+def delete_budget(email,budget_id):
+      account = search_acc("transactions.json",email)
+     
+      if account is None:
+            return jsonify({"error": "Account not found"}), 404
+      try:
+          account.remove_budget(budget_id)
+          save_acc(account, "transactions.json")
+          return jsonify(account.to_dict_public()),200
+      except ValueError as e :
+          return jsonify({"error": str(e)}), 404
+
+
+@app.route("/accounts/<email>/goals/<goal_id>", methods=["DELETE"])    
+def delete_goal(email,goal_id):
+      account = search_acc("transactions.json",email)
+     
+      if account is None:
+            return jsonify({"error": "Account not found"}), 404
+      try:
+          account.remove_goal(goal_id)
+          save_acc(account, "transactions.json")
+          return jsonify(account.to_dict_public()),200
+      except ValueError as e :
+          return jsonify({"error": str(e)}), 404
+      
+     
+     
 
 if __name__ == '__main__': # for security (not if conditions means if other file imports then server starts)
     app.run(debug=True,port=5000)    

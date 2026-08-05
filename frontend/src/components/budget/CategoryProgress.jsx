@@ -1,7 +1,9 @@
 import React from "react";
 import Progress_bar from "./Progress_bar";
 
-const CategoryProgress = ({budgets,transactions}) => {
+const CategoryProgress = ({budgets,transactions,onDelete}) => {
+ 
+
   return (
     
   <div className="grid grid-cols-2 gap-5 p-5">
@@ -14,14 +16,17 @@ return acc+curr.amount
       const percentage = budget.limit == 0 ? 0: Math.round((spent / budget.limit) * 100);
       return (
         <div
-            key={budget.category}
+            key={budget.budget_id}
             className="bg-linear-to-r from-gray-900 to-purple-900 rounded-2xl border text-white border-white/20"
         >
             <Progress_bar
+                id={budget.budget_id}
                 title={budget.category}
                 spent={spent}
                 budget={budget.limit}
                 percentage={percentage}
+                showDelete={true}
+                onDelete={onDelete}
             />
         </div>
       );

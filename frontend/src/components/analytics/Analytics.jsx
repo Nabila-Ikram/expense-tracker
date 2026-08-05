@@ -4,7 +4,6 @@ import PieChartGraph from "./PieChartGraph";
 import AreaGraph from "./AreaGraph";
 import ScatterGraph from "./ScatterGraph";
 import ComposedGraph from "./ComposedGraph";
-
 const Analytics = () => {
 
 const [transactions, setTransactions] = useState([])

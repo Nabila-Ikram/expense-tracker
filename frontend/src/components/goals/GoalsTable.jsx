@@ -1,8 +1,30 @@
 import React from 'react'
 // import goals from './GoalsDummy_data';
 import { FaEdit, FaTrash } from "react-icons/fa";
-const GoalsTable = ({goals}) => {
- 
+const GoalsTable = ({goals,onDelete}) => {
+  const loggedInUser=JSON.parse(localStorage.getItem('loggedInUser'))
+    const email=loggedInUser.email
+async function delete_rq(goal_id) {
+
+   try{
+ const response = await fetch(
+              `http://127.0.0.1:5000/accounts/${email}/goals/${goal_id}`,
+              {
+              method:'DELETE'
+              }
+          );
+          const data=await response.json()
+
+          if (response.ok) {
+    onDelete(goal_id);
+  } else {
+    alert(data.error);
+  }
+}catch(error){
+   alert(error.message);
+}
+
+}
   return (
     
     <div className="p-5">
@@ -36,7 +58,7 @@ const GoalsTable = ({goals}) => {
     
                   return (
                     <tr
-                      key={`${goal.title}-${goal.iso_date}`}
+                      key={goal.goal_id}
                       className="border-t border-white/10 hover:bg-white/5"
                     >
                       <td className="p-4">{goal.title}</td>
@@ -78,8 +100,12 @@ const GoalsTable = ({goals}) => {
     
                       <td className="p-4">
                         <div className="flex gap-4 text-lg">
-                          <FaEdit className="cursor-pointer hover:text-blue-400" />
-                          <FaTrash className="cursor-pointer hover:text-red-400" />
+                          <FaEdit 
+                          className="cursor-pointer hover:text-blue-400" />
+                          <FaTrash  onClick={()=>{
+                            delete_rq(goal.goal_id)
+                          }}
+                          className="cursor-pointer hover:text-red-400" />
                         </div>
                       </td>
                     </tr>

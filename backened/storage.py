@@ -41,13 +41,14 @@ def search_acc(filename,email):
             dt.datetime.strptime(t["date"],"%d/%m/%y %I:%M %p")))
            for b in d.get("budgets",[]): 
               #get prevents key error if new key .. give empty array
-              account.add_budget(Budget(b["category"],b["limit"],b["month"]))
+              account.add_budget(Budget(b["category"],b["limit"],b["month"],b["budget_id"]))
 
            for g in d.get("goals",[]):
-               account.add_goal(Goal(g["title"],
+               account.add_goal(Goal (g["title"],
                g["target"],
                g["saved"],
-               dt.datetime.strptime(g["date"],"%d/%m/%y %I:%M %p")))
+               dt.datetime.strptime(g["date"],"%d/%m/%y %I:%M %p"),g["goal_id"]
+               ))
          
            return account
         

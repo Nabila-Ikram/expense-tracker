@@ -64,3 +64,29 @@ Navigate     → Redirect immediately when rendered.
 map()	A new array
 filter()	A new array (matching items)
 reduce()	One value (number, string, object, etc., depending on what you compute)
+
+
+Transaction.jsx
+      │
+      ▼
+DELETE request to Flask
+      │
+      ▼
+Flask deletes from transactions.json
+      │
+      ▼
+response.ok === true
+      │
+      ▼
+props.onDelete(props.id)
+      │
+      ▼
+Transactions.jsx
+      │
+      ▼
+setTransactions(
+  prev => prev.filter(...)
+)
+      │
+      ▼
+React re-renders without that transaction

@@ -22,6 +22,13 @@ const GoalsHandler = () => {
 // Later, we call fetchGoals() directly whenever we need fresh data
 // (e.g., after adding, editing, or deleting a goal).
 
+
+ function deleteGoal(id){
+  setgoals((prev)=>{
+      return prev.filter(g=>g.goal_id!==id)
+  })
+
+ }
   return (
   
 
@@ -38,7 +45,8 @@ const GoalsHandler = () => {
       
      
     <div className="flex-1 overflow-y-auto">
-    <GoalsTable goals={goals}/>
+    <GoalsTable goals={goals} onDelete={deleteGoal}
+    />
     </div>
     
 
