@@ -4,6 +4,7 @@ import GoalsForm from "./GoalsForm";
 import GoalsTable from "./GoalsTable";
 
 const GoalsHandler = () => {
+  const [selectedGoal, setSelectedGoal] = useState(null);
   const loggedInUser=JSON.parse(localStorage.getItem('loggedInUser'))
       const email=loggedInUser.email
       const [goals, setgoals] = useState([])
@@ -39,13 +40,19 @@ const GoalsHandler = () => {
          <h1 className="p-2 text-2xl   font-bold">Add Goal</h1>
          </div>
       <div className="w-[80%]">
-      <GoalsForm ongoalAdded={fetchgoals}/>
+     <GoalsForm 
+   ongoalAdded={()=>{
+      fetchgoals();
+      setSelectedGoal(null);// returning to add goal
+   }}
+   goal={selectedGoal}
+/>
       </div>
     </div>
       
      
     <div className="flex-1 overflow-y-auto">
-    <GoalsTable goals={goals} onDelete={deleteGoal}
+    <GoalsTable goals={goals}    onEdit={setSelectedGoal} onDelete={deleteGoal}
     />
     </div>
     

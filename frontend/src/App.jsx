@@ -11,6 +11,8 @@ import GoalsPage from './components/pages/GoalsPage'
 import SettingPage from './components/pages/SettingPage'
 import TransactionHistory from './components/pages/TransactionHistory'
 import BudgetForm from './components/budget/BudgetForm'
+import TransactionEditPage from './components/pages/TransactionEditPage'
+import BudgetEditPage from './components/pages/BudgetEditPage'
 
 
 const App = () => {
@@ -86,6 +88,27 @@ const App = () => {
       </ProtectedRoute>
       }
       />
+
+<Route
+ path="/budget/edit/:budget_id"
+ element={
+  <ProtectedRoute>
+  <BudgetEditPage/>
+  </ProtectedRoute>
+ }
+/>
+
+
+
+ <Route
+    path="/transactions/edit/:trans_id"
+    element={
+      <ProtectedRoute>
+   <TransactionEditPage/>
+    </ProtectedRoute>
+    }
+/>
+
 
     
       

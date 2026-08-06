@@ -72,16 +72,22 @@ class Goal:
   
 
 class Budget:
+  
    def __init__(self,category,limit,month,budget_id=None):
+
       if not category:
           raise ValueError("Category required")
 
+      limit = float(limit)
+
       if limit <= 0:
           raise ValueError("Budget limit must be positive")
-      if(budget_id is None ):
-       self.budget_id =str(uuid.uuid4())
+
+      if budget_id is None:
+          self.budget_id = str(uuid.uuid4())
       else:
-          self.budget_id=budget_id 
+          self.budget_id = budget_id
+
       self.category = category
       self.limit = limit
       self.month = month
@@ -153,7 +159,80 @@ class Account:
                self.goals.remove(g)
                break
           else:
-              raise  ValueError(" Goal Id not found")     
+              raise  ValueError(" Goal Id not found")  
+
+
+
+   
+    # Find transaction
+    # Undo old balance effect
+    # Update transaction fields
+    # Apply new balance effect
+    # Return
+    # Raise ValueError if not found       
+   def update_transaction(self,trans_id,data):
+       for t in self.transactions:
+           if t.trans_id==trans_id:
+               if t.transaction_type=="expense":
+                   self.balance+=t.amount
+               elif t.transaction_type=="income":
+                   self.balance-=t.amount
+
+               t.date = dt.datetime.strptime(data["date"], "%Y-%m-%d")
+               t.amount=data["amount"]
+               t.category=data["category"]
+               t.transaction_type=data["transaction_type"]
+               t.description=data["description"]
+
+               if t.transaction_type.lower() == "expense":
+                  self.balance -= t.amount
+               elif t.transaction_type.lower() == "income":
+                self.balance += t.amount
+               return      
+       else:
+           raise ValueError("Transaction Id not found") 
+   def update_goal(self,goal_id,data):
+       for g in self.goals:
+           if g.goal_id==goal_id:
+               g.title=data["title"]
+               g.target=data["target"]
+               g.saved=data["saved"]
+               g.date= dt.datetime.strptime(data["date"], "%Y-%m-%d")
+               break
+       else:
+           raise ValueError("Goal id not found")
+
+
+   def update_budget(self,budget_id,data):
+       for b in self.budgets:
+           if b.budget_id==budget_id:
+               b.category=data["category"]
+               b.limit=data["limit"]
+               b.month=data["month"]
+               break
+               
+       else:
+           raise ValueError("Budget id not found")
+          
+
+
+       
+                  
+               
+           
+
+                             
+
+                   
+
+
+           
+               
+       
+               
+               
+             
+                 
        
     
 

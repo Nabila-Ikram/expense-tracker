@@ -28,6 +28,8 @@ const DeleteTransaction=(id)=>{
     return prev.filter((transaction)=>transaction.trans_id!==id)
     })
 }
+
+
 // React state should never be modified directly.
 // Instead, create a new array and update the state with it.
 // React detects state changes by comparing references (old array vs new array).
@@ -41,18 +43,12 @@ const DeleteTransaction=(id)=>{
     
     <div className="grid grid-cols-3 gap-4  p-5 overflow-y-auto w-full">
      {transactions.map((t) => (
-         <Transaction
-             key={t.trans_id}
-        id={t.trans_id}
-        amount={t.amount}
-        id={t.trans_id}
-        date={t.date}
-        category={t.category}
-        transaction_type={t.transaction_type}
-        description={t.description}
-        onDelete={DeleteTransaction}
-
-        />
+        <Transaction
+    key={t.trans_id}
+    transaction={t}
+    onDelete={DeleteTransaction}
+   
+/>
     ))}
     </div>
   )

@@ -1,53 +1,101 @@
-import React, { useState } from 'react'
+import React, { useState,useEffect } from 'react'
 import { use } from 'react'
 
-const GoalsForm = ({ongoalAdded}) => {
+const GoalsForm = ({ongoalAdded,goal}) => {
  const [Title, setTitle] = useState('')
  const [Target, setTarget] = useState('')
  const [Saved, setSaved] = useState('')
  const [Date, setDate] = useState('')
 
+ useEffect(() => {
+    if(goal){
+        setTitle(goal.title);
+        setTarget(goal.target);
+        setSaved(goal.saved);
+        setDate(goal.iso_date);
+    }
+},[goal]);
+
    async function submitHandler(e){
-    e.preventDefault()
-    try {
-    const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
-    const goal={
+ e.preventDefault()
+
+ try {
+
+ const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
+
+ const goalData={
       email:loggedInUser.email,
       title:Title,
-      target:Target,
-      saved:Saved,
+      target:Number(Target),
+      saved:Number(Saved),
       date:Date
-    }
-    const response=await fetch("http://127.0.0.1:5000/goals",{
-        method:'POST',
-        headers:{
-        "Content-Type": "application/json",
+ }
+
+
+ let response;
+
+
+ if(goal){
+
+    response = await fetch(
+    `http://127.0.0.1:5000/accounts/${loggedInUser.email}/goals/${goal.goal_id}`,
+    {
+      method:"PUT",
+      headers:{
+        "Content-Type":"application/json"
       },
-    body :JSON.stringify(goal),
-    })
-     const data = await response.json();
-
-if (response.ok) {
-     alert("Goal Added Successfully!");
-
-    setTitle('')
-    setTarget('')
-    setSaved('')
-    setDate('')
-    ongoalAdded()
-    
-  }
-  else {
-      alert(data.error);
+      body:JSON.stringify(goalData)
     }
-  }
-    catch (error) {
-    console.log(error);
-    alert("Something went wrong.");
-  }
+    )
+
+ }
+ else{
+
+    response = await fetch(
+    "http://127.0.0.1:5000/goals",
+    {
+      method:"POST",
+      headers:{
+        "Content-Type":"application/json"
+      },
+      body:JSON.stringify(goalData)
+    }
+    )
 
  }
 
+
+ const data=await response.json();
+
+
+ if(response.ok){
+
+    alert(
+      goal 
+      ? "Goal Updated Successfully!"
+      : "Goal Added Successfully!"
+    );
+
+    setTitle("")
+    setTarget("")
+    setSaved("")
+    setDate("")
+
+    ongoalAdded()
+
+ }
+
+ else{
+    alert(data.error)
+ }
+
+
+ }catch(error){
+    console.log(error)
+    alert("Something went wrong")
+ }
+
+}
 
   return (
     <form  onSubmit={(e)=>{
@@ -109,7 +157,7 @@ if (response.ok) {
     type="submit"
     className="w-60 h-10 rounded-md bg-linear-to-r from-orange-500 to-pink-600 hover:opacity-90 transition"
   >
-    Save Goal
+    { goal? "Update Goal":"Save Goal"}
   </button>
 </div>
 

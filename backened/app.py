@@ -182,7 +182,9 @@ def delete_transaction(email, trans_id):
     except ValueError as e :
      return jsonify({"error": str(e)}), 404
 
-    
+
+
+#deleting budget    
 @app.route("/accounts/<email>/budgets/<budget_id>", methods=["DELETE"])    
 def delete_budget(email,budget_id):
       account = search_acc("transactions.json",email)
@@ -197,6 +199,8 @@ def delete_budget(email,budget_id):
           return jsonify({"error": str(e)}), 404
 
 
+
+#deleting goal
 @app.route("/accounts/<email>/goals/<goal_id>", methods=["DELETE"])    
 def delete_goal(email,goal_id):
       account = search_acc("transactions.json",email)
@@ -211,6 +215,112 @@ def delete_goal(email,goal_id):
           return jsonify({"error": str(e)}), 404
       
      
+
+
+#updating transaction 
+@app.route("/accounts/<email>/transactions/<trans_id>", methods=["PUT"])
+def update_transaction(email,trans_id):
+     account = search_acc("transactions.json",email)
+
+     if account is None:
+                 return jsonify({"error": "Account not found"}), 404
+     try:
+            data=request.get_json()
+            if not data:
+               return jsonify({"error": "No data provided"}), 400
+            account.update_transaction(trans_id,data)
+            save_acc(account, "transactions.json")
+            return jsonify(account.to_dict_public()),200
+     except ValueError as e:
+        return jsonify({"error": str(e)}), 404
+
+#finding transaction by id
+@app.route("/accounts/<email>/transactions/<trans_id>", methods=["GET"])
+def get_transaction(email, trans_id):
+     account = search_acc("transactions.json",email)
+     
+     if account is None:
+        return jsonify({"error": "Account not found"}), 404
+     for t in account.transactions:
+       if t.trans_id == trans_id:
+        return jsonify(t.to_dict()), 200
+     return jsonify({"error": "Transaction not found"}), 404  
+
+
+
+
+
+
+
+#updating budget
+@app.route("/accounts/<email>/budget/<budget_id>", methods=["PUT"])
+def update_budget(email,budget_id):
+     account = search_acc("transactions.json",email)
+
+     if account is None:
+                 return jsonify({"error": "Account not found"}), 404
+     try:
+            data=request.get_json()
+            if not data:
+              return jsonify({"error": "No data provided"}), 400
+            account.update_budget(budget_id,data)
+            save_acc(account, "transactions.json")
+            return jsonify(account.to_dict_public()),200
+     except ValueError as e:
+        return jsonify({"error": str(e)}), 404
+
+
+
+#finding budget by id
+@app.route("/accounts/<email>/budget/<budget_id>", methods=["GET"])
+def get_budget_by_ID(email, budget_id):
+     account = search_acc("transactions.json",email)
+     
+     if account is None:
+        return jsonify({"error": "Account not found"}), 404
+     for b in account.budgets:
+       if b.budget_id == budget_id:
+        return jsonify(b.to_dict()), 200
+     return jsonify({"error": "Budget not found"}), 404  
+
+
+
+
+#update goals
+@app.route("/accounts/<email>/goals/<goal_id>", methods=["PUT"])
+def update_goal(email,goal_id):
+     account = search_acc("transactions.json",email)
+
+     if account is None:
+                 return jsonify({"error": "Account not found"}), 404
+     try:
+            data=request.get_json()
+            if not data:
+             return jsonify({"error": "No data provided"}), 400
+            account.update_goal(goal_id,data)
+            save_acc(account, "transactions.json")
+            return jsonify(account.to_dict_public()),200
+     except ValueError as e:
+        return jsonify({"error": str(e)}), 404     
+
+#finding goal by id
+@app.route("/accounts/<email>/goals/<goal_id>", methods=["GET"])
+def get_goal(email, goal_id):
+     account = search_acc("transactions.json",email)
+     
+     if account is None:
+        return jsonify({"error": "Account not found"}), 404
+     for g in account.goals:
+       if g.goal_id == goal_id:
+        return jsonify(g.to_dict()), 200
+     return jsonify({"error": "Goal  not found"}), 404       
+     
+
+
+
+
+     
+
      
 
 if __name__ == '__main__': # for security (not if conditions means if other file imports then server starts)

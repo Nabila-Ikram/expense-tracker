@@ -90,3 +90,77 @@ setTransactions(
       │
       ▼
 React re-renders without that transaction
+
+
+
+
+
+
+
+
+Edit button clicked
+        ↓
+onEdit(goal)
+        ↓
+setSelectedGoal(goal)
+        ↓
+GoalsHandler re-renders
+        ↓
+<GoalsForm goal={selectedGoal} />
+        ↓
+GoalsForm receives the goal
+        ↓
+useEffect fills all input fields
+
+
+
+
+
+
+
+
+BudgetPage
+   |
+   BudgetHandler
+        |
+        CategoryProgress
+             |
+             Edit button
+                  |
+                  navigate("/budget/edit/id")
+
+
+BudgetEditPage
+        |
+        BudgetForm
+        |
+        PUT API
+
+
+
+
+
+
+CategoryProgress
+       |
+       | sends budget_id
+       ↓
+Progress_bar
+       |
+       | click Edit icon
+       ↓
+navigate("/budget/edit/123")
+       |
+       ↓
+BudgetEditPage
+       |
+       ↓
+GET budget
+       |
+       ↓
+BudgetForm
+       |
+       ↓
+PUT update
+
+

@@ -1,13 +1,28 @@
 import React, { useContext, useState } from 'react'
 import { GrTransaction } from "react-icons/gr";
 import { ThemeContext } from '../../context/ThemeProvider';
-const Addtrans_form = () => {
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+const Addtrans_form = ({transaction}) => {
+  const nav=useNavigate()
   const {theme}=useContext(ThemeContext)
   const [Amount, setAmount] = useState('')
   const [Category, setCategory] = useState('')
   const [Date, setDate] = useState('')
   const [Transaction_Type, setTransaction_Type] = useState('')
   const [Description, setDescription] = useState('')
+
+  useEffect(() => {
+    if (transaction) {
+        setAmount(transaction.amount);
+        setCategory(transaction.category);
+        setDate(transaction.iso_date);
+        setTransaction_Type(transaction.transaction_type);
+        setDescription(transaction.description);
+    }
+}, [transaction]);
+// using useeffect bcz the transaction was first nulla nd then filled so state changes 
+
   async function submitHandler(e){
     e.preventDefault()
  try {
@@ -20,6 +35,29 @@ const addTransaction={
       description :Description,
       date:Date,
 };
+if(transaction){
+  const response = await fetch(
+  `http://127.0.0.1:5000/accounts/${loggedInUser.email}/transactions/${transaction.trans_id}`,
+  {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(addTransaction),
+  }
+);
+
+const data = await response.json();
+
+if (response.ok) {
+  alert("Transaction Updated Successfully!");
+  nav('/transactionHistory')
+  
+} else {
+  alert(data.error);
+}
+}
+else{
 const response=await fetch("http://127.0.0.1:5000/transactions",{
       method:'POST',
       headers:{
@@ -40,12 +78,16 @@ const response=await fetch("http://127.0.0.1:5000/transactions",{
     } else {
       alert(data.error);
     }
+  }
 
   } catch (error) {
     console.log(error);
     alert("Something went wrong.");
   }
+
 }
+
+  
 const inputClass = `
 flex-1 h-12 outline-none p-2 rounded-sm focus:ring-1 focus:ring-purple-400
 ${theme === "dark"
@@ -67,7 +109,7 @@ const textareaClass = `
                 <form onSubmit={(e)=>{
                   submitHandler(e)
                 }}
-                  className={`w-[90%] max-w-5xl h-[80%] p-4 rounded-2xl backdrop-blur-md
+                  className={`w-[90%] max-w-5xl p-4 rounded-2xl backdrop-blur-md
   shadow-2xl flex flex-col ${
     theme === "dark"
       ? "bg-white/10 border border-white/20 text-white"
@@ -75,7 +117,9 @@ const textareaClass = `
   }`}>
                       <div className='w-full h-[10%] justify-center items-center flex gap-2 text-3xl text-center'>
                         <h1><GrTransaction size={30} /></h1>
-                <h1> <b> Add Transaction</b></h1>
+                <h1>
+    <b>{transaction ? "Edit Transaction" : "Add Transaction"}</b>
+</h1>
                 </div>
                 <div className='flex justify-center items-center  flex-1  flex-col gap-2'>
                     <div className='flex w-full justify-center items-center gap-4'>
@@ -127,7 +171,7 @@ const textareaClass = `
                 className={textareaClass} ></textarea>
                              <div>
                              <button  type='submit'
-                             className='bg-linear-to-r from-orange-500  to-pink-600 text-center flex-1 h-10 rounded-sm w-full '>Save Transaction</button>
+                             className='bg-linear-to-r from-orange-500  to-pink-600 text-center flex-1 h-10 rounded-sm w-full '>{transaction ? "Update Transaction" : "Save Transaction"}</button>
                              </div>
 </div>
                     </div>

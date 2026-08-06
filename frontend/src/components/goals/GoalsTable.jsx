@@ -1,7 +1,7 @@
 import React from 'react'
 // import goals from './GoalsDummy_data';
 import { FaEdit, FaTrash } from "react-icons/fa";
-const GoalsTable = ({goals,onDelete}) => {
+const GoalsTable = ({goals,onDelete,onEdit}) => {
   const loggedInUser=JSON.parse(localStorage.getItem('loggedInUser'))
     const email=loggedInUser.email
 async function delete_rq(goal_id) {
@@ -100,7 +100,9 @@ async function delete_rq(goal_id) {
     
                       <td className="p-4">
                         <div className="flex gap-4 text-lg">
-                          <FaEdit 
+                          <FaEdit onClick={()=>{
+                            onEdit(goal)
+                          }}
                           className="cursor-pointer hover:text-blue-400" />
                           <FaTrash  onClick={()=>{
                             delete_rq(goal.goal_id)
