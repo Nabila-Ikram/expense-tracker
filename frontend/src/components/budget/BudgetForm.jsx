@@ -1,13 +1,21 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { use } from 'react';
 import { MdAttachMoney } from "react-icons/md";
 import { useNavigate } from 'react-router-dom';
 
-const BudgetForm = () => {
+const BudgetForm = ({budget}) => {
     const [Category, setCategory] = useState('')
     const [Limit, setLimit] = useState('')
     const [Month, setMonth] = useState('')
     const nav=useNavigate()
+
+    useEffect(()=>{
+    if(budget){
+      setCategory(budget.category)
+      setLimit(budget.limit)
+      setMonth(budget.month)
+    }
+    },[budget])
     async function submitHandler(e){
 
         e.preventDefault()
@@ -16,9 +24,32 @@ const BudgetForm = () => {
         const addBudget={
             email:loggedInUser.email,
             category:Category,
-            limit:Limit,
+            limit:Number(Limit),
             month:Month
         };
+
+        if(budget){
+        const response = await fetch(
+  `http://127.0.0.1:5000/accounts/${loggedInUser.email}/budget/${budget.budget_id}`,
+  {
+        method:'PUT',
+        headers:{
+        "Content-Type": "application/json",
+      },
+    body :JSON.stringify(addBudget),
+    })
+    const data = await response.json();
+    if (response.ok) {
+     alert("Budget Update Successfully!");
+
+        nav('/budget')
+ }
+    else {
+      alert(data.error);
+    }
+}
+  
+    else{
         const response=await fetch("http://127.0.0.1:5000/budget",{
         method:'POST',
         headers:{
@@ -39,14 +70,14 @@ const BudgetForm = () => {
       alert(data.error);
     }
 }
+}
     catch (error) {
     console.log(error);
     alert("Something went wrong.");
   }
-        }
-
+ }
   return (
-    <div className='background text-white h-screen w-full flex justify-center items-center'>
+    <div className=' h-screen w-full flex justify-center items-center'>
    <form onSubmit={(e)=>{
                      submitHandler(e)
                    }}
@@ -54,7 +85,7 @@ const BudgetForm = () => {
                          border border-white/20 shadow-2xl flex flex-col">
                          <div className='w-full h-[10%] justify-center items-center flex gap-2 text-3xl text-center'>
                            <h1> <MdAttachMoney size={25} /></h1>
-                   <h1> <b> Add Budget</b></h1>
+                   <h1> <b>{budget? "Update Budget":"Add Budget"}</b></h1>
                    </div>
                    <div className='flex justify-center items-center  flex-1  flex-col gap-2'>
                        <div className='flex w-full justify-center items-center gap-5'>
@@ -86,7 +117,7 @@ const BudgetForm = () => {
                                 
                                 </div>
                                 <button  type='submit'
-                                className='bg-linear-to-r from-orange-500  to-pink-600 text-center w-40 h-12 rounded-sm text-xl font-bold m-5 '>Save Budget</button>
+                                className='bg-linear-to-r from-orange-500  to-pink-600 text-center w-40 h-12 rounded-sm text-xl font-bold m-5 '>{budget? "Update Budget":"Save Budget"}</button>
    </div>
                       
                    </form>

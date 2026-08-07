@@ -1,6 +1,8 @@
 import { use } from 'react'
-
-const Progress_bar = ({id,title,spent,budget,percentage,showDelete,onDelete}) => {
+import { FaEdit, FaTrash } from "react-icons/fa";
+import { useNavigate } from 'react-router-dom';
+const Progress_bar = ({id,title,spent,budget,percentage,showDelete,onDelete,showEdit}) => {
+  const navigate=useNavigate()
     const loggedInUser=JSON.parse(localStorage.getItem('loggedInUser'))
   const email=loggedInUser.email
 async  function deleteReq(){
@@ -37,9 +39,18 @@ async  function deleteReq(){
 
     <span className="font-semibold">{percentage}%</span>
 </div>
-{showDelete &&
+{showDelete && showEdit &&
+<>
 <button onClick={deleteReq}
-className="bg-gray-500/60 rounded-md p-2 text-sm flex-1 w-full mt-2 hover:bg-red-800 " >Delete Budget</button>}
+className="bg-gray-500/60 rounded-md p-2 text-sm flex-1 w-full mt-2 hover:bg-red-800 " >Delete Budget</button>
+ <FaEdit onClick={() => {
+  ///budget/edit/:budget_id
+    navigate(`/budget/edit/${id}`);
+}}
+  className="cursor-pointer hover:text-blue-400 text-xl mt-3 " />
+
+</>
+}
 </div>
   )
 }

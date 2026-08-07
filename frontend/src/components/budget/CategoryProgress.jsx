@@ -27,6 +27,7 @@ return acc+curr.amount
                 percentage={percentage}
                 showDelete={true}
                 onDelete={onDelete}
+                showEdit={true}
             />
         </div>
       );

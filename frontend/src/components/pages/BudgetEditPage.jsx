@@ -1,17 +1,14 @@
-import React, { useContext, useEffect, useState } from "react";
-import Sidebar from "../dashboard/Sidebar";
-import NavBar from "../dashboard/NavBar";
 import BudgetForm from "../budget/BudgetForm";
-import { ThemeContext } from "../../context/ThemeProvider";
+import React, { use, useContext, useState } from 'react'
+import Sidebar from '../dashboard/Sidebar';
+import NavBar from '../dashboard/NavBar'
+import { ThemeContext } from '../../context/ThemeProvider';
 import { useParams } from "react-router-dom";
-
-
+import { useEffect } from 'react';
 const BudgetEditPage = () => {
 
   const { budget_id } = useParams();
-
   const { theme } = useContext(ThemeContext);
-
 
   const loggedInUser = JSON.parse(
     localStorage.getItem("loggedInUser")
@@ -19,10 +16,7 @@ const BudgetEditPage = () => {
 
   const email = loggedInUser.email;
 
-
   const [budget,setBudget] = useState(null);
-
-
 
   useEffect(()=>{
 
@@ -67,23 +61,20 @@ const BudgetEditPage = () => {
 
 
 
-  const [menuClick,setMenuClick] = useState(false);
+  const [menuClick,setmenuClick] = useState(false);
 
 
 
 return (
-
-<div
-className={`h-screen w-full ${
-theme==="dark"
-?"background text-white"
-:"whitebg text-black"
-}`}
->
+<div   className={`h-screen ${
+    theme === "dark"
+      ? "background text-white"
+      : "whitebg text-black"
+  } w-full`}>
 
 
-<div className="h-[10%]">
-<NavBar setmenuClick={setMenuClick}/>
+<div className="h-[10%] w-full">
+<NavBar setmenuClick={setmenuClick}/>
 </div>
 
 
@@ -100,7 +91,12 @@ menuClick &&
 
 
 
-<div className="flex-1 flex justify-center items-center">
+<div className={`flex-1 flex justify-center items-center gap-6 rounded-xl ${
+    theme === "dark"
+      ? "background text-white"
+      : "whitebg text-black"
+  }`}
+>
 
 
 {
