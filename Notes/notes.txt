@@ -164,3 +164,37 @@ BudgetForm
 PUT update
 
 
+////Responsiveness notess
+max-w-md → don't become wider than 448px
+md:
+Apply something from the medium breakpoint onward
+
+Formhandle (relative)
+│
+├── Welcome (absolute left-0)
+│
+└── Form container (absolute right-0)
+       │
+       ├── Login
+       └── Signup
+
+Mobile
+left: 0
+right: 0
+margin-left/right: auto
+
+        ↓
+
+       CENTER
+
+
+
+Desktop
+left: auto
+right: 0
+margin-left/right: 0
+
+        ↓
+
+       RIGHT
+              

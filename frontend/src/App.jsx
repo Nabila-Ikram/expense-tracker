@@ -13,6 +13,9 @@ import TransactionHistory from './components/pages/TransactionHistory'
 import BudgetForm from './components/budget/BudgetForm'
 import TransactionEditPage from './components/pages/TransactionEditPage'
 import BudgetEditPage from './components/pages/BudgetEditPage'
+import { LuOctagon } from 'react-icons/lu'
+import Login from './components/SignUp_login/Login'
+import Formhandle from './components/SignUp_login/Formhandle'
 
 
 const App = () => {
@@ -114,6 +117,9 @@ const App = () => {
       
   </Routes>
 
+  )
+     
 
-        )}
+        
+      }
 export default App

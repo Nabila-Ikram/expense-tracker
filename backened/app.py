@@ -303,6 +303,8 @@ def update_goal(email,goal_id):
      except ValueError as e:
         return jsonify({"error": str(e)}), 404     
 
+
+
 #finding goal by id
 @app.route("/accounts/<email>/goals/<goal_id>", methods=["GET"])
 def get_goal(email, goal_id):

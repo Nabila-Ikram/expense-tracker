@@ -1,4 +1,4 @@
-import React, { use, useState } from 'react'
+import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 const Login = () => {
 const [email, setemail] = useState('')
@@ -53,7 +53,7 @@ setpassword('')
 }
   return (
     <>
-     <form className=' w-full h-full text-white   bg-linear-to-r rounded-xl from-pink-300 to-purple-900 flex flex-col items-center justify-center gap-5 text-center'
+     <form className=' w-full h-full text-white   bg-linear-to-r rounded-sm md:rounded-xl from-pink-300 to-purple-900 flex flex-col items-center justify-center px-4 gap-5 text-center'
       onSubmit={(e)=>{
       submitHandler(e)
     }}>
@@ -61,15 +61,15 @@ setpassword('')
         <input  value={email} onChange={(e)=>{
           setemail(e.target.value)
         }}
-        className='focus:ring-1 focus:ring-purple-400 border border-gray-300  outline-none w-[70%] h-[12%] p-2  rounded-sm'
+        className='focus:ring-1 focus:ring-purple-400 border border-gray-300  outline-none w-full max-w-md h-12 p-2 rounded-sm md:rounded-xl'
         type='email' placeholder='Enter your email' required></input>
         <input  value={password} onChange={(e)=>{
            setpassword(e.target.value)
         }}
-        className='focus:ring-1 focus:ring-purple-400 border border-gray-300  outline-none  w-[70%] h-[12%] p-2 rounded-sm'
+        className='focus:ring-1 focus:ring-purple-400 border border-gray-300  outline-none w-full max-w-md h-12 p-2 rounded-sm md:rounded-xl'
          type='password' placeholder='Enter your password' required></input>
           <button type='submit'
-           className='bg-linear-to-r from-orange-500  to-pink-600 p-2  md:w-[70%] h-[12%] md:rounded-xl rounded-sm'>Login</button>
+           className='bg-linear-to-r from-orange-500  to-pink-600 p-2  w-full max-w-md h-12 md:rounded-xl rounded-sm'>Login</button>
            </form>
     </>
   )

@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { use } from 'react';
 import { MdAttachMoney } from "react-icons/md";
 import { useNavigate } from 'react-router-dom';
+import { ThemeContext } from '../../context/ThemeProvider';
 
 const BudgetForm = ({budget}) => {
+  const{theme}=useContext(ThemeContext)
     const [Category, setCategory] = useState('')
     const [Limit, setLimit] = useState('')
     const [Month, setMonth] = useState('')
@@ -16,6 +18,15 @@ const BudgetForm = ({budget}) => {
       setMonth(budget.month)
     }
     },[budget])
+
+
+const inputClass = `
+flex-1 h-12 outline-none p-2 rounded-sm focus:ring-1 focus:ring-purple-400
+${theme === "dark"
+  ? "border-white/20 text-white"
+  : "border-gray-300 bg-white text-black"}
+`;
+
     async function submitHandler(e){
 
         e.preventDefault()
@@ -77,11 +88,15 @@ const BudgetForm = ({budget}) => {
   }
  }
   return (
-    <div className=' h-screen w-full flex justify-center items-center'>
+    <div className={`h-screen flex flex-col justify-center items-center ${
+      theme === "dark"
+        ? "background text-white"
+        : "whitebg text-black"
+    }`} >
    <form onSubmit={(e)=>{
                      submitHandler(e)
                    }}
-                   className=" w-[90%] max-w-5xl h-[80%] p-4 rounded-2xl bg-white/10 backdrop-blur-md
+                   className="  w-[80%] h-[70%] p-4 rounded-2xl bg-white/10 backdrop-blur-md
                          border border-white/20 shadow-2xl flex flex-col">
                          <div className='w-full h-[10%] justify-center items-center flex gap-2 text-3xl text-center'>
                            <h1> <MdAttachMoney size={25} /></h1>
@@ -95,14 +110,14 @@ const BudgetForm = ({budget}) => {
                             <input onChange={(e)=>{
                                      setCategory(e.target.value)
                                 }} value={Category}
-                            type='text' placeholder='Enter category'  className='flex-1 h-12 focus:ring-1 focus:ring-purple-400 border border-white/20   outline-none p-2  rounded-sm'></input>
+                            type='text' placeholder='Enter category'  className={inputClass}></input>
                            </div>
                            <div className='flex-1 flex-col  flex gap-2 w-full'>
                                <label htmlFor="limit">Limit</label>
                                 <input onChange={(e)=>{
                                      setLimit(e.target.value)
                                 }} value={Limit}
-                                type='number' placeholder='Enter amount' min={0.0} step={0.01} className='flex-1 h-12 focus:ring-1 focus:ring-purple-400 border border-white/20  outline-none p-2 rounded-sm'></input>
+                                type='number' placeholder='Enter amount' min={0.0} step={0.01} className={inputClass}></input>
                                 </div>
                            </div>
                        <div className='flex  w-full justify-center items-center gap-4'>
@@ -111,7 +126,7 @@ const BudgetForm = ({budget}) => {
                               <input onChange={(e)=>{
                                      setMonth(e.target.value)
                                 }} value={Month}
-                              type="month"  className='flex-1 h-12 w-122 focus:ring-1 focus:ring-purple-400 border border-white/20 outline-none p-2  rounded-sm'/>
+                              type="month"  className={inputClass}/>
                               </div>
                              
                                 

@@ -79,7 +79,7 @@ Math.round((totalSpent/monthlyBudget)*100)
 />
 
 <div className="p-5">
-    <h1 className="text-2xl font-bold  mb-4">
+    <h1 className="text-2xl font-bold  mb-4 ml-4">
         Category Budgets
     </h1>
     <CategoryProgress   budgets={Budgets} transactions={transactions} onDelete={deleteBudget}/>
