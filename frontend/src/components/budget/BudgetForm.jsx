@@ -21,7 +21,7 @@ const BudgetForm = ({budget}) => {
 
 
 const inputClass = `
-flex-1 h-12 outline-none p-2 rounded-sm focus:ring-1 focus:ring-purple-400
+w-full h-12 outline-none p-2 rounded-sm focus:ring-1 focus:ring-purple-400
 ${theme === "dark"
   ? "border-white/20 text-white"
   : "border-gray-300 bg-white text-black"}
@@ -96,14 +96,14 @@ ${theme === "dark"
    <form onSubmit={(e)=>{
                      submitHandler(e)
                    }}
-                   className="  w-[80%] h-[70%] p-4 rounded-2xl bg-white/10 backdrop-blur-md
+                   className="  w-[90%] md:w-[80%]  h-auto md:h-[70%] p-2 md:p-4 rounded-sm md:rounded-2xl bg-white/10 backdrop-blur-md
                          border border-white/20 shadow-2xl flex flex-col">
-                         <div className='w-full h-[10%] justify-center items-center flex gap-2 text-3xl text-center'>
+                         <div className='w-full h-[10%] justify-center items-center flex text-sm md:text-3xl text-center'>
                            <h1> <MdAttachMoney size={25} /></h1>
-                   <h1> <b>{budget? "Update Budget":"Add Budget"}</b></h1>
+                   <h1 className='text-xl md:text-3xl'> <b>{budget? "Update Budget":"Add Budget"}</b></h1>
                    </div>
-                   <div className='flex justify-center items-center  flex-1  flex-col gap-2'>
-                       <div className='flex w-full justify-center items-center gap-5'>
+                   <div className='flex justify-center items-center  flex-1 flex-col gap-2'>
+                       <div className='flex flex-col md:flex-row w-full justify-center items-center gap-5'>
                                
                                <div className='flex-1 flex-col flex gap-2 w-full'>
                             <label htmlFor="category">Category</label>
@@ -120,8 +120,8 @@ ${theme === "dark"
                                 type='number' placeholder='Enter amount' min={0.0} step={0.01} className={inputClass}></input>
                                 </div>
                            </div>
-                       <div className='flex  w-full justify-center items-center gap-4'>
-                           <div className='flex-1  flex-col flex gap-2 '>
+                      <div className="w-full">
+                           <div className="w-full flex flex-col gap-2">
                                <label htmlFor="month">Month</label>
                               <input onChange={(e)=>{
                                      setMonth(e.target.value)
@@ -132,7 +132,7 @@ ${theme === "dark"
                                 
                                 </div>
                                 <button  type='submit'
-                                className='bg-linear-to-r from-orange-500  to-pink-600 text-center w-40 h-12 rounded-sm text-xl font-bold m-5 '>{budget? "Update Budget":"Save Budget"}</button>
+                                className='p-2 bg-linear-to-r from-orange-500  to-pink-600 text-center w-30 md:w-40 h-12 rounded-sm text-sm md:text-xl font-bold  m-2 md:m-5 '>{budget? "Update Budget":"Save Budget"}</button>
    </div>
                       
                    </form>

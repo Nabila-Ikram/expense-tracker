@@ -197,4 +197,28 @@ margin-left/right: 0
         ↓
 
        RIGHT
-              
+
+
+
+/*
+min-h-0 is important in flex layouts.
+
+By default, flex children have min-height:auto,
+which means they cannot shrink smaller than their content.
+
+Example:
+If Transactions contains many cards, its content height may become
+larger than the available screen height, causing overflow.
+
+min-h-0 allows the flex child to shrink and take only the available
+space. Then overflow-y-auto can create a scrollbar inside that area.
+
+Parent controls available height:
+h-screen -> full viewport height
+Navbar -> h-16 (64px)
+Main area -> remaining height using calc()
+
+flex-1 gives the content area the remaining space.
+min-h-0 allows it to shrink.
+overflow-y-auto handles extra content.
+*/              

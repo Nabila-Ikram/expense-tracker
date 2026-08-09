@@ -30,8 +30,8 @@ useEffect(() => {
 
 
   return (
-    <div className="w-full p-6 flex flex-col gap-8 overflow-y-auto">
-      <h1 className="text-3xl font-bold  flex-1 ">
+    <div className="w-full p-4 md:p-6 flex flex-col gap-6  md:gap-8 overflow-y-auto">
+      <h1 className="text-2xl md:text-3xl  font-bold  flex-1 ">
         ⚙ Settings
       </h1>
   
@@ -41,7 +41,7 @@ useEffect(() => {
 
       <div className="flex justify-center ">
         <button
-          className="w-60 h-12 rounded-md bg-linear-to-r
+          className="w-full max-w-xs h-12 rounded-md bg-linear-to-r
                      from-orange-500 to-pink-600"
         >
           Save Changes

@@ -41,7 +41,7 @@ const DeleteTransaction=(id)=>{
 //React follows the principle of immutability (treat state as read-only).
   return (
     
-    <div className="grid grid-cols-3 gap-4  p-5 overflow-y-auto w-full">
+<div className="h-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 items-start gap-2 md:gap-4 p-3 md:p-5 overflow-y-auto w-full">
      {transactions.map((t) => (
         <Transaction
     key={t.trans_id}

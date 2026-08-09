@@ -1,7 +1,7 @@
 import React from "react";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-const Transaction = ({transaction, onDelete, edit_transaction }) => {
+const Transaction = ({transaction, onDelete}) => {
 const navigate = useNavigate();
 async function delete_req(){
 
@@ -30,21 +30,21 @@ async function delete_req(){
       className="w-full rounded-xl border border-white/20
                  bg-linear-to-r from-[rgba(55,65,81,0.8)]
                  to-[rgba(88,28,135,0.9)]
-                 text-white p-5 shadow-lg"
+                 text-white p-3 sm:p-6  shadow-lg"
     >
       {/* Top */}
-      <div className="flex items-center justify-between gap-2 mb-3">
-        <span className="bg-linear-to-r from-orange-500 to-pink-600 px-3 py-1 rounded-lg text-sm">
+     <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-3">
+        <span className=" truncate max-w-28 bg-linear-to-r from-orange-500 to-pink-600 px-3 py-1 rounded-lg text-sm">
           {transaction.trans_id}
         </span>
 
-        <span className="bg-linear-to-r from-orange-500 to-pink-600 px-3 py-1 rounded-lg text-sm">
+        <span className=" truncate max-w-28 bg-linear-to-r from-orange-500 to-pink-600 px-3 py-1 rounded-lg text-sm">
           {transaction.date}
         </span>
       </div>
 
       {/* Middle */}
-      <div className="flex gap-2 mb-3">
+     <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 mb-3">
         <div className="flex-1 bg-gray-500/60 rounded-md py-2 text-center text-sm">
           ${transaction.amount}
         </div>
@@ -64,7 +64,7 @@ async function delete_req(){
       </p>
 
 
-      <div className="flex-1 flex  gap-4">
+      <div className=" flex flex-col sm:flex-row gap-2 md:gap-4">
       <button onClick={delete_req}
         className="bg-gray-500/60 rounded-md p-2 text-sm flex-1 mt-2 hover:bg-red-800" >Delete</button>
         
@@ -73,11 +73,11 @@ async function delete_req(){
 }}
     type="button"
 
-    className="flex-1 flex items-center justify-center gap-2 p-2 mt-2 rounded-md bg-gray-500/60"
+    className="flex-1 flex items-center justify-center gap-2 p-2  md:mt-2 rounded-md hover:bg-blue-400 bg-gray-500/60"
 >
     Edit
-    <FaEdit className="cursor-pointer hover:text-blue-400 text-xl" />
-</button>
+    <FaEdit className="cursor-pointer text-xl" />
+</button >
          
           </div>
         </div>

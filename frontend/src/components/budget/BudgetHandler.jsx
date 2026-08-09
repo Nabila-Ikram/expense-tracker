@@ -63,7 +63,7 @@ Math.round((totalSpent/monthlyBudget)*100)
 
    const nav=useNavigate()
   return (
-    <div className='flex flex-col w-full p-8'>
+    <div className='flex flex-col w-full p-3 md:p-8'>
         <Budget_divs monthlyBudget={monthlyBudget} totalSpent={totalSpent} remaining={remaining} budgetUsed={budgetUsed}/>
         {/* passing data to child */}
        
@@ -78,8 +78,8 @@ Math.round((totalSpent/monthlyBudget)*100)
        
 />
 
-<div className="p-5">
-    <h1 className="text-2xl font-bold  mb-4 ml-4">
+<div className="p-3 md:p-5">
+    <h1 className="text-xl md:text-2xl font-bold  mb-2 md:mb-4 ml-2 md:ml-4">
         Category Budgets
     </h1>
     <CategoryProgress   budgets={Budgets} transactions={transactions} onDelete={deleteBudget}/>
@@ -87,7 +87,8 @@ Math.round((totalSpent/monthlyBudget)*100)
         nav("/budget/add")
 
     }}
-    className='bg-linear-to-r from-orange-500  to-pink-600 text-center flex-1  rounded-sm w-40 h-12 m-5 font-bold text-white text-xl'>Add Budget</button>
+    className='bg-linear-to-r from-orange-500  to-pink-600 text-center flex-1  rounded-sm   w-30 md:w-40 h-12
+  m-1 md:m-5 font-bold text-white md:text-xl text-sm'>Add Budget</button>
 </div>
    </div>
   

@@ -77,6 +77,7 @@ const ScatterChartData= months.map((m)=>{
     <Legend/>
 
     <Scatter
+      data={ScatterChartData}
       name="Income vs Expense"
       fill="#A855F7"
     />

@@ -6,7 +6,7 @@ const CategoryProgress = ({budgets,transactions,onDelete}) => {
 
   return (
     
-  <div className="grid grid-cols-2 gap-5 p-5">
+  <div className="grid grid-cols-1 md:grid-cols-2  gap-2 md:gap-5 p-3 md:p-5">
     {budgets.map((budget) => {
 
       const spent=transactions.filter(t=>t.category==budget.category && t.transaction_type=="expense").reduce((acc,curr)=>{
@@ -17,7 +17,7 @@ return acc+curr.amount
       return (
         <div
             key={budget.budget_id}
-            className="bg-linear-to-r from-gray-900 to-purple-900 rounded-2xl border text-white border-white/20"
+            className="bg-linear-to-r text-white from-gray-900 to-purple-900 rounded-sm md:rounded-2xl border  min-w-0  border-white/20"
         >
             <Progress_bar
                 id={budget.budget_id}

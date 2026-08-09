@@ -1,5 +1,4 @@
-import { use } from 'react'
-import { FaEdit, FaTrash } from "react-icons/fa";
+import { FaEdit} from "react-icons/fa";
 import { useNavigate } from 'react-router-dom';
 const Progress_bar = ({id,title,spent,budget,percentage,showDelete,onDelete,showEdit}) => {
   const navigate=useNavigate()
@@ -26,30 +25,40 @@ async  function deleteReq(){
   
   
   return (
-    <div className='  flex flex-col p-5 m-5 gap-2 '>
-        <h1  className="text-2xl font-bold mt-1">{title}</h1>
+    <div className='  flex flex-col  p-3 md:p-5 m-2 md:m-5 gap-2 '>
+        <h1  className="text-xl md:text-2xl font-bold mt-1">{title}</h1>
 <h1  className="font-bold mt-1">Spent: $ {spent} &nbsp;&nbsp; Budget: ${budget}</h1>
     <div className="flex items-center gap-3">
-    <div className="w-[90%] h-3 bg-gray-700 rounded-full">
+    <div className="flex-1 h-3 bg-gray-700 rounded-full">
          <div
             className="h-full bg-purple-500 rounded-full"
-            style={{ width: `${percentage}%` }}
+            style={{ width: `${Math.min(percentage, 100)}%`  }}
+            // Also, Math.min(percentage, 100) prevents the visual bar from going beyond 100% if someone spends more than their budget.
           ></div>
     </div>
 
     <span className="font-semibold">{percentage}%</span>
 </div>
+
+
+
 {showDelete && showEdit &&
-<>
+<div className="flex flex-col sm:flex-row gap-2">
 <button onClick={deleteReq}
 className="bg-gray-500/60 rounded-md p-2 text-sm flex-1 w-full mt-2 hover:bg-red-800 " >Delete Budget</button>
- <FaEdit onClick={() => {
-  ///budget/edit/:budget_id
-    navigate(`/budget/edit/${id}`);
-}}
-  className="cursor-pointer hover:text-blue-400 text-xl mt-3 " />
+{showEdit && (
+    <button
+      onClick={() => navigate(`/budget/edit/${id}`)}
+      className="bg-gray-500/60 rounded-md p-2
+                 flex items-center justify-center
+                 hover:bg-blue-400"
+    >
+      <FaEdit className="text-xl" />
+      <span className="ml-2 sm:hidden">Edit</span>
+    </button>
+  )}
 
-</>
+</div>
 }
 </div>
   )

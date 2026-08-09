@@ -5,18 +5,18 @@ const Preferences = () => {
  
   return (
     <div
-     className={`rounded-2xl backdrop-blur-md shadow-2xl p-6
+     className={`rounded-2xl backdrop-blur-md shadow-2xl p-4 md:p-6
 ${
   theme === "dark"
     ? "border border-white text-white"
     : "border border-gray-300 bg-white/60 text-black"
 }`}
     >
-      <h2 className="text-2xl font-bold mb-6">
+      <h2 className="text-xl md:text-2xl font-bold mb-6">
         ⚙️ Preferences
       </h2>
 
-      <div className="grid grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Currency */}
         <div className="flex flex-col gap-2">
           <label htmlFor="currency">Currency</label>

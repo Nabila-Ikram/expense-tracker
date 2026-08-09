@@ -82,41 +82,30 @@ const LineChartData = Object.entries(monthlyBalance).map(([month, balance]) => {
         balance
     };
 });
-console.log(LineChartData)
-
-
-
-
-
-
-
-
-
-
 
 
   return (
-    <div className=' text-white w-[90%] bg-linear-to-r from-[rgba(205,139,186,0.8)] to-[rgba(168,113,211,0.9)] m-3 p-5 border border-fuchsia-300 rounded-sm '>
+    <div className='w-[95%] md:w-[90%] bg-linear-to-r from-[rgba(205,139,186,0.8)] to-[rgba(168,113,211,0.9)] m-3  p-3 md:p-5 border border-fuchsia-300 rounded-sm '>
         <div className='h-12 bg-linear-to-r from-gray-500 to-purple-900 flex justify-around  items-center '  >
-            <div className='flex flex-col'> Total Balance  
+            <div className='h-auto min-h-12 flex flex-col md:flex-row items-center'> Total Balance  
                 <div className='flex'><MdAttachMoney size={25}/><h1>{balance}</h1> </div>
                  </div>
-                <div className='flex flex-col'> Total Expense 
+                <div className='h-auto min-h-12 flex flex-col md:flex-row items-center'> Total Expense 
                 <div className='flex'><MdAttachMoney size={25}/><h1>{TotalExpense}</h1> </div>
                  </div>
-            <div className='flex flex-col'> Total Income
+            <div className='h-auto min-h-12 flex flex-col md:flex-row items-center'> Total Income
                 <div className='flex'><MdAttachMoney size={25}/><h1>{TotalIncome}</h1> </div>
                  </div>
             
         </div>
-        <div className=' h-12  bg-linear-to-r from-gray-700 to-purple-900 rounded-sm flex justify-around items-center'>
+        <div className=' h-auto flex flex-wrap bg-linear-to-r from-gray-700 to-purple-900 rounded-sm  justify-around items-center'>
             <h1><u>1 Year</u></h1>
             <h1><u>6 Months</u></h1>
             <h1><u>3 Months</u></h1>
             <h1><u>1 Month</u></h1>
         </div>
         
-        <div className='flex-1 w-full h-30 '>
+        <div className='flex-1 w-full h-48 md:h-64'>
             {/* ResponsiveContainer makes the chart automatically fit the parent div's width and height. */}
 <ResponsiveContainer width="100%" height="100%" >
     <LineChart data={LineChartData}>
@@ -139,8 +128,8 @@ console.log(LineChartData)
 
         <Line dataKey={"balance"}
          stroke="purple"
-    strokeWidth={4}/>
-     type="monotone"
+    strokeWidth={4}
+     type="monotone"/>
          {/* YAxis displays the vertical scale (values).
             It automatically uses the numeric values from the chart data. */}
         

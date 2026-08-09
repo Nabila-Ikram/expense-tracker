@@ -103,13 +103,13 @@ const GoalsForm = ({ongoalAdded,goal}) => {
 
     }}
     
-    className='flex flex-col gap-3 w-full shadow-2xl  rounded-2xl backdrop-blur-md flex-1
+    className='flex flex-col gap-3 w-full shadow-2xl rounded-xl md:rounded-2xl backdrop-blur-md 
     border border-white  p-3 bg-white/20' >
 
 
-        <div className=' flex  gap-4 p-5'>
+        <div className=' flex   flex-col md:flex-row   gap-2 md:gap-4  p-2 md:p-5'>
 
-            <div className='flex-1 flex flex-col h-15'>
+            <div className='flex-1 flex flex-col'>
             <label htmlFor="title">Title</label>
         <input onChange={(e)=>{
           setTitle(e.target.value)
@@ -128,9 +128,9 @@ const GoalsForm = ({ongoalAdded,goal}) => {
         </div>
 
         </div>
-        <div className=' flex gap-4 p-5'>
+        <div className=' flex flex-col md:flex-row  gap-2 md:gap-4 p-5'>
 
-            <div className='flex flex-1 flex-col h-15 '>
+            <div className='flex flex-1 flex-col  '>
             <label htmlFor="saved">Saved</label>
         <input onChange={(e)=>{
           setSaved(e.target.value)
@@ -152,10 +152,10 @@ const GoalsForm = ({ongoalAdded,goal}) => {
         </div>
 
 
-<div className="flex justify-center mt-4">
+<div className="flex justify-center mt-2 md:mt-4 ">
   <button
     type="submit"
-    className="w-60 h-10 rounded-md bg-linear-to-r from-orange-500 to-pink-600 hover:opacity-90 transition"
+    className="w-full sm:w-60 h-10 rounded-md bg-linear-to-r from-orange-500 to-pink-600 hover:opacity-90 transition"
   >
     { goal? "Update Goal":"Save Goal"}
   </button>

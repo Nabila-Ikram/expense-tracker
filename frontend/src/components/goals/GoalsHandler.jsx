@@ -37,7 +37,7 @@ const GoalsHandler = () => {
 
       <div className="flex-1 flex justify-center items-center flex-col ">
         <div>
-         <h1 className="p-2 text-2xl   font-bold">Add Goal</h1>
+         <h1 className="p-2 text-xl md:text-2xl   font-bold">Add Goal</h1>
          </div>
       <div className="w-[80%]">
      <GoalsForm 

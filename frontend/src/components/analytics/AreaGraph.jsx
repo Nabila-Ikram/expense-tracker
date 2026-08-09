@@ -9,7 +9,6 @@ import {
   Legend,
   CartesianGrid,
 } from "recharts";
-import data from './Radar_dummy_data';
 
 const AreaGraph = ({transactions}) => {
   
@@ -54,14 +53,13 @@ transactions.forEach((curr) => {
         monthlyBalance[monthName] -= curr.amount;
     }
 });
-const AreaChartData = Object.entries(monthlyBalance).map(([month, balance]) => {
-    return {
-        month,
-        balance
-    };
-});
 
-
+const AreaChartData = months
+  .filter((month) => monthlyBalance[month] !== undefined)
+  .map((month) => ({
+    month,
+    balance: monthlyBalance[month]
+  }));
 
   return (
      <div className='h-full w-full '>
@@ -79,7 +77,7 @@ const AreaChartData = Object.entries(monthlyBalance).map(([month, balance]) => {
 
     <Area
       type="monotone"
-      dataKey="income"
+      dataKey="balance"
       stroke="#9B59B6"
       fill="#9B59B6"
     />

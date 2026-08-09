@@ -97,7 +97,7 @@ ${theme === "dark"
 
 
 const textareaClass = `
-    w-full h-40 outline-none p-2 rounded-sm resize-none focus:ring-1 focus:ring-purple-400
+    w-full  h-32 md:h-40 outline-none p-2 rounded-sm resize-none focus:ring-1 focus:ring-purple-400
     ${
       theme === "dark"
         ? "border border-white/20 text-white placeholder:text-gray-300"
@@ -109,20 +109,21 @@ const textareaClass = `
                 <form onSubmit={(e)=>{
                   submitHandler(e)
                 }}
-                  className={`w-[90%] max-w-5xl p-4 rounded-2xl backdrop-blur-md
+                  className={`w-[90%] min-h-[70%] md:h-[80%] max-w-5xl p-4 rounded-xl md:rounded-2xl backdrop-blur-md
   shadow-2xl flex flex-col ${
     theme === "dark"
       ? "bg-white/10 border border-white/20 text-white"
       : "bg-white/60 border border-gray-300 text-black"
   }`}>
-                      <div className='w-full h-[10%] justify-center items-center flex gap-2 text-3xl text-center'>
+                      <div className="w-full flex justify-center items-center
+                gap-2 text-sm md:text-3xl text-center">
                         <h1><GrTransaction size={30} /></h1>
                 <h1>
     <b>{transaction ? "Edit Transaction" : "Add Transaction"}</b>
 </h1>
                 </div>
                 <div className='flex justify-center items-center  flex-1  flex-col gap-2'>
-                    <div className='flex w-full justify-center items-center gap-4'>
+                    <div className='flex flex-col md:flex-row w-full justify-center items-center gap-2 md:gap-4'>
                             <div className='flex-1 flex-col  flex gap-2 w-full'>
                             <label htmlFor="amount">Amount</label>
                              <input onChange={(e)=>{
@@ -138,7 +139,7 @@ const textareaClass = `
                          type='text' placeholder='Enter category'  className={inputClass}></input>
                         </div>
                         </div>
-                    <div className='flex  w-full justify-center items-center gap-4'>
+                    <div className='flex flex-col md:flex-row w-full justify-center items-center  gap-2 md:gap-4'>
                         <div className='flex-1  flex-col flex gap-2 w-full'>
                             <label htmlFor="date">Date</label>
                            <input onChange={(e)=>{
@@ -146,9 +147,9 @@ const textareaClass = `
                              }} value={Date}
                            type='date'  className={inputClass}></input>
                            </div>
-                           <div className='flex-1 flex-col flex gap-2 w-full'>
+                           <div className=' flex-col flex gap-2 w-full'>
                     <label>Transaction Type</label>
-                    <div className='flex gap-2'>
+                    <div className=' flex-1 flex flex-col md:flex-row gap-2'>
                     <button  type='button' 
                      onClick={()=>{
                       setTransaction_Type('expense')
@@ -171,7 +172,7 @@ const textareaClass = `
                 className={textareaClass} ></textarea>
                              <div>
                              <button  type='submit'
-                             className='bg-linear-to-r from-orange-500  to-pink-600 text-center flex-1 h-10 rounded-sm w-full '>{transaction ? "Update Transaction" : "Save Transaction"}</button>
+                             className='bg-linear-to-r from-orange-500  to-pink-600 text-center h-10 rounded-sm w-full '>{transaction ? "Update Transaction" : "Save Transaction"}</button>
                              </div>
 </div>
                     </div>
