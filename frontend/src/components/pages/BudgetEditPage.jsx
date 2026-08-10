@@ -5,6 +5,7 @@ import NavBar from '../dashboard/NavBar'
 import { ThemeContext } from '../../context/ThemeProvider';
 import { useParams } from "react-router-dom";
 import { useEffect } from 'react';
+import { API_URL } from "../../api";
 const BudgetEditPage = () => {
 
   const { budget_id } = useParams();
@@ -25,7 +26,10 @@ const BudgetEditPage = () => {
       try{
 
         const response = await fetch(
-          `http://127.0.0.1:5000/accounts/${email}/budget/${budget_id}`
+          `${ API_URL }/accounts/${email}/budget/${budget_id}`,{
+            headers: { "ngrok-skip-browser-warning": "true" }
+            }
+          
         );
 
 

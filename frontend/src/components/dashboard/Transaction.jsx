@@ -1,17 +1,21 @@
 import React from "react";
 import { FaEdit, FaTrash } from "react-icons/fa";
+import { API_URL } from "../../api";
 import { useNavigate } from "react-router-dom";
 const Transaction = ({transaction, onDelete}) => {
 const navigate = useNavigate();
+
 async function delete_req(){
 
   const loggedInUser=JSON.parse(localStorage.getItem('loggedInUser'))
  const email=loggedInUser.email
  try{
  const response = await fetch(
-              `http://127.0.0.1:5000/accounts/${email}/transactions/${transaction.trans_id}`,
+              `${ API_URL }/accounts/${email}/transactions/${transaction.trans_id}`,
               {
               method:'DELETE'
+              ,
+              headers: { "ngrok-skip-browser-warning": "true" }
               }
           );
           const data=await response.json()

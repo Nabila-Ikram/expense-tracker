@@ -4,6 +4,7 @@ import PieChartGraph from "./PieChartGraph";
 import AreaGraph from "./AreaGraph";
 import ScatterGraph from "./ScatterGraph";
 import ComposedGraph from "./ComposedGraph";
+import { API_URL } from "../../api";
 const Analytics = () => {
 const [transactions, setTransactions] = useState([])
       const loggedInUser=JSON.parse(localStorage.getItem('loggedInUser'))
@@ -11,7 +12,10 @@ const [transactions, setTransactions] = useState([])
      useEffect(() => {
       async function fetchTransactions() {
           const response = await fetch(
-              `http://127.0.0.1:5000/transactions/${email}`
+              `${API_URL}/transactions/${email}`,
+                {
+                    headers: { "ngrok-skip-browser-warning": "true" }
+                }
           );
   
           const data = await response.json();
@@ -27,7 +31,10 @@ const [Budgets, setBudgets] = useState([])
     useEffect(()=>{
         async function fetchbudgets() {
 
-            const response=await fetch(`http://127.0.0.1:5000/budget/${email}`)
+            const response=await fetch(`${ API_URL }/budget/${email}`,
+                {
+                    headers: { "ngrok-skip-browser-warning": "true" }
+                })
             const data= await response.json()
              setBudgets(data)
         }

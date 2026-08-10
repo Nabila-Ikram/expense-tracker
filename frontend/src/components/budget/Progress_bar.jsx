@@ -11,6 +11,10 @@ async  function deleteReq(){
     {
     method:"DELETE"
     }
+    ,{
+            
+                headers: { "ngrok-skip-browser-warning": "true" }
+            }
   )
   const data=await response.json()
     if (response.ok) {

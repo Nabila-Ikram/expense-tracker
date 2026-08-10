@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { API_URL } from "../../api";
 const Signup = () => {
   const [email, setemail] = useState('')
   const [password, setpassword] = useState('')
@@ -6,11 +7,12 @@ const Signup = () => {
 
    async function submitHandler(e){
     e.preventDefault();
-    const response=await fetch("http://127.0.0.1:5000/account",{
+    const response=await fetch(`${ API_URL }/account`,{
       method:'POST',
-      headers:{
-        "Content-Type": "application/json",
-      },
+      headers: {
+      "Content-Type": "application/json",
+      "ngrok-skip-browser-warning": "true",
+    },
       body :JSON.stringify({
         owner_name:name,
         email,

@@ -3,6 +3,7 @@ import { use } from 'react';
 import { MdAttachMoney } from "react-icons/md";
 import { useNavigate } from 'react-router-dom';
 import { ThemeContext } from '../../context/ThemeProvider';
+import { API_URL } from '../../api';
 
 const BudgetForm = ({budget}) => {
   const{theme}=useContext(ThemeContext)
@@ -41,12 +42,13 @@ ${theme === "dark"
 
         if(budget){
         const response = await fetch(
-  `http://127.0.0.1:5000/accounts/${loggedInUser.email}/budget/${budget.budget_id}`,
+  `${API_URL}/accounts/${loggedInUser.email}/budget/${budget.budget_id}`,
   {
         method:'PUT',
-        headers:{
-        "Content-Type": "application/json",
-      },
+       headers: {
+      "Content-Type": "application/json",
+      "ngrok-skip-browser-warning": "true",
+    },
     body :JSON.stringify(addBudget),
     })
     const data = await response.json();
@@ -61,11 +63,12 @@ ${theme === "dark"
 }
   
     else{
-        const response=await fetch("http://127.0.0.1:5000/budget",{
+        const response=await fetch(`${ API_URL }/budget`,{
         method:'POST',
-        headers:{
-        "Content-Type": "application/json",
-      },
+        headers: {
+      "Content-Type": "application/json",
+      "ngrok-skip-browser-warning": "true",
+    },
     body :JSON.stringify(addBudget),
     })
     const data = await response.json();

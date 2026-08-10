@@ -1,6 +1,6 @@
 import React, { useState,useEffect } from 'react'
 import { use } from 'react'
-
+import { API_URL } from "../../api";
 const GoalsForm = ({ongoalAdded,goal}) => {
  const [Title, setTitle] = useState('')
  const [Target, setTarget] = useState('')
@@ -38,11 +38,12 @@ const GoalsForm = ({ongoalAdded,goal}) => {
  if(goal){
 
     response = await fetch(
-    `http://127.0.0.1:5000/accounts/${loggedInUser.email}/goals/${goal.goal_id}`,
+    
     {
       method:"PUT",
       headers:{
-        "Content-Type":"application/json"
+        "Content-Type":"application/json",
+        "ngrok-skip-browser-warning": "true"
       },
       body:JSON.stringify(goalData)
     }
@@ -52,11 +53,12 @@ const GoalsForm = ({ongoalAdded,goal}) => {
  else{
 
     response = await fetch(
-    "http://127.0.0.1:5000/goals",
+    `${ API_URL }/goals`,
     {
       method:"POST",
       headers:{
-        "Content-Type":"application/json"
+        "Content-Type":"application/json",
+        "ngrok-skip-browser-warning": "true"
       },
       body:JSON.stringify(goalData)
     }

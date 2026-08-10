@@ -9,7 +9,9 @@ from werkzeug.security import generate_password_hash,check_password_hash
 #GET → Ask for data
  #POST → Send data to the server
 app= Flask(__name__) #obj
-CORS(app)
+
+
+CORS(app, origins='*')
    
 @app.route('/')
 def home():
@@ -326,4 +328,4 @@ def get_goal(email, goal_id):
      
 
 if __name__ == '__main__': # for security (not if conditions means if other file imports then server starts)
-    app.run(debug=True,port=5000)    
+   app.run(host="0.0.0.0", port=5000, debug=True)

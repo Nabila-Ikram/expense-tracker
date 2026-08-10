@@ -2,7 +2,7 @@ import Profile from "./Profile";
 import Security from "./Security";
 import Preferences from "./Preferences";
 import { useEffect, useState } from "react";
-
+import { API_URL } from "../../api";
 const SettingsHandler = () => {
  const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
 const email = loggedInUser.email;
@@ -11,7 +11,7 @@ const [profile, setProfile] = useState(null);
 
 async function fetchProfile() {
   try {
-    const response = await fetch(`http://127.0.0.1:5000/profile/${email}`);
+    const response = await fetch(`${ API_URL }/profile/${email}`);
     const data = await response.json();
 
     if (response.ok) {

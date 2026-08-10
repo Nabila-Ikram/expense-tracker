@@ -2,18 +2,60 @@ import React, { useState ,useEffect} from "react";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import GoalsForm from "./GoalsForm";
 import GoalsTable from "./GoalsTable";
+import { API_URL } from "../../api";
 
 const GoalsHandler = () => {
   const [selectedGoal, setSelectedGoal] = useState(null);
   const loggedInUser=JSON.parse(localStorage.getItem('loggedInUser'))
       const email=loggedInUser.email
       const [goals, setgoals] = useState([])
+
+
+
+//       const fetchgoals = async () => {
+//   console.log('🔍 fetchgoals called!');
+//   console.log('📧 Email:', email);
+  
+//   if (!email) {
+//     console.log('❌ No email, returning');
+//     return;
+//   }
+  
+//   try {
+//     const url = `${API_URL}/goals/${email}`
+//     ;
+//     console.log('🔗 Fetching URL:', url);
+    
+//     const response = await fetch(url);
+//     console.log('📡 Response status:', response.status);
+    
+//     const data = await response.json();
+//     console.log('📦 Data received:', data);
+    
+//     if (Array.isArray(data)) {
+//       console.log('✅ Setting goals:', data.length);
+//       setgoals(data);
+//     }
+//   } catch (error) {
+//     console.error('❌ Error:', error);
+//   }
+// };
       
           async function fetchgoals() {
   
-              const response=await fetch(`http://127.0.0.1:5000/goals/${email}`)
+               try{
+              const response=await fetch(`${API_URL}/goals/${email}`
+                ,{
+            
+                headers: { "ngrok-skip-browser-warning": "true" }
+            }
+              )
               const data= await response.json()
                setgoals(data)
+               }catch(error){
+                console.log(error)
+               alert("Something went wrong")
+               }
           }
           useEffect(()=>{
           fetchgoals()

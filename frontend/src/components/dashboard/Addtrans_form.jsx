@@ -3,6 +3,7 @@ import { GrTransaction } from "react-icons/gr";
 import { ThemeContext } from '../../context/ThemeProvider';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { API_URL } from "../../api";
 const Addtrans_form = ({transaction}) => {
   const nav=useNavigate()
   const {theme}=useContext(ThemeContext)
@@ -37,11 +38,12 @@ const addTransaction={
 };
 if(transaction){
   const response = await fetch(
-  `http://127.0.0.1:5000/accounts/${loggedInUser.email}/transactions/${transaction.trans_id}`,
+  `${API_URL}/accounts/${loggedInUser.email}/transactions/${transaction.trans_id}`,
   {
     method: "PUT",
-    headers: {
+     headers: {
       "Content-Type": "application/json",
+      "ngrok-skip-browser-warning": "true",
     },
     body: JSON.stringify(addTransaction),
   }
@@ -58,11 +60,12 @@ if (response.ok) {
 }
 }
 else{
-const response=await fetch("http://127.0.0.1:5000/transactions",{
+const response=await fetch(`${API_URL}/transactions`,{
       method:'POST',
-      headers:{
-        "Content-Type": "application/json",
-      },
+       headers: {
+      "Content-Type": "application/json",
+      "ngrok-skip-browser-warning": "true",
+    },
     body :JSON.stringify(addTransaction),
 })
   const data = await response.json();

@@ -1,24 +1,63 @@
 import React, { use, useEffect, useState } from 'react'
 
 import Transaction from './Transaction'
-
+import { API_URL } from "../../api";
 const Transactions = () => {
    const [transactions, setTransactions] = useState([])
     const loggedInUser=JSON.parse(localStorage.getItem('loggedInUser'))
     const email=loggedInUser.email
-   useEffect(() => {
+//    useEffect(() => {
+//   async function fetchTransactions() {
+//     try {
+//       const response = await fetch(
+//         `${API_URL}/transactions/${email}`
+//       );
+
+//       console.log("URL:", `${API_URL}/transactions/${email}`);
+//       console.log("Status:", response.status);
+
+//       const text = await response.text();
+
+//       console.log("Response:", text);
+
+//       const data = JSON.parse(text);
+
+//       setTransactions(data);
+
+//     } catch (error) {
+//       console.log("Fetch error:", error);
+//     }
+//   }
+
+
+
+  useEffect(() => {
     async function fetchTransactions() {
-        const response = await fetch(
-            `http://127.0.0.1:5000/transactions/${email}`
-        );
-
-        const data = await response.json();
-
-        setTransactions(data);
+        try {
+            const response = await fetch(
+                `${API_URL}/transactions/${encodeURIComponent(email)}`,{
+            
+                headers: { "ngrok-skip-browser-warning": "true" }
+            });
+            
+            if (!response.ok) {
+                throw new Error(`Request failed: ${response.status}`);
+            }
+            const data = await response.json();
+            setTransactions(data);
+        } catch (err) {
+            console.error("Failed to fetch transactions:", err);
+        }
     }
 
-    fetchTransactions();
+    if (email) fetchTransactions();
 }, [email]);
+
+
+//   fetchTransactions();
+// }, [email]);
+
+
 
 // 5 != "5"     // false (because "5" is converted to 5)
 

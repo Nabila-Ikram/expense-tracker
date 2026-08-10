@@ -6,7 +6,7 @@ import Addtrans_form from '../dashboard/Addtrans_form';
 import { ThemeContext } from '../../context/ThemeProvider';
 import { useParams } from "react-router-dom";
 import { useEffect } from 'react';
-
+import { API_URL } from "../../api";
 
 const TransactionEditPage = () => {
   const { trans_id } = useParams(); // getting trans_id from uRL
@@ -21,7 +21,10 @@ const [transaction, setTransaction] = useState(null);
 useEffect(() => {
     async function fetchTransaction() {
         const response = await fetch(
-            `http://127.0.0.1:5000/accounts/${email}/transactions/${trans_id}`
+            ` ${ API_URL }/accounts/${email}/transactions/${trans_id}`,{
+            
+                headers: { "ngrok-skip-browser-warning": "true" }
+            }
             // /transactions/edit/abc123
         );
          //React sends: GET /accounts/user@email.com/transactions/abc123
@@ -42,8 +45,7 @@ useEffect(() => {
 
 
   const [menuClick, setmenuClick] = useState(false)
-   const {theme}=useContext(ThemeContext)
-  const [menuClick, setmenuClick] = useState(false)
+
   return (
     <div  className={`h-screen ${
     theme === "dark"

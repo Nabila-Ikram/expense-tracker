@@ -3,7 +3,7 @@ import Budget_divs from './Budget_divs'
 import Progress_bar from './Progress_bar'
 import CategoryProgress from './CategoryProgress'
 import { useNavigate } from 'react-router-dom'
-
+import { API_URL } from '../../api'
 const BudgetHandler = () => {
       const loggedInUser=JSON.parse(localStorage.getItem('loggedInUser'))
     const email=loggedInUser.email
@@ -11,7 +11,10 @@ const BudgetHandler = () => {
     useEffect(()=>{
         async function fetchbudgets() {
 
-            const response= await fetch(`http://127.0.0.1:5000/budget/${email}`)
+            const response= await fetch(`${API_URL}/budget/${email}`,{
+            
+                headers: { "ngrok-skip-browser-warning": "true" }
+            })
             const data= await response.json()
              setBudgets(data)
         }
@@ -26,7 +29,11 @@ const [transactions, setTransactions] = useState([])
      useEffect(() => {
       async function fetchTransactions() {
           const response = await fetch(
-              `http://127.0.0.1:5000/transactions/${email}`
+              `${API_URL}/${email}`
+              ,{
+            
+                headers: { "ngrok-skip-browser-warning": "true" }
+            }
           );
   
           const data = await response.json();

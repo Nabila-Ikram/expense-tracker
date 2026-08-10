@@ -2,9 +2,6 @@ import React, { use, useEffect, useState } from 'react'
 
 const Budget_divs = ({monthlyBudget,totalSpent,remaining,budgetUsed}) => {
 
-
-
-
 // rounded to nearest integer
   return (
     <div className=" grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3   gap-3 md:gap-5 p-3 md:p-5 text-white">

@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { API_URL } from "../../api";
 const Login = () => {
 const [email, setemail] = useState('')
 const [password, setpassword] = useState('')
@@ -16,13 +17,15 @@ e.preventDefault();
 //means react is sending req to login
 //await means:
 //"Wait here until Flask replies
-const response=await fetch("http://127.0.0.1:5000/login",{
+const response=await fetch(`${ API_URL }/login`,{
   method:'POST' ,// need bcz default is GET
   //Headers are extra information sent with the request.
-headers:{
-    "Content-Type":"application/json" //Without this header, Flask may not recognise the body as JSON, so:
+ headers: {
+      "Content-Type": "application/json",
+      "ngrok-skip-browser-warning": "true",
+    }, //Without this header, Flask may not recognise the body as JSON, so:
 // request.get_json() may return None.
-},
+
 body: JSON.stringify({ //This is the actual data you're sending.
   //But HTTP requests can't send JavaScript objects directly.
   //converts the object into a JSON string.

@@ -8,7 +8,7 @@ import {
   Tooltip,
 } from "recharts";
 
-
+import { API_URL } from "../../api";
 import React, { use, useEffect, useState } from 'react'
 // import data from "./graph_dummydata"
 const SummaryCard = () => {
@@ -20,8 +20,9 @@ const SummaryCard = () => {
    useEffect(() => {
     async function fetchTransactions() {
         const response = await fetch(
-            `http://127.0.0.1:5000/transactions/${email}`
-        );
+            `${ API_URL } /transactions/${email}`,{
+             headers: { "ngrok-skip-browser-warning": "true" }
+    });
 
         const data = await response.json();
 

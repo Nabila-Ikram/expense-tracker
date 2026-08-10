@@ -1,5 +1,6 @@
 import React from 'react'
 // import goals from './GoalsDummy_data';
+import {API_URL} from "../../api";
 import { FaEdit, FaTrash } from "react-icons/fa";
 const GoalsTable = ({goals,onDelete,onEdit}) => {
   const loggedInUser=JSON.parse(localStorage.getItem('loggedInUser'))
@@ -8,10 +9,14 @@ async function delete_rq(goal_id) {
 
    try{
  const response = await fetch(
-              `http://127.0.0.1:5000/accounts/${email}/goals/${goal_id}`,
+              `${API_URL}/accounts/${email}/goals/${goal_id}`,
               {
               method:'DELETE'
               }
+              ,{
+            
+                headers: { "ngrok-skip-browser-warning": "true" }
+            }
           );
           const data=await response.json()
 
