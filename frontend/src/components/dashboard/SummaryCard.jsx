@@ -20,7 +20,7 @@ const SummaryCard = () => {
    useEffect(() => {
     async function fetchTransactions() {
         const response = await fetch(
-            `${ API_URL } /transactions/${email}`,{
+            `${ API_URL }/transactions/${email}`,{
              headers: { "ngrok-skip-browser-warning": "true" }
     });
 

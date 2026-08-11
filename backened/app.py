@@ -4,13 +4,20 @@ from flask_cors import CORS
 import datetime as dt
 from storage import search_acc,save_acc
 from models import Account,Transaction,Budget,Goal
+
 from werkzeug.security import generate_password_hash,check_password_hash
 #post req cannot open through browser gives error
 #GET → Ask for data
  #POST → Send data to the server
 app= Flask(__name__) #obj
 
+from db_models import db
 
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///finance.db'
+db.init_app(app)
+
+with app.app_context():
+    db.create_all()
 CORS(app, origins='*')
    
 @app.route('/')

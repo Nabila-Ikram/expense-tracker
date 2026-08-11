@@ -85,11 +85,7 @@ const BudgetEditPage = () => {
 
 
 
-<div className={`flex-1 flex justify-center items-center gap-6 rounded-xl ${
-    theme === "dark"
-      ? "background text-white"
-      : "whitebg text-black"
-  }`}
+<div className="flex-1  gap-6 rounded-xl " 
 >
 
 

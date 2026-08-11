@@ -8,6 +8,8 @@ venv/
 env/
 ENV/
 .venv
+instance/
+*.db
 
 # Python cache
 __pycache__/
