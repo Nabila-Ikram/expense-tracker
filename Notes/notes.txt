@@ -222,3 +222,15 @@ flex-1 gives the content area the remaining space.
 min-h-0 allows it to shrink.
 overflow-y-auto handles extra content.
 */              
+
+sql notes
+
+AccountDb.query.filter_by(...)     → Query
+                                   → .first()
+                                   → .all()
+                                   → .delete()
+
+acc_row.transactions              → relationship collection
+                                   → iterate over it
+                                   → access TransactionDb objects
+
