@@ -157,12 +157,23 @@ const textareaClass = `
                      onClick={()=>{
                       setTransaction_Type('expense')
                     }}  
-                    className='bg-linear-to-r from-red-900  to-red-700 text-center flex-1 h-10 rounded-sm'>Expense</button>
+                     className={`flex-1 h-10 rounded-sm text-center transition-all duration-200
+    ${
+      Transaction_Type === "expense"
+        ? "bg-red-700 text-white shadow-md scale-[1.02]"
+        : "bg-red-100 text-red-700 hover:bg-red-200"
+                }`}>Expense</button>
                     <button  type='button'
                     onClick={()=>{
+                    
                       setTransaction_Type('income')
                     }}  
-                     className='bg-linear-to-r from-green-900  to-green-700 text-center flex-1 h-10 rounded-sm'>Income</button>
+                     className={`flex-1 h-10 rounded-sm text-center transition-all duration-200
+    ${
+      Transaction_Type === "income"
+        ? "bg-green-700 text-white shadow-md scale-[1.02]"
+        : "bg-green-100 text-green-700 hover:bg-green-200"
+    }`}>Income</button>
                     </div>
                     </div>
                     </div>

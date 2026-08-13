@@ -18,7 +18,7 @@ w-[80%] md:w-[45%]
 h-[55%] md:h-[70%]
 transition-transform duration-500 ease-in-out
 absolute inset-x-0 mx-auto
-  md:inset-x-auto
+md:inset-x-auto
 md:right-4 md:mx-0 p-2 
 md:top-[15%] top-5
 

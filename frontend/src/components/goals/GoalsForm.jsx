@@ -1,11 +1,14 @@
 import React, { useState,useEffect } from 'react'
-import { use } from 'react'
 import { API_URL } from "../../api";
 const GoalsForm = ({ongoalAdded,goal}) => {
  const [Title, setTitle] = useState('')
  const [Target, setTarget] = useState('')
  const [Saved, setSaved] = useState('')
  const [Date, setDate] = useState('')
+ const inputClass=`flex-1 focus:ring-1
+  focus:ring-purple-400 
+  border border-gray-300 
+  outline-none p-2 rounded-sm resize-none`
 
  useEffect(() => {
     if(goal){
@@ -22,6 +25,10 @@ const GoalsForm = ({ongoalAdded,goal}) => {
  try {
 
  const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
+ if (!loggedInUser) {
+  alert("Please login again.");
+  return;
+}
 
  const goalData={
       email:loggedInUser.email,
@@ -38,6 +45,7 @@ const GoalsForm = ({ongoalAdded,goal}) => {
  if(goal){
 
     response = await fetch(
+      `${API_URL}/accounts/${loggedInUser.email}/goals/${goal.goal_id}`,
     
     {
       method:"PUT",
@@ -100,10 +108,7 @@ const GoalsForm = ({ongoalAdded,goal}) => {
 }
 
   return (
-    <form  onSubmit={(e)=>{
-      submitHandler(e)
-
-    }}
+    <form  onSubmit={submitHandler}
     
     className='flex flex-col gap-3 w-full shadow-2xl rounded-xl md:rounded-2xl backdrop-blur-md 
     border border-white  p-3 bg-white/20' >
@@ -117,7 +122,7 @@ const GoalsForm = ({ongoalAdded,goal}) => {
           setTitle(e.target.value)
         }} value={Title}
         
-         type='text' placeholder='Enter title' className='flex-1 focus:ring-1 focus:ring-purple-400 border border-gray-300 outline-none p-2 rounded-sm resize-none '></input>
+         type='text' required placeholder='Enter title' className={inputClass}></input>
         </div>
 
 
@@ -126,7 +131,7 @@ const GoalsForm = ({ongoalAdded,goal}) => {
         <input onChange={(e)=>{
           setTarget(e.target.value)
         }} value={Target}
-        type='number' min={0} step={0.05} placeholder='target' className='flex-1 focus:ring-1 focus:ring-purple-400 border border-gray-300 outline-none p-2 rounded-sm resize-none '></input>
+        type='number' min={0} step={0.05} placeholder='target'  required className={inputClass}></input>
         </div>
 
         </div>
@@ -138,18 +143,18 @@ const GoalsForm = ({ongoalAdded,goal}) => {
           setSaved(e.target.value)
         }} value={Saved}
         
-        type='number' placeholder='saved' min={0} step={0.05} className='flex-1 focus:ring-1 focus:ring-purple-400 border border-gray-300 outline-none p-2 rounded-sm resize-none'></input>
+        type='number'  required placeholder='saved' min={0} step={0.05} className={inputClass}></input>
         </div>
 
 
 
-          <div className='flex flex-1 flex-col'>
+        <div className='flex flex-1 flex-col'>
         <label htmlFor="date">Date</label>
         <input  onChange={(e)=>{
           setDate(e.target.value)
         }} value={Date}
-        type='date'
-         className='flex-1 focus:ring-1 focus:ring-purple-400 border border-gray-300 outline-none p-2 rounded-sm resize-none'></input>
+        type='date' required
+       className={inputClass}></input>
         </div>
         </div>
 

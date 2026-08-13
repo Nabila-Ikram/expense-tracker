@@ -1,5 +1,4 @@
 import React, { useState ,useEffect} from "react";
-import { FaEdit, FaTrash } from "react-icons/fa";
 import GoalsForm from "./GoalsForm";
 import GoalsTable from "./GoalsTable";
 import { API_URL } from "../../api";
@@ -7,42 +6,18 @@ import { API_URL } from "../../api";
 const GoalsHandler = () => {
   const [selectedGoal, setSelectedGoal] = useState(null);
   const loggedInUser=JSON.parse(localStorage.getItem('loggedInUser'))
-      const email=loggedInUser.email
-      const [goals, setgoals] = useState([])
+const email = loggedInUser?.email
+// if no login then null return undefined and catch in error
+const [goals, setgoals] = useState([])
 
 
-
-//       const fetchgoals = async () => {
-//   console.log('🔍 fetchgoals called!');
-//   console.log('📧 Email:', email);
-  
-//   if (!email) {
-//     console.log('❌ No email, returning');
-//     return;
-//   }
-  
-//   try {
-//     const url = `${API_URL}/goals/${email}`
-//     ;
-//     console.log('🔗 Fetching URL:', url);
-    
-//     const response = await fetch(url);
-//     console.log('📡 Response status:', response.status);
-    
-//     const data = await response.json();
-//     console.log('📦 Data received:', data);
-    
-//     if (Array.isArray(data)) {
-//       console.log('✅ Setting goals:', data.length);
-//       setgoals(data);
-//     }
-//   } catch (error) {
-//     console.error('❌ Error:', error);
-//   }
-// };
       
-          async function fetchgoals() {
+async function fetchgoals() {
   
+            if (!email) {
+            alert("Please login again.");
+           return;
+       }
                try{
               const response=await fetch(`${API_URL}/goals/${email}`
                 ,{
@@ -50,8 +25,14 @@ const GoalsHandler = () => {
                 headers: { "ngrok-skip-browser-warning": "true" }
             }
               )
-              const data= await response.json()
-               setgoals(data)
+             const data = await response.json()
+
+           if (response.ok && Array.isArray(data)) {
+  setgoals(data)
+               } else {
+              setgoals([])
+            alert(data.error || "Failed to fetch goals")
+}
                }catch(error){
                 console.log(error)
                alert("Something went wrong")

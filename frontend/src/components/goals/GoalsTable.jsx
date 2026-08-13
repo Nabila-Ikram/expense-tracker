@@ -4,17 +4,18 @@ import {API_URL} from "../../api";
 import { FaEdit, FaTrash } from "react-icons/fa";
 const GoalsTable = ({goals,onDelete,onEdit}) => {
   const loggedInUser=JSON.parse(localStorage.getItem('loggedInUser'))
-    const email=loggedInUser.email
+  const email=loggedInUser?.email
 async function delete_rq(goal_id) {
+   if (!email) {
+            alert("Please login again.");
+           return;
+       }
 
    try{
  const response = await fetch(
               `${API_URL}/accounts/${email}/goals/${goal_id}`,
               {
-              method:'DELETE'
-              }
-              ,{
-            
+              method:'DELETE',
                 headers: { "ngrok-skip-browser-warning": "true" }
             }
           );

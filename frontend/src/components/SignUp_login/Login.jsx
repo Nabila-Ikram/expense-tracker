@@ -2,74 +2,105 @@ import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { API_URL } from "../../api";
 const Login = () => {
-const [email, setemail] = useState('')
-const [password, setpassword] = useState('')
+const [email, setEmail] = useState('')
+const [password, setPassword] = useState('')
+
+
 // Navigate : Redirect automatically.
 //useNavigate() : Navigate from JavaScript
-//looks are created at the top of component
-const [loggedInUser, setloggedInUser] = useState(null)
-const navigate=useNavigate(); // use navigate returns a function allows to change route 
+//hooks are created at the top of component
+
+const navigate=useNavigate(); 
+
+// use navigate returns a function allows to change route 
 //useNavigate() is a hook that lets you change the current URL from JavaScript.
 
- async function submitHandler(e){
+
+const inputClass=`focus:ring-1 focus:ring-purple-400 
+border border-gray-300 
+outline-none w-full max-w-md h-12 p-2
+rounded-sm md:rounded-xl`
+async function submitHandler(e){
 e.preventDefault();
+
+
 // fetch is js function whccih send http request
 //means react is sending req to login
 //await means:
 //"Wait here until Flask replies
+
+
+try{
 const response=await fetch(`${ API_URL }/login`,{
-  method:'POST' ,// need bcz default is GET
+  method:'POST' ,
+  
+  
+  // need bcz default is GET
   //Headers are extra information sent with the request.
  headers: {
       "Content-Type": "application/json",
       "ngrok-skip-browser-warning": "true",
-    }, //Without this header, Flask may not recognise the body as JSON, so:
+    },
+
+
+//Without this header, Flask may not recognise the body as JSON, so:
 // request.get_json() may return None.
 
-body: JSON.stringify({ //This is the actual data you're sending.
+body: JSON.stringify({ 
+
+
+  //This is the actual data you're sending.
   //But HTTP requests can't send JavaScript objects directly.
   //converts the object into a JSON string.
     email,
     password
-    //data = request.get_json()
+
+
+//data = request.get_json()
 //Flask converts the JSON string back into a Python dictionary.
+
 })
 })
 const data = await response.json();
-if(response.ok)
-{
-  setloggedInUser(data)
-localStorage.setItem('loggedInUser',JSON.stringify(data))
-
-navigate('/dashboard')
+if (response.ok) {
+  localStorage.setItem('loggedInUser', JSON.stringify(data))
+  navigate('/dashboard')
+} else {
+  alert(data.error)
 }
 
-else
-  console.log(data.error); // if login fails dont save the info to local storage (error is property)
-  
+}catch(error){
+   console.error("Login error:", error);
+   alert("Unable to connect to the server.");
+}
+
+
+
+
+// if login fails dont save the info to local storage (error is property)
 //response.json() reads the body and converts it into a JavaScript object
 // response = the entire HTTP response (status, headers, body).
 //await response.json() = extracts just the JSON body and turns it into a JavaScript object you can use.
 
-setemail('')
-setpassword('')
+setEmail('')
+setPassword('')
+
+
 }
   return (
     <>
      <form className=' w-full h-full text-white   bg-linear-to-r rounded-sm md:rounded-xl from-pink-300 to-purple-900 flex flex-col items-center justify-center px-4 gap-5 text-center'
-      onSubmit={(e)=>{
-      submitHandler(e)
-    }}>
+      onSubmit={submitHandler}>
         <h1 className='text-2xl'> <b> Login </b></h1>
         <input  value={email} onChange={(e)=>{
-          setemail(e.target.value)
+          setEmail(e.target.value)
         }}
-        className='focus:ring-1 focus:ring-purple-400 border border-gray-300  outline-none w-full max-w-md h-12 p-2 rounded-sm md:rounded-xl'
+        className={inputClass}
         type='email' placeholder='Enter your email' required></input>
         <input  value={password} onChange={(e)=>{
-           setpassword(e.target.value)
+           setPassword(e.target.value)
         }}
-        className='focus:ring-1 focus:ring-purple-400 border border-gray-300  outline-none w-full max-w-md h-12 p-2 rounded-sm md:rounded-xl'
+        className={inputClass}
          type='password' placeholder='Enter your password' required></input>
           <button type='submit'
            className='bg-linear-to-r from-orange-500  to-pink-600 p-2  w-full max-w-md h-12 md:rounded-xl rounded-sm'>Login</button>

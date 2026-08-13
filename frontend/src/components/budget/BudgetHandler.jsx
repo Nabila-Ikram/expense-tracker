@@ -5,44 +5,73 @@ import CategoryProgress from './CategoryProgress'
 import { useNavigate } from 'react-router-dom'
 import { API_URL } from '../../api'
 const BudgetHandler = () => {
-      const loggedInUser=JSON.parse(localStorage.getItem('loggedInUser'))
-    const email=loggedInUser.email
+    const loggedInUser=JSON.parse(localStorage.getItem('loggedInUser'))
+    const email = loggedInUser?.email
     const [Budgets, setBudgets] = useState([])
-    useEffect(()=>{
-        async function fetchbudgets() {
+    const [transactions, setTransactions] = useState([])
 
-            const response= await fetch(`${API_URL}/budget/${email}`,{
-            
-                headers: { "ngrok-skip-browser-warning": "true" }
-            })
-            const data= await response.json()
-             setBudgets(data)
+
+    useEffect(() => {
+  async function fetchBudgets() {
+    if (!email) {
+      alert("Please login again.");
+      return;
+    }
+
+    try {
+      const response = await fetch(`${API_URL}/budget/${email}`, {
+        headers: {
+          "ngrok-skip-browser-warning": "true"
         }
-        fetchbudgets()
-       
+      });
 
-    },[email])
-   
-    
+      const data = await response.json();
 
-const [transactions, setTransactions] = useState([])
-     useEffect(() => {
-      async function fetchTransactions() {
-          const response = await fetch(
-              `${API_URL}/${email}`
-              ,{
-            
-                headers: { "ngrok-skip-browser-warning": "true" }
-            }
-          );
-  
-          const data = await response.json();
-  
-          setTransactions(data);
+      if (response.ok && Array.isArray(data)) {
+        setBudgets(data);
+      } else {
+        setBudgets([]);
+        alert(data.error || "Failed to fetch budgets");
       }
-  
-      fetchTransactions();
-  }, [email]);
+    } catch (error) {
+      console.log(error);
+      alert("Something went wrong");
+    }
+  }
+
+  fetchBudgets();
+}, [email]);
+
+useEffect(() => {
+  async function fetchTransactions() {
+    if (!email) {
+      alert("Please login again.");
+      return;
+    }
+
+    try {
+      const response = await fetch(`${API_URL}/transactions/${email}`, {
+        headers: {
+          "ngrok-skip-browser-warning": "true"
+        }
+      });
+
+      const data = await response.json();
+
+      if (response.ok && Array.isArray(data)) {
+        setTransactions(data);
+      } else {
+        setTransactions([]);
+        alert(data.error || "Failed to fetch transactions");
+      }
+    } catch (error) {
+      console.log(error);
+      alert("Something went wrong");
+    }
+  }
+
+  fetchTransactions();
+}, [email]);
 
 function deleteBudget(id){
           setBudgets((prev)=>{
@@ -62,8 +91,9 @@ function deleteBudget(id){
   },0 )
 
   const remaining=monthlyBudget-totalSpent
-const budgetUsed= monthlyBudget==0? 0:
-Math.round((totalSpent/monthlyBudget)*100)
+const budgetUsed = monthlyBudget === 0
+  ? 0
+  : Math.min(Math.round((totalSpent / monthlyBudget) * 100), 100)
 
 
 

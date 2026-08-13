@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { use } from 'react';
 import { MdAttachMoney } from "react-icons/md";
 import { useNavigate } from 'react-router-dom';
 import { ThemeContext } from '../../context/ThemeProvider';
@@ -33,6 +32,10 @@ ${theme === "dark"
         e.preventDefault()
         try{
         const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
+        if (!loggedInUser?.email) {
+       alert("Please login again.");
+        return;
+}
         const addBudget={
             email:loggedInUser.email,
             category:Category,
@@ -113,14 +116,14 @@ ${theme === "dark"
                             <input onChange={(e)=>{
                                      setCategory(e.target.value)
                                 }} value={Category}
-                            type='text' placeholder='Enter category'  className={inputClass}></input>
+                            type='text' required placeholder='Enter category'  className={inputClass}></input>
                            </div>
                            <div className='flex-1 flex-col  flex gap-2 w-full'>
                                <label htmlFor="limit">Limit</label>
                                 <input onChange={(e)=>{
                                      setLimit(e.target.value)
                                 }} value={Limit}
-                                type='number' placeholder='Enter amount' min={0.0} step={0.01} className={inputClass}></input>
+                                type='number'  required placeholder='Enter amount' min={0.0} step={0.01} className={inputClass}></input>
                                 </div>
                            </div>
                       <div className="w-full">
@@ -129,7 +132,7 @@ ${theme === "dark"
                               <input onChange={(e)=>{
                                      setMonth(e.target.value)
                                 }} value={Month}
-                              type="month"  className={inputClass}/>
+                              type="month" required className={inputClass}/>
                               </div>
                              
                                 

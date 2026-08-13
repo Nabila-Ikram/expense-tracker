@@ -1,19 +1,20 @@
 import { FaEdit} from "react-icons/fa";
 import { useNavigate } from 'react-router-dom';
+import { API_URL } from "../../api";
 const Progress_bar = ({id,title,spent,budget,percentage,showDelete,onDelete,showEdit}) => {
   const navigate=useNavigate()
     const loggedInUser=JSON.parse(localStorage.getItem('loggedInUser'))
-  const email=loggedInUser.email
+  const email = loggedInUser?.email
 async  function deleteReq(){
-
+ if (!email) {
+  alert("Please login again.")
+  return
+}
   try{
-  const response= await fetch(`http://127.0.0.1:5000/accounts/${email}/budgets/${id}`,
+  const response= await fetch(`${ API_URL }/accounts/${email}/budgets/${id}`,
     {
-    method:"DELETE"
-    }
-    ,{
-            
-                headers: { "ngrok-skip-browser-warning": "true" }
+    method:"DELETE",
+   headers: { "ngrok-skip-browser-warning": "true" }
             }
   )
   const data=await response.json()
