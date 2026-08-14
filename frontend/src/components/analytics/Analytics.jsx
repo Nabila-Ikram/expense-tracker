@@ -8,9 +8,14 @@ import { API_URL } from "../../api";
 const Analytics = () => {
 const [transactions, setTransactions] = useState([])
       const loggedInUser=JSON.parse(localStorage.getItem('loggedInUser'))
-      const email=loggedInUser.email      
+    const email = loggedInUser?.email     
      useEffect(() => {
+       if (!email) {
+      alert("Please login again.");
+      return;
+    }
       async function fetchTransactions() {
+        try{
           const response = await fetch(
               `${API_URL}/transactions/${email}`,
                 {
@@ -18,9 +23,19 @@ const [transactions, setTransactions] = useState([])
                 }
           );
   
-          const data = await response.json();
-  
-          setTransactions(data);    
+          const data = await response.json();  
+       
+      if (response.ok && Array.isArray(data)) {
+        setTransactions(data);
+      } else {
+        setTransactions([]);
+        alert(data.error || "Failed to fetch transactions");
+      }
+
+    } catch (error) {
+      console.log(error);
+      alert("Something went wrong");
+    }
       }    
       fetchTransactions();
   }, [email]);
@@ -29,14 +44,29 @@ const [transactions, setTransactions] = useState([])
 
 const [Budgets, setBudgets] = useState([])
     useEffect(()=>{
+        if (!email) {
+      alert("Please login again.");
+      return;
+    }
         async function fetchbudgets() {
+          try{
 
             const response=await fetch(`${ API_URL }/budget/${email}`,
                 {
                     headers: { "ngrok-skip-browser-warning": "true" }
                 })
             const data= await response.json()
-             setBudgets(data)
+      if (response.ok && Array.isArray(data)) {
+       setBudgets(data);
+}      else {
+      setBudgets([]);
+         alert(data.error || "Failed to fetch budgets");
+}
+      }catch(error)
+              {
+          console.log(error);
+          alert("Something went wrong");
+              }
         }
         fetchbudgets()
     },[email])

@@ -15,23 +15,42 @@ const SummaryCard = () => {
 
    const [transactions, setTransactions] = useState([])
     const loggedInUser=JSON.parse(localStorage.getItem('loggedInUser'))
-    const email=loggedInUser.email
+    const email=loggedInUser?.email
     
    useEffect(() => {
-    async function fetchTransactions() {
-        const response = await fetch(
-            `${ API_URL }/transactions/${email}`,{
-             headers: { "ngrok-skip-browser-warning": "true" }
-    });
+  if (!email) {
+    alert("Please login again.");
+    return;
+  }
 
-        const data = await response.json();
+  async function fetchTransactions() {
+    try {
+      const response = await fetch(
+        `${API_URL}/transactions/${encodeURIComponent(email)}`,
+        {
+          headers: {
+            "ngrok-skip-browser-warning": "true"
+          }
+        }
+      );
 
+      const data = await response.json();
+
+      if (response.ok && Array.isArray(data)) {
         setTransactions(data);
-     
-        
+      } else {
+        setTransactions([]);
+        alert(data.error || "Failed to fetch transactions");
+      }
+
+    } catch (error) {
+      console.log(error);
+      alert("Something went wrong");
     }
-   
-    fetchTransactions();
+  }
+
+  fetchTransactions();
+
 }, [email]);
 
 const TotalExpense=transactions.reduce((acc,curr)=>{

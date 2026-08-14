@@ -28,6 +28,14 @@ const Addtrans_form = ({transaction}) => {
     e.preventDefault()
  try {
 const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
+if (!loggedInUser?.email) {
+  alert("Please login again.");
+  return;
+}
+if (!Transaction_Type) {
+      alert("Please select transaction type.");
+      return;
+    }
 const addTransaction={
      email:loggedInUser.email,
       amount:Number(Amount),
@@ -72,12 +80,14 @@ const response=await fetch(`${API_URL}/transactions`,{
 
   if (response.ok) {
       alert("Transaction Added Successfully!");
-
+      
       setAmount("");
       setCategory("");
       setDate("");
       setTransaction_Type("");
       setDescription("");
+      nav('/transactionHistory')
+      
     } else {
       alert(data.error);
     }
@@ -132,13 +142,13 @@ const textareaClass = `
                              <input onChange={(e)=>{
                                   setAmount(e.target.value)
                              }} value={Amount}
-                             type='number' placeholder='Enter amount' min={0.0} step={0.01} className={inputClass}></input>
+                             type='number'  required placeholder='Enter amount' min={0.0} step={0.01} className={inputClass}></input>
                              </div>
                             <div className='flex-1 flex-col flex gap-2 w-full'>
                          <label htmlFor="category">Category</label>
                          <input onChange={(e)=>{
                                   setCategory(e.target.value)
-                             }} value={Category}
+                             }} value={Category} required
                          type='text' placeholder='Enter category'  className={inputClass}></input>
                         </div>
                         </div>
@@ -148,7 +158,7 @@ const textareaClass = `
                            <input onChange={(e)=>{
                                   setDate(e.target.value)
                              }} value={Date}
-                           type='date'  className={inputClass}></input>
+                           type='date'   required className={inputClass}></input>
                            </div>
                            <div className=' flex-col flex gap-2 w-full'>
                     <label>Transaction Type</label>
@@ -182,7 +192,7 @@ const textareaClass = `
              <textarea  onChange={(e)=>{
                                   setDescription(e.target.value)
                              }} value={Description}
-               placeholder="Enter Description"
+               placeholder="Enter Description" 
                 className={textareaClass} ></textarea>
                              <div>
                              <button  type='submit'

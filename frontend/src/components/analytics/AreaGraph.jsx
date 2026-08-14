@@ -48,9 +48,9 @@ transactions.forEach((curr) => {
     }
 
     if (curr.transaction_type === "income") {
-        monthlyBalance[monthName] += curr.amount;
+        monthlyBalance[monthName] += Number(curr.amount);
     } else if (curr.transaction_type === "expense") {
-        monthlyBalance[monthName] -= curr.amount;
+        monthlyBalance[monthName] -= Number(curr.amount);
     }
 });
 

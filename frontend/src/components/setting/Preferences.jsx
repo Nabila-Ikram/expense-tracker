@@ -1,7 +1,10 @@
 import React, { useContext } from "react";
 import { ThemeContext } from "../../context/ThemeProvider";
+import { DateContext } from "../../context/PreferencesProvider";
+
 const Preferences = () => {
   const {theme,setTheme}=useContext(ThemeContext)
+const {date,setDate}=useContext(DateContext)
  
   return (
     <div
@@ -19,19 +22,18 @@ ${
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Currency */}
         <div className="flex flex-col gap-2">
-          <label htmlFor="currency">Currency</label>
+          <label htmlFor="date pattern">Date format</label>
 
-          <select
-            id="currency"
-            className="border border-gray-300 rounded-md p-3
+         <select  className="border border-gray-300 rounded-md p-3
                        outline-none focus:ring-2 focus:ring-purple-500
                        bg-transparent"
-          >
-            <option className="text-black">PKR</option>
-            <option className="text-black">USD</option>
-            <option className="text-black">EUR</option>
-            <option className="text-black">GBP</option>
-          </select>
+  value={date}
+  onChange={(e) => setDate(e.target.value)}
+>
+  <option value="DD/MM/YYYY">DD/MM/YYYY</option>
+  <option value="MM/DD/YYYY">MM/DD/YYYY</option>
+  <option value="YYYY-MM-DD">YYYY-MM-DD</option>
+</select>
         </div>
 
         {/* Theme */}
@@ -54,16 +56,6 @@ setTheme(e.target.value)
         </div>
       </div>
 
-      {/* Notifications */}
-      <div className="mt-8">
-        <label className="flex items-center gap-3 cursor-pointer">
-          <input
-            type="checkbox"
-            className="w-5 h-5 accent-purple-600"
-          />
-          <span>Enable Notifications</span>
-        </label>
-      </div>
     </div>
   );
 };

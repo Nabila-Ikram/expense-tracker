@@ -1,15 +1,39 @@
-import React from "react";
+import React, { useContext } from "react";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import { API_URL } from "../../api";
 import { useNavigate } from "react-router-dom";
+import { DateContext } from "../../context/PreferencesProvider";
 const Transaction = ({transaction, onDelete}) => {
 const navigate = useNavigate();
+const {date}=useContext(DateContext)
+function formatDate(transactionDate) {
+  const d = new Date(transactionDate); 
+  // converting into js date
+
+  const day = String(d.getDate()).padStart(2, "0");
+  const month = String(d.getMonth() + 1).padStart(2, "0");
+  const year = d.getFullYear();
+
+  if (date === "DD/MM/YYYY") {
+    return `${day}/${month}/${year}`;
+  }
+
+  if (date === "MM/DD/YYYY") {
+    return `${month}/${day}/${year}`;
+  }
+
+  return `${year}-${month}-${day}`;
+}
 
 async function delete_req(){
 
   const loggedInUser=JSON.parse(localStorage.getItem('loggedInUser'))
- const email=loggedInUser.email
+const email = loggedInUser?.email;
  try{
+   if (!email) {
+      alert("Please login again.");
+      return;
+    }
  const response = await fetch(
               `${ API_URL }/accounts/${email}/transactions/${transaction.trans_id}`,
               {
@@ -42,9 +66,9 @@ async function delete_req(){
           {transaction.trans_id}
         </span>
 
-        <span className=" truncate max-w-28 bg-linear-to-r from-orange-500 to-pink-600 px-3 py-1 rounded-lg text-sm">
-          {transaction.date}
-        </span>
+       <span className="truncate max-w-28 bg-linear-to-r from-orange-500 to-pink-600 px-3 py-1 rounded-lg text-sm">
+  {formatDate(transaction.date)}
+</span>
       </div>
 
       {/* Middle */}

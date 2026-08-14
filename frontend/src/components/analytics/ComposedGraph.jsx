@@ -55,11 +55,11 @@ transactions.forEach((curr) => {
         monthlyIncome[monthName] = 0;
     }
     if (curr.transaction_type === "income") {
-        monthlyBalance[monthName] += curr.amount;
-        monthlyIncome[monthName]+=curr.amount
+        monthlyBalance[monthName] += Number(curr.amount);
+        monthlyIncome[monthName]+=Number(curr.amount)
     } else if (curr.transaction_type === "expense") {
-        monthlyBalance[monthName] -= curr.amount;
-        monthlyExpense[monthName]+=curr.amount
+        monthlyBalance[monthName] -= Number(curr.amount);
+        monthlyExpense[monthName]+=Number(curr.amount)
     }
 });
 

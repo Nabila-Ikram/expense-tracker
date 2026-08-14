@@ -16,6 +16,7 @@ import BudgetEditPage from './components/pages/BudgetEditPage'
 import { LuOctagon } from 'react-icons/lu'
 import Login from './components/SignUp_login/Login'
 import Formhandle from './components/SignUp_login/Formhandle'
+import Profile from './components/setting/Profile'
 
 
 const App = () => {
@@ -84,6 +85,7 @@ const App = () => {
       </ProtectedRoute>
       }
       />
+      
        <Route path='/transactionHistory'
       element={
       <ProtectedRoute>
@@ -113,6 +115,7 @@ const App = () => {
 />
 
 
+ 
     
       
   </Routes>

@@ -17,7 +17,7 @@ const RadarGraph = ({Budgets}) => {
    if (!budgets[budget.category]) {
         budgets[budget.category] = 0;
     }
-  budgets[budget.category]+= budget.limit
+  budgets[budget.category]+= Number(budget.limit)
 })}
 
 const RadarChartData = Object.entries(budgets).map(([category, limit]) => {

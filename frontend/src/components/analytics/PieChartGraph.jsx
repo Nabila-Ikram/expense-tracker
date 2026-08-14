@@ -22,7 +22,7 @@ const budgets={};
    if (!budgets[budget.category]) {
         budgets[budget.category] = 0;
     }
-  budgets[budget.category]+= budget.limit
+  budgets[budget.category]+= Number(budget.limit)
 })}
 
 const PieChartData = Object.entries(budgets).map(([category, limit]) => {
@@ -67,7 +67,7 @@ const PieChartData = Object.entries(budgets).map(([category, limit]) => {
   {PieChartData.map((entry, index) => (
     <Cell
       key={index}
-      fill={COLORS[index]}
+      fill={COLORS[index % COLORS.length]}
     />
   ))}
 </Pie>

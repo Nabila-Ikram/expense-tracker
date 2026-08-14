@@ -5,7 +5,7 @@ import { API_URL } from "../../api";
 const Transactions = () => {
    const [transactions, setTransactions] = useState([])
     const loggedInUser=JSON.parse(localStorage.getItem('loggedInUser'))
-    const email=loggedInUser.email
+ const email = loggedInUser?.email;
 //    useEffect(() => {
 //   async function fetchTransactions() {
 //     try {
@@ -32,6 +32,11 @@ const Transactions = () => {
 
 
   useEffect(() => {
+    if (!email) {
+      alert("Please login again.");
+      return;
+    }
+
     async function fetchTransactions() {
         try {
             const response = await fetch(
@@ -39,18 +44,19 @@ const Transactions = () => {
             
                 headers: { "ngrok-skip-browser-warning": "true" }
             });
-            
-            if (!response.ok) {
-                throw new Error(`Request failed: ${response.status}`);
-            }
             const data = await response.json();
-            setTransactions(data);
+           if (response.ok && Array.isArray(data)) {
+          setTransactions(data);
+        } else {
+       setTransactions([]);
+       console.error(data.error || "Failed to fetch transactions");
+}
         } catch (err) {
             console.error("Failed to fetch transactions:", err);
         }
     }
 
-    if (email) fetchTransactions();
+    fetchTransactions();
 }, [email]);
 
 

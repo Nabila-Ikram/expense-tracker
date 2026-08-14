@@ -1,4 +1,5 @@
 from flask import Flask,request ,jsonify #class
+from db_models import db , AccountDb
 # Allow React (different origin) to access Flask APIs
 from flask_cors import CORS
 import datetime as dt
@@ -106,7 +107,52 @@ def get_profile(email):
       return jsonify({"owner_name": account.owner_name,
     "email": account.email,
     "account_id": account.account_id}),200
-     
+
+
+#changing password
+@app.route("/change-password/<email>", methods=["PUT"])
+def change_password(email):
+
+    account = AccountDb.query.filter_by(email=email).first()
+
+    if account is None:
+        return jsonify({"error": "Account not found"}), 404
+
+    data = request.get_json()
+
+    current_password = data.get("currentPassword")
+    new_password = data.get("newPassword")
+
+    if not current_password or not new_password:
+        return jsonify({"error": "All fields are required"}), 400
+
+    # Check old password
+    if not check_password_hash(account.password, current_password):
+        return jsonify({"error": "Current password is incorrect"}), 401
+
+    # Hash new password
+    account.password = generate_password_hash(new_password)
+
+    db.session.commit()
+
+    return jsonify({"message": "Password changed successfully"}), 200
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 #buget add
 @app.route('/budget',methods=['POST'])
