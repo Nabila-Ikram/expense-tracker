@@ -1,6 +1,8 @@
-import React, { useState,useEffect } from 'react'
+import React, { useContext,useState,useEffect } from 'react'
 import { API_URL } from "../../api";
+import  { NotificationContext } from "../../context/NotificationProvider";
 const GoalsForm = ({ongoalAdded,goal}) => {
+  const { addNotification } = useContext(NotificationContext);
  const [Title, setTitle] = useState('')
  const [Target, setTarget] = useState('')
  const [Saved, setSaved] = useState('')
@@ -92,6 +94,11 @@ const GoalsForm = ({ongoalAdded,goal}) => {
     setDate("")
 
     ongoalAdded()
+    
+  addNotification(
+    `Goal ${goal ? "updated" : "added"} successfully`,
+    "success"
+  );
 
  }
 
@@ -162,7 +169,15 @@ const GoalsForm = ({ongoalAdded,goal}) => {
 <div className="flex justify-center mt-2 md:mt-4 ">
   <button
     type="submit"
-    className="w-full sm:w-60 h-10 rounded-md bg-linear-to-r from-orange-500 to-pink-600 hover:opacity-90 transition"
+    className="w-full sm:w-60 h-10 rounded-md hover:opacity-90 
+    bg-linear-to-r from-orange-500 to-pink-600
+               text-white font-semibold
+               shadow-lg shadow-pink-500/20
+               transition-all duration-200
+               hover:from-orange-600 hover:to-pink-700
+               hover:shadow-xl hover:shadow-pink-500/30
+               focus:outline-none focus:ring-2
+               focus:ring-pink-400 focus:ring-offset-2"
   >
     { goal? "Update Goal":"Save Goal"}
   </button>

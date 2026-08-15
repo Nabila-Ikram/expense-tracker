@@ -4,7 +4,9 @@ import { ThemeContext } from '../../context/ThemeProvider';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { API_URL } from "../../api";
+import  { NotificationContext } from "../../context/NotificationProvider";
 const Addtrans_form = ({transaction}) => {
+  const { addNotification } = useContext(NotificationContext);
   const nav=useNavigate()
   const {theme}=useContext(ThemeContext)
   const [Amount, setAmount] = useState('')
@@ -12,6 +14,7 @@ const Addtrans_form = ({transaction}) => {
   const [Date, setDate] = useState('')
   const [Transaction_Type, setTransaction_Type] = useState('')
   const [Description, setDescription] = useState('')
+  const [balance, setBalance] = useState(0)
 
   useEffect(() => {
     if (transaction) {
@@ -24,80 +27,162 @@ const Addtrans_form = ({transaction}) => {
 }, [transaction]);
 // using useeffect bcz the transaction was first nulla nd then filled so state changes 
 
-  async function submitHandler(e){
-    e.preventDefault()
- try {
-const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
-if (!loggedInUser?.email) {
-  alert("Please login again.");
-  return;
-}
-if (!Transaction_Type) {
-      alert("Please select transaction type.");
-      return;
-    }
-const addTransaction={
-     email:loggedInUser.email,
-      amount:Number(Amount),
-      category:Category,
-      transaction_type:Transaction_Type,
-      description :Description,
-      date:Date,
-};
-if(transaction){
-  const response = await fetch(
-  `${API_URL}/accounts/${loggedInUser.email}/transactions/${transaction.trans_id}`,
+useEffect(() => {
+  async function getBalance() {
+    const loggedInUser = JSON.parse(
+      localStorage.getItem("loggedInUser")
+    );
+
+    if (!loggedInUser?.email) return;
+
+   const response = await fetch(
+  `${API_URL}/transactions/${encodeURIComponent(loggedInUser.email)}`,
   {
-    method: "PUT",
-     headers: {
-      "Content-Type": "application/json",
-      "ngrok-skip-browser-warning": "true",
-    },
-    body: JSON.stringify(addTransaction),
+    headers: {
+      "ngrok-skip-browser-warning": "true"
+    }
   }
 );
+// The % tells the browser:
 
-const data = await response.json();
-
-if (response.ok) {
-  alert("Transaction Updated Successfully!");
-  nav('/transactionHistory')
-  
-} else {
-  alert(data.error);
-}
-}
-else{
-const response=await fetch(`${API_URL}/transactions`,{
-      method:'POST',
-       headers: {
-      "Content-Type": "application/json",
-      "ngrok-skip-browser-warning": "true",
-    },
-    body :JSON.stringify(addTransaction),
-})
-  const data = await response.json();
-
-  if (response.ok) {
-      alert("Transaction Added Successfully!");
-      
-      setAmount("");
-      setCategory("");
-      setDate("");
-      setTransaction_Type("");
-      setDescription("");
-      nav('/transactionHistory')
-      
-    } else {
-      alert(data.error);
+// "The next two characters are a hexadecimal code for the original character."
+// Without encoding, characters such as ? can change how the URL is interpreted.
+    const data = await response.json();
+    const totals = data.reduce(
+  (acc, curr) => {
+    if (curr.transaction_type === "income") {
+      acc.income += Number(curr.amount);
     }
+
+    if (curr.transaction_type === "expense") {
+      acc.expense += Number(curr.amount);
+    }
+
+    return acc;
+  },
+  { income: 0, expense: 0 }
+);
+
+
+    const newBalance = totals.income - totals.expense;
+
+setBalance(newBalance);
   }
+
+  getBalance();
+}, []);
+
+
+
+  async function submitHandler(e) {
+  e.preventDefault();
+
+  try {
+    const loggedInUser = JSON.parse(
+      localStorage.getItem("loggedInUser")
+    );
+
+    if (!loggedInUser?.email) {
+      alert("Please login again.");
+      return;
+    }
+
+    if (!Transaction_Type) {
+      addNotification("Please select transaction type.", "error");
+      return;
+    }
+
+    // Only check balance when adding a NEW expense
+    if (
+      !transaction &&
+      Transaction_Type === "expense" &&
+      Number(Amount) > balance
+    ) {
+      addNotification(
+        "You don't have enough balance for this expense.",
+        "error"
+      );
+      return;
+    }
+
+    const addTransaction = {
+      email: loggedInUser.email,
+      amount: Number(Amount),
+      category: Category,
+      transaction_type: Transaction_Type,
+      description: Description,
+      date: Date,
+    };
+
+    if (transaction) {
+      // EDIT
+      const response = await fetch(
+        `${API_URL}/accounts/${loggedInUser.email}/transactions/${transaction.trans_id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            "ngrok-skip-browser-warning": "true",
+          },
+          body: JSON.stringify(addTransaction),
+        }
+      );
+
+      const data = await response.json();
+
+      if (response.ok) {
+        addNotification(
+          "Transaction updated successfully",
+          "success"
+        );
+
+        nav("/transactionHistory");
+      } else {
+        addNotification(
+          data.error || "Failed to update transaction.",
+          "error"
+        );
+      }
+
+    } else {
+      // ADD
+      const response = await fetch(`${API_URL}/transactions`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "ngrok-skip-browser-warning": "true",
+        },
+        body: JSON.stringify(addTransaction),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        addNotification(
+          "Transaction added successfully",
+          "success"
+        );
+
+        setAmount("");
+        setCategory("");
+        setDate("");
+        setTransaction_Type("");
+        setDescription("");
+
+        nav("/transactionHistory");
+
+      } else {
+        addNotification(
+          data.error || "Failed to add transaction.",
+          "error"
+        );
+      }
+    }
 
   } catch (error) {
     console.log(error);
-    alert("Something went wrong.");
+    addNotification("Something went wrong.", "error");
   }
-
 }
 
   
@@ -196,7 +281,14 @@ const textareaClass = `
                 className={textareaClass} ></textarea>
                              <div>
                              <button  type='submit'
-                             className='bg-linear-to-r from-orange-500  to-pink-600 text-center h-10 rounded-sm w-full '>{transaction ? "Update Transaction" : "Save Transaction"}</button>
+                className='bg-linear-to-r from-orange-500 to-pink-600
+               text-white font-semibold
+               shadow-lg shadow-pink-500/20
+               transition-all duration-200
+               hover:from-orange-600 hover:to-pink-700
+               hover:shadow-xl hover:shadow-pink-500/30
+               focus:outline-none focus:ring-2
+               focus:ring-pink-400 focus:ring-offset-2 text-center h-10 rounded-sm w-full '>{transaction ? "Update Transaction" : "Save Transaction"}</button>
                              </div>
 </div>
                     </div>

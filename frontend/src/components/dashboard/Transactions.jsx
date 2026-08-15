@@ -2,7 +2,11 @@ import React, { use, useEffect, useState } from 'react'
 
 import Transaction from './Transaction'
 import { API_URL } from "../../api";
-const Transactions = () => {
+// If no search term is provided, search defaults to an empty string.
+// Every string includes an empty string, so all transactions are displayed.
+// This allows the same Transactions component to be reused on pages
+// where searching is not required.
+const Transactions = ({search=""}) => {
    const [transactions, setTransactions] = useState([])
     const loggedInUser=JSON.parse(localStorage.getItem('loggedInUser'))
  const email = loggedInUser?.email;
@@ -75,6 +79,14 @@ const DeleteTransaction=(id)=>{
 }
 
 
+
+const filteredTransactions = transactions.filter((transaction) =>
+  transaction.category?.toLowerCase().includes(search.toLowerCase()) ||
+  transaction.description?.toLowerCase().includes(search.toLowerCase()) ||
+  transaction.transaction_type?.toLowerCase().includes(search.toLowerCase())
+);
+// The ?. protects you if description, category, etc. are missing.
+
 // React state should never be modified directly.
 // Instead, create a new array and update the state with it.
 // React detects state changes by comparing references (old array vs new array).
@@ -87,7 +99,7 @@ const DeleteTransaction=(id)=>{
   return (
     
 <div className="h-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 items-start gap-2 md:gap-4 p-3 md:p-5 overflow-y-auto w-full">
-     {transactions.map((t) => (
+     {filteredTransactions.map((t) => (
         <Transaction
     key={t.trans_id}
     transaction={t}

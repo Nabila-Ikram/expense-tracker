@@ -1,8 +1,11 @@
-import React from 'react'
+import React, { useContext} from 'react'
 // import goals from './GoalsDummy_data';
 import {API_URL} from "../../api";
 import { FaEdit, FaTrash } from "react-icons/fa";
+import { NotificationContext } from "../../context/NotificationProvider";
+
 const GoalsTable = ({goals,onDelete,onEdit}) => {
+   const {addNotification}=useContext(NotificationContext)
   const loggedInUser=JSON.parse(localStorage.getItem('loggedInUser'))
   const email=loggedInUser?.email
 async function delete_rq(goal_id) {
@@ -23,9 +26,12 @@ async function delete_rq(goal_id) {
 
           if (response.ok) {
     onDelete(goal_id);
+    addNotification("Goal deleted successfully!", "success");
+    
   } else {
     alert(data.error);
-  }
+     addNotification(data.error || "Failed to delete goal.", "error");
+}
 }catch(error){
    alert(error.message);
 }

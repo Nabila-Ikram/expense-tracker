@@ -3,7 +3,9 @@ import { FaEdit, FaTrash } from "react-icons/fa";
 import { API_URL } from "../../api";
 import { useNavigate } from "react-router-dom";
 import { DateContext } from "../../context/PreferencesProvider";
+import { NotificationContext } from "../../context/NotificationProvider";
 const Transaction = ({transaction, onDelete}) => {
+const {addNotification}=useContext(NotificationContext)
 const navigate = useNavigate();
 const {date}=useContext(DateContext)
 function formatDate(transactionDate) {
@@ -46,9 +48,10 @@ const email = loggedInUser?.email;
 
           if (response.ok) {
     onDelete(transaction.trans_id);
-  } else {
-    alert(data.error);
-  }
+    addNotification("Transaction deleted successfully!", "success");
+} else {
+    addNotification(data.error || "Failed to delete transaction.", "error");
+}
 }catch(error){
    alert(error.message);
 }
@@ -93,8 +96,9 @@ const email = loggedInUser?.email;
 
 
       <div className=" flex flex-col sm:flex-row gap-2 md:gap-4">
-      <button onClick={delete_req}
-        className="bg-gray-500/60 rounded-md p-2 text-sm flex-1 mt-2 hover:bg-red-800" >Delete</button>
+      <button onClick={delete_req} 
+        className="bg-gray-500/60 rounded-md p-2 text-sm flex-1 mt-2 hover:bg-red-800" >
+          Delete</button>
         
       <button onClick={() => {
     navigate(`/transactions/edit/${transaction.trans_id}`);

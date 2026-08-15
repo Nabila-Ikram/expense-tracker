@@ -1,8 +1,11 @@
 import { FaEdit} from "react-icons/fa";
 import { useNavigate } from 'react-router-dom';
 import { API_URL } from "../../api";
+import { NotificationContext } from "../../context/NotificationProvider";
+import { useContext } from "react";
 const Progress_bar = ({id,title,spent,budget,percentage,showDelete,onDelete,showEdit}) => {
   const navigate=useNavigate()
+  const {addNotification}=useContext(NotificationContext)
     const loggedInUser=JSON.parse(localStorage.getItem('loggedInUser'))
   const email = loggedInUser?.email
 async  function deleteReq(){
@@ -20,8 +23,10 @@ async  function deleteReq(){
   const data=await response.json()
     if (response.ok) {
     onDelete(id);
+    addNotification("Budget delete successfully","success")
+    
   } else {
-    alert(data.error);
+   addNotification(data.error || "Failed to delete budget.", "error");
   }
 }catch(error){
    alert(error.message);
@@ -37,12 +42,14 @@ async  function deleteReq(){
     <div className="flex-1 h-3 bg-gray-700 rounded-full">
          <div
             className="h-full bg-purple-500 rounded-full"
-            style={{ width: `${Math.min(percentage, 100)}%`  }}
+           style={{ width: `${Math.min(percentage, 100)}%` }}
             // Also, Math.min(percentage, 100) prevents the visual bar from going beyond 100% if someone spends more than their budget.
           ></div>
     </div>
 
-    <span className="font-semibold">{percentage}%</span>
+    <span className="font-semibold">
+  {Math.min(percentage, 100)}%
+</span>
 </div>
 
 

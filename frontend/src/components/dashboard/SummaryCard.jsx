@@ -53,22 +53,22 @@ const SummaryCard = () => {
 
 }, [email]);
 
-const TotalExpense=transactions.reduce((acc,curr)=>{
-if(curr.transaction_type=="expense"){
-    return acc+curr.amount
-}
-return acc
-},0)
- const TotalIncome=
-transactions.reduce((acc,curr)=>{
-if(curr.transaction_type=="income"){
-    return acc+curr.amount
-}
-return acc
-},0)
+const TotalExpense = transactions.reduce((acc, curr) => {
+  if (curr.transaction_type === "expense") {
+    return acc + Number(curr.amount);
+  }
+  return acc;
+}, 0);
+
+const TotalIncome = transactions.reduce((acc, curr) => {
+  if (curr.transaction_type === "income") {
+    return acc + Number(curr.amount);
+  }
+  return acc;
+}, 0);
 // starting value of acc
 
-const balance=TotalIncome - TotalExpense
+const balance = Math.max(TotalIncome - TotalExpense, 0);
 
 // acc → accumulator (running total)
 // curr → current transaction
@@ -76,33 +76,45 @@ const balance=TotalIncome - TotalExpense
 const monthlyBalance = {};
 
 const months = [
-    "Jan", "Feb", "Mar", "Apr",
-    "May", "Jun", "Jul", "Aug",
-    "Sep", "Oct", "Nov", "Dec"
+  "Jan", "Feb", "Mar", "Apr",
+  "May", "Jun", "Jul", "Aug",
+  "Sep", "Oct", "Nov", "Dec"
 ];
 
-transactions.forEach((curr) => {
+const sortedTransactions = [...transactions].sort(
+  (a, b) => new Date(a.iso_date) - new Date(b.iso_date)
+);
+
+sortedTransactions.forEach((curr) => {
   const date = new Date(curr.iso_date);
-    const month = date.getMonth();
-    const monthName = months[month];
+  const month = date.getMonth();
+  const monthName = months[month];
 
-    if (!monthlyBalance[monthName]) {
-        monthlyBalance[monthName] = 0;
-    }
+  if (!monthlyBalance[monthName]) {
+    monthlyBalance[monthName] = 0;
+  }
 
-    if (curr.transaction_type === "income") {
-        monthlyBalance[monthName] += curr.amount;
-    } else if (curr.transaction_type === "expense") {
-        monthlyBalance[monthName] -= curr.amount;
-    }
+  if (curr.transaction_type === "income") {
+    monthlyBalance[monthName] += Number(curr.amount);
+  }
+
+  if (curr.transaction_type === "expense") {
+    monthlyBalance[monthName] -= Number(curr.amount);
+  }
 });
-const LineChartData = Object.entries(monthlyBalance).map(([month, balance]) => {
+
+let runningBalance = 0;
+
+const LineChartData = Object.entries(monthlyBalance).map(
+  ([month, change]) => {
+    runningBalance += change;
+
     return {
-        month,
-        balance
+      month,
+      balance: Math.max(runningBalance, 0),
     };
-});
-
+  }
+);
 
   return (
     <div className='w-[95%] md:w-[90%] bg-linear-to-r from-[rgba(205,139,186,0.8)] to-[rgba(168,113,211,0.9)] m-3  p-3 md:p-5 border border-fuchsia-300 rounded-sm '>

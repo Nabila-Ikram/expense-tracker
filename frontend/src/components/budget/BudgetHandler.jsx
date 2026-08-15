@@ -4,7 +4,10 @@ import Progress_bar from './Progress_bar'
 import CategoryProgress from './CategoryProgress'
 import { useNavigate } from 'react-router-dom'
 import { API_URL } from '../../api'
+import { useContext } from "react";
+import { NotificationContext } from "../../context/NotificationProvider";
 const BudgetHandler = () => {
+  const { addNotification } = useContext(NotificationContext);
     const loggedInUser=JSON.parse(localStorage.getItem('loggedInUser'))
     const email = loggedInUser?.email
     const [Budgets, setBudgets] = useState([])
@@ -76,6 +79,7 @@ useEffect(() => {
 function deleteBudget(id){
           setBudgets((prev)=>{
                return prev.filter( b=>b.budget_id!==id)
+
   
           })
           
@@ -95,7 +99,14 @@ const budgetUsed = monthlyBudget === 0
   ? 0
   : Math.min(Math.round((totalSpent / monthlyBudget) * 100), 100)
 
-
+useEffect(() => {
+  if (budgetUsed >= 80) {
+    addNotification(
+      `Your monthly budget is ${budgetUsed}% used`,
+      "warning"
+    );
+  }
+}, [budgetUsed, addNotification]);
 
 
    const nav=useNavigate()
@@ -124,8 +135,15 @@ const budgetUsed = monthlyBudget === 0
         nav("/budget/add")
 
     }}
-    className='bg-linear-to-r from-orange-500  to-pink-600 text-center flex-1  rounded-sm   w-30 md:w-40 h-12
-  m-1 md:m-5 font-bold text-white md:text-xl text-sm'>Add Budget</button>
+    className='bg-linear-to-r from-orange-500 to-pink-600
+               text-white font-semibold
+               shadow-lg shadow-pink-500/20
+               transition-all duration-200
+               hover:from-orange-600 hover:to-pink-700
+               hover:shadow-xl hover:shadow-pink-500/30
+               focus:outline-none focus:ring-2
+               focus:ring-pink-400 focus:ring-offset-2 text-center flex-1  rounded-sm   w-30 md:w-40 h-12
+  m-1 md:m-5  md:text-xl text-sm'>Add Budget</button>
 </div>
    </div>
   

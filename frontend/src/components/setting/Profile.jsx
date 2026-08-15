@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import  { useContext } from "react";
 import { ThemeContext } from "../../context/ThemeProvider";
 
 const Profile = ({profile}) => {
@@ -25,7 +25,7 @@ ${
             id="name"
             type="text"
              value={profile?.owner_name || ""}
-            placeholder="Enter your full name"
+            placeholder="Enter your full name" readOnly
             className=" w-full border border-gray-300 rounded-md p-3
                        outline-none focus:ring-2 focus:ring-purple-500"
           />
@@ -36,7 +36,7 @@ ${
           <label htmlFor="email">Email</label>
           <input
             id="email"
-            type="email"
+            type="email" readOnly
             placeholder="Enter your email"
             className="border w-full border-gray-300 rounded-md p-3
                        outline-none focus:ring-2 focus:ring-purple-500"

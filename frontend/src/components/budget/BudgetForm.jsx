@@ -2,9 +2,11 @@ import React, { useContext, useEffect, useState } from 'react'
 import { MdAttachMoney } from "react-icons/md";
 import { useNavigate } from 'react-router-dom';
 import { ThemeContext } from '../../context/ThemeProvider';
+import { NotificationContext } from '../../context/NotificationProvider';
 import { API_URL } from '../../api';
 
 const BudgetForm = ({budget}) => {
+  const {addNotification}=useContext(NotificationContext)
   const{theme}=useContext(ThemeContext)
     const [Category, setCategory] = useState('')
     const [Limit, setLimit] = useState('')
@@ -57,11 +59,13 @@ ${theme === "dark"
     const data = await response.json();
     if (response.ok) {
      alert("Budget Update Successfully!");
+     addNotification("Budget update successfully","success")
+    
 
         nav('/budget')
  }
     else {
-      alert(data.error);
+      addNotification(data.error || "Failed to add budget.", "error");
     }
 }
   
@@ -77,6 +81,7 @@ ${theme === "dark"
     const data = await response.json();
     if (response.ok) {
      alert("Budget Added Successfully!");
+     addNotification("Budget add successfully","success")
 
         setCategory('')
         setLimit('')
@@ -84,7 +89,7 @@ ${theme === "dark"
         nav('/budget')
  }
     else {
-      alert(data.error);
+      addNotification(data.error || "Failed to add budget.", "error");
     }
 }
 }
