@@ -234,3 +234,41 @@ acc_row.transactions              → relationship collection
                                    → iterate over it
                                    → access TransactionDb objects
 
+
+
+Development notes
+
+
+Browser
+   ↓
+Flask development server
+   ↓
+app.py
+
+
+
+
+
+for production
+Internet
+   ↓
+Gunicorn
+   ↓
+Flask app
+   ↓
+Your routes
+Gunicorn is basically the server that runs your Flask application in production
+
+
+
+gunicorn app:app
+        │   │
+        │   └── Flask variable inside app.py
+        └────── Python file app.py
+"Open app.py and use the Flask object called app."        
+
+
+Gunicorn is intended to run on the Linux server where we'll deploy your Flask application.
+
+That's why hosting platforms that run Python applications on Linux can use Gunicorn even though your development machine is Windows.
+gunicorn depends on fcntl, which is a Unix/Linux system module. Your development computer is Windows, so Windows doesn't provide it.
