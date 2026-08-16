@@ -5,6 +5,8 @@ from flask_cors import CORS
 import datetime as dt
 from storage import search_acc,save_acc
 from models import Account,Transaction,Budget,Goal
+from dotenv import load_dotenv
+import os
 
 from werkzeug.security import generate_password_hash,check_password_hash
 #post req cannot open through browser gives error
@@ -12,9 +14,29 @@ from werkzeug.security import generate_password_hash,check_password_hash
  #POST → Send data to the server
 app= Flask(__name__) #obj
 
-from db_models import db
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///finance.db'
+# Render's Postgres URLs start with "postgres://" but SQLAlchemy needs "postgresql://"
+load_dotenv()
+
+
+database_url = os.environ.get("DATABASE_URL", "sqlite:///finance.db")
+
+if database_url.startswith("postgres://"):
+    database_url = database_url.replace("postgres://", "postgresql://", 1)
+
+app.config["SQLALCHEMY_DATABASE_URI"] = database_url
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+
+
+#The 1 means replace only the first occurrence.
+# Environment variables store configuration values outside the source code.
+# os.environ.get("DATABASE_URL") reads the DATABASE_URL from the environment.
+# This allows different settings for local and production environments
+# without changing the Python code.
+# Example:
+# Local → SQLite database
+# Production → PostgreSQL database
+
 db.init_app(app)
 
 with app.app_context():
@@ -381,4 +403,4 @@ def get_goal(email, goal_id):
      
 
 if __name__ == '__main__': # for security (not if conditions means if other file imports then server starts)
-   app.run(host="0.0.0.0", port=5000, debug=True)
+   app.run(host="0.0.0.0", port=5000, debug=False)
